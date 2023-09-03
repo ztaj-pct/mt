@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@ag-grid-community/core/dist/styles/ag-grid.css';
+@import '@ag-grid-community/core/dist/styles/ag-theme-alpine.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+@import "~@ag-grid-community/all-modules/dist/styles/ag-grid.css";
+@import "~@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css";
+
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+
+body {
+    /* padding-top: 80px; */
+}
+
+.pl-10p{
+  padding-left: 10%;
+}
+
+.example-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  #myGrid {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  
+  .button-group {
+    padding-bottom: 4px;
+    display: inline-block;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 13px;
+  }
+
+  .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: rgb(66, 134, 244) !important;
+  }
+  
+  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: rgb(66, 134, 244) !important;
+  }
+  
+  .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color:rgba(66, 134, 244,.26) !important;
+  }
+
+  .si-content-wrapper{
+    padding: 10px!important;
+  }

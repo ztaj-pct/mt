@@ -1,0 +1,1080 @@
+{
+	"info": {
+		"_postman_id": "e332421d-47a8-449f-871d-c6c41d84e864",
+		"name": "PCT Automation Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c006ee6-0f19-4420-b3ba-2e52efe11e3a",
+						"exec": [
+							"//Verifying 200 status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Fetching the Token and User UUID and storing them as a global variable\r",
+							"var responseBody = pm.response.json();\r",
+							"pm.globals.set(\"token\", \"Bearer \"+ responseBody.access_token);\r",
+							"pm.globals.set(\"user_uuid\", responseBody.user_uuid);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n   \"password\": \"{{password}}\",  \n   \"username\": \"{{username}}\"  \n }"
+				},
+				"url": {
+					"raw": "{{endpoint}}/user/token/login",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"user",
+						"token",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c40d87ff-5ccd-45d2-8a95-a11ba7f35ab8",
+						"exec": [
+							"//Verifying 200 status code",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5354e7e6-5c03-40a1-82f8-52df7dba3ad7",
+						"exec": [
+							"var is_asset_list_required_change = pm.iterationData.get(\"is_asset_list_required\");",
+							"var convert_is_asset_list_required_to_boolean = Boolean(is_asset_list_required_change);",
+							"pm.globals.set(\"is_asset_list_required\", convert_is_asset_list_required_to_boolean);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n   \"company_name\": \"{{company_name}}\",  \n   \"ext_id\": \"{{can}}\",  \n   \"is_asset_list_required\": {{is_asset_list_required}} \n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/company/customer",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"company",
+						"customer"
+					]
+				},
+				"description": "This call is used for creating a company"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Company By CAN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da4b146f-dd70-4150-a9e6-979fd0b648af",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var responseBody = pm.response.json();",
+							"var companyObj = JSON.stringify(responseBody.body.customer);",
+							"pm.globals.set(\"companyObj\", companyObj);",
+							"pm.globals.set(\"customer_uuid\", responseBody.body.customer.uuid);",
+							"pm.globals.set(\"company_id\", responseBody.body.customer.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/company/core/can?can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"company",
+						"core",
+						"can"
+					],
+					"query": [
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Asset Configuration by Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87ee2e57-3454-4167-913d-fd1557b7281d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var responseBody = pm.response.json();",
+							"responseBody.body.ASSET_TYPE_1.forEach(function(assetType) {",
+							"    if(assetType.value === pm.iterationData.get(\"ASSET_TYPE_1\")) {",
+							"        pm.globals.set(\"assetType1\", JSON.stringify(assetType));",
+							"        pm.globals.set(\"category\", assetType.value);",
+							"    }",
+							"});",
+							"",
+							"responseBody.body.APPROVED_PRODUCT.forEach(function(approveProduct) {",
+							"    if(approveProduct.value === pm.iterationData.get(\"APPROVED_PRODUCT\")) {",
+							"        pm.globals.set(\"isProductIsApprovedForAsset\", JSON.stringify(approveProduct));",
+							"        pm.globals.set(\"eligibleGateway\", approveProduct.value);",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json, text/plain, */*"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/config-lookup?type={{assetConfigurationType}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"config-lookup"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "{{assetConfigurationType}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Asset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a95a518-1cef-4af4-bc00-2b8351961ef7",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"assigned_name\": \"{{assignedName}}\",\n  \"category\": \"{{category}}\",\n  \"company\": {{companyObj}},\n  \"assetType1\" : {{assetType1}},\n  \"is_product_is_approved_for_asset\" : {{isProductIsApprovedForAsset}},\n  \"eligible_gateway\": \"{{eligibleGateway}}\",\n  \"id\": 0,\n  \"manufacturer\": \"{{manufacturer}}\",\n  \"uuid\": \"{{$guid}}\",\n  \"vin\": \"{{vin}}\",\n  \"year\": \"{{year}}\"\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/asset",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"asset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Gateway and Sensors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "346f5f0a-b5b0-4534-9b2c-3bb4770b797a",
+						"exec": [
+							"//Verifying 200 status code",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"salesforce_order_number\": \"{{salesforce_order_number}}\",\n  \"salesforce_account_name\": \"{{company_name}}\",\n  \"salesforce_account_id\": \"{{can}}\" \n,\n  \"epicor_order_number\": \"{{epicor_order_number}}\",\n  \"asset_details\": [\n    {\n      \"product_short_name\": \"{{product_short_name}}\",\n      \"product_code\": \"{{product_code}}\",\n      \"quantity_shipped\": {{quantity_shipped}},\n      \"imei_list\": [\n        \"{{imei_list_item_1}}\"\n      ],\n      \"data_list\": [\n        {\n          \"data_product_name\": \"{{data_list_item_1_data_product_name}}\",\n          \"data_product_code\": \"{{data_list_item_1_data_product_code}}\"\n        },\n        {\n         \"data_product_name\": \"{{data_list_item_2_data_product_name}}\",\n         \"data_product_code\": \"{{data_list_item_2_data_product_code}}\"\n        },\n        {\n         \"data_product_name\": \"{{data_list_item_3_data_product_name}}\",\n         \"data_product_code\": \"{{data_list_item_3_data_product_code}}\"\n        },\n        {\n          \"data_product_name\": \"{{data_list_item_4_data_product_name}}\",\n          \"data_product_code\": \"{{data_list_item_4_data_product_code}}\"\n        }\n      ],\n      \"sensor_list\": [\n        \n        {\n          \"product_name\": \"{{sensor_list_item_1_product_name}}\",\n          \"product_code\": \"{{sensor_list_item_1_product_code}}\"\n        },\n        {\n          \"product_name\": \"{{sensor_list_item_2_product_name}}\",\n          \"product_code\": \"{{sensor_list_item_2_product_code}}\"\n        },\n        {\n          \"product_name\": \"{{sensor_list_item_3_product_name}}\",\n          \"product_code\": \"{{sensor_list_item_3_product_code}}\"\n        }\n      ]\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/gateway/shipping-detail",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"gateway",
+						"shipping-detail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Locations API (Customer and Location)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1516395-6543-41f0-8b1a-de761ac6a09c",
+						"exec": [
+							"\r",
+							"//Verify for status code 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Fetch and verify the automation customer is there in the response\r",
+							"var responseBody = pm.response.json();\r",
+							"var customers = responseBody.body.customers;\r",
+							"var automation_customer = customers.find(customer => customer.account_number === pm.iterationData.get(\"can\"));\r",
+							"\r",
+							"pm.test(\"Automation Customer Company is present\", function() {\r",
+							"    pm.expect(automation_customer).to.not.be.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/customer/locations/{{user_uuid}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"customer",
+						"locations",
+						"{{user_uuid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Installer inventory (Job overview)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c2eb3429-8a47-4a8a-a6a0-14058741046c",
+						"exec": [
+							"\r",
+							"//Verify status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var inventory_list = responseBody.body.inventory_list;\r",
+							"var asset_list = inventory_list[0].assets;\r",
+							"var gateway_list = inventory_list[0].gateways;\r",
+							"\r",
+							"var pending_asset = asset_list.find(asset => asset.status === 'Pending');\r",
+							"var pending_gateway = gateway_list.find(gateway => gateway.status === 'Pending');\r",
+							"\r",
+							"pm.test(\"At least one asset with pending state is present\", function() {\r",
+							"    pm.expect(pending_asset).to.not.be.undefined;\r",
+							"    pm.expect(pending_asset).to.not.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"At least one gateway with pending state is present\", function() {\r",
+							"    pm.expect(pending_gateway).to.not.be.undefined;\r",
+							"    pm.expect(pending_gateway).to.not.be.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/installer/inventory?can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installer",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get gateway for installation (Device & Asset)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15b779e6-0eb2-497e-85ee-20e39f9c4528",
+						"exec": [
+							"//Verify status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var gateway_list = responseBody.body.gateway_list;\r",
+							"var gateway = gateway_list.find(gateway => gateway.imei + \"\" === pm.iterationData.get(\"imei_list_item_1\")+ \"\");\r",
+							"pm.test(\"Gateway with IMEI \"+pm.iterationData.get(\"imei_list_item_1\")+\" is present\", function() {\r",
+							"    pm.expect(gateway).to.not.be.undefined;\r",
+							"    pm.expect(gateway).to.not.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.globals.set(\"imei\", pm.iterationData.get(\"imei_list_item_1\"));\r",
+							"\r",
+							"pm.test(\"The gateway has at least 1 sensor\", function() {\r",
+							"pm.expect(gateway.sensor_list.length).to.be.above(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/gateway?can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"gateway"
+					],
+					"query": [
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get asset for installation (Device & Asset)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ffacf98b-d4b2-4858-97b8-44a5c433776f",
+						"exec": [
+							"//Verify status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var asset_list = responseBody.body;\r",
+							"\r",
+							"var asset = asset_list.find(asset => asset.vin === pm.iterationData.get(\"vin\"));\r",
+							"\r",
+							"pm.test(\"Asset with VIN \"+ pm.iterationData.get(\"vin\") + \"is present\", function() {\r",
+							"    pm.expect(asset).to.not.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.globals.set(\"asset_uuid\", asset.asset_uuid);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/asset?can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"asset"
+					],
+					"query": [
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start install",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4d1c5a4e-1512-4e22-8f76-dcb4089b9a58",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var status = responseBody.status;\r",
+							"\r",
+							"pm.test(\"Start Installation status was true\", function () {\r",
+							"    pm.expect(status).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "33217686-8774-4c1a-86be-0836e95096f5",
+						"exec": [
+							"var uuid = require('uuid');",
+							"var install_uuid = uuid.v4();",
+							"pm.globals.set(\"install_uuid\", install_uuid);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"asset_uuid\": \"{{asset_uuid}}\",\n\t\"imei\": \"{{imei_list_item_1}}\",\n\t\"install_uuid\": \"{{install_uuid}}\",\n\t\"datetime_rt\": \"{{$timestamp}}\"\n}"
+				},
+				"url": {
+					"raw": "{{endpoint}}/installation/start-install",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installation",
+						"start-install"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Installer inventory (Job overview) In progress count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2619fa55-9b76-439f-a976-49710ca6308c",
+						"exec": [
+							"\r",
+							"//Verify status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var inventory_list = responseBody.body.inventory_list;\r",
+							"var gateway_list = inventory_list[0].gateways;\r",
+							"\r",
+							"var pending_gateway = gateway_list.find(gateway => gateway.status === 'Install in progress');\r",
+							"\r",
+							"pm.test(\"Gateway is in In-Progress state\", function() {\r",
+							"    pm.expect(pending_gateway).to.not.be.undefined;\r",
+							"    pm.expect(pending_gateway).to.not.be.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/installer/inventory?can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installer",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get in progress installs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb7683da-7835-4960-889a-c18c5bc8c52e",
+						"exec": [
+							"\r",
+							"//Verify status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var in_progress_list = responseBody.body;\r",
+							"\r",
+							"var in_progress_install = in_progress_list.find(install => (install.asset_uuid === pm.globals.get(\"asset_uuid\") && (install.imei + \"\" === pm.globals.get(\"imei\") + \"\")));\r",
+							"\r",
+							"pm.test(\"In-Progress Installation found\", function() {\r",
+							"    pm.expect(in_progress_install).to.not.be.undefined;\r",
+							"    pm.expect(in_progress_install).to.not.be.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/installation/in-progress?can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installation",
+						"in-progress"
+					],
+					"query": [
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Sensors Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "358beb09-3988-48d8-86ad-6684203b74fa",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var responseBody = pm.response.json();",
+							"console.log(\"responseBody\");",
+							"console.log(responseBody);",
+							"responseBody.body.sensor_list.forEach(function(sensor) {",
+							"    if(sensor.sensor_product_code === \"77-H101\") {",
+							"        pm.globals.set(\"sensor_uuid\", sensor.sensor_uuid);",
+							"        pm.globals.set(\"reason_code\", sensor.sensor_reason_codes.VERIFICATION[0].reason_code);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/installation/sensor-details?install_code={{install_uuid}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installation",
+						"sensor-details"
+					],
+					"query": [
+						{
+							"key": "install_code",
+							"value": "{{install_uuid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log Issue ",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "210d8448-ff50-492c-b3c4-8d7ad07785c3",
+						"exec": [
+							"var epoch = (new Date).getTime();",
+							"pm.globals.set(\"epoch_time\", epoch);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b5df0ee-8e9e-4961-9197-aaf1beb39224",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n   \"comment\": \"{{comment}}\",  \n   \"data\": \"{{data}}\",  \n   \"datetime_rt\": {{epoch_time}},  \n   \"install_code\": \"{{install_uuid}}\",  \n   \"issue_type\": \"VERIFICATION\",  \n   \"reason_code\": \"{{reason_code}}\",  \n   \"sensor_uuid\": \"{{sensor_uuid}}\",\n   \"status\": \"{{log_status}}\"\n }"
+				},
+				"url": {
+					"raw": "{{endpoint}}/installation/log-issue",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installation",
+						"log-issue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset install",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e7ee41a-481c-4b01-97c4-9724ccede6f5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseBody = pm.response.json();\r",
+							"var status = responseBody.status;\r",
+							"\r",
+							"pm.test(\"Reset Installation status was true\", function () {\r",
+							"    pm.expect(status).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{endpoint}}/installation/reset?imei={{imei}}&can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installation",
+						"reset"
+					],
+					"query": [
+						{
+							"key": "imei",
+							"value": "{{imei}}"
+						},
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Installer inventory (Job overview)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "98ffeadc-3748-4109-9b12-d97eac5f69d1",
+						"exec": [
+							"\r",
+							"//Verify status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Fetch and verify the automation customer is there in the response\r",
+							"var responseBody = pm.response.json();\r",
+							"var inventory_list = responseBody.body.inventory_list;\r",
+							"var asset_list = inventory_list[0].assets;\r",
+							"var gateway_list = inventory_list[0].gateways;\r",
+							"\r",
+							"var pending_asset = asset_list.find(asset => asset.status === 'Pending');\r",
+							"var pending_gateway = gateway_list.find(gateway => gateway.status === 'Pending');\r",
+							"\r",
+							"pm.test(\"At least one asset with pending state is present\", function() {\r",
+							"    pm.expect(pending_asset).to.not.be.undefined;\r",
+							"    pm.expect(pending_asset).to.not.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"At least one gateway with pending state is present\", function() {\r",
+							"    pm.expect(pending_gateway).to.not.be.undefined;\r",
+							"    pm.expect(pending_gateway).to.not.be.null;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/installer/inventory?can={{can}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"installer",
+						"inventory"
+					],
+					"query": [
+						{
+							"key": "can",
+							"value": "{{can}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "984b12dd-3b27-4862-a9c8-1195e94664b6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/customer/reset?customer_uuid={{customer_uuid}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"customer",
+						"reset"
+					],
+					"query": [
+						{
+							"key": "customer_uuid",
+							"value": "{{customer_uuid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Company",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b7184480-c588-4ebd-9e30-57cb9eb4c433",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/company/{{company_id}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"company",
+						"{{company_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

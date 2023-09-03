@@ -1,0 +1,313 @@
+.form-control-clear {
+  top: 14px;
+  z-index: 10;
+  right: 25px;
+  pointer-events: auto;
+  cursor: pointer;
+  position: absolute;
+}
+
+.breakdownChartDataTbl{
+  border: 0px solid #babfc7;
+  margin-bottom: 25px;
+  min-height: 150px;
+  
+}
+.breakdownChartDataTbl tr th{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  background-color: #f8f8f8;
+  font-weight: 700;
+  color: #000;
+  border-bottom: 1px solid #babfc7;
+}
+.breakdownChartDataTbl tr td{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  border-bottom: 1px solid #babfc7;
+  color: #000;
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+.breakdownChartDataTbl tr:last-child td{
+  border-bottom: none;
+}
+.assetName {
+  font-weight: 600;
+}
+
+ .statusOfCampaign {
+  margin-right: 15px;
+}
+
+.installDetails{
+  margin-top: 2em;
+}
+
+.approved_assets_txt{
+  margin-top: 30px;
+}
+.installDetails{
+  display: block;
+  width: 105%;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  line-height: 1.5em;
+}
+/* .content_titlebar_wrapper{
+  margin-bottom: 10px;
+  font-size: 20px !important;
+  font-weight: bold !important;
+  color: #000 !important;
+} */
+.content_titlebar_wrapper .inDivTitle{
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+}
+.readOnlyModeInfo .data-col {
+  margin-bottom: 8px;
+  width: 100%;
+  padding-right: 2%;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 1.2em;
+  align-items: center;
+  display: inline-flex;
+
+}
+
+.readOnlyModeInfo .data-col .label {
+  color: #000;
+  font-weight: 600;
+  font-size: 12px;
+  margin-right: 10px;
+  float: left;
+  width: 40%;
+  text-align: left;
+  text-transform: capitalize;
+  word-break: break-word;
+}
+
+  .readOnlyModeInfo .data-col .ro-value {
+    color: #000;
+    font-weight: 600;
+    word-break: break-word;
+    float: left;
+    width: 55%;
+    font-size: 12px;
+    text-transform: unset;
+  }
+
+  .readOnlyModeInfo .data-col .ro-value  a {
+    color: #4aaafe;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-weight: 900;
+  }
+
+  .assets_labal{
+    color: #000;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  .top_labal{
+    font-size: 20px;
+    font-weight: 500;
+    color: #1c5085;
+  }
+  
+  .fade.show{
+    opacity: 1;
+  }
+
+  .popup-text-area{
+    width: 100%;
+    height: 100%;
+    border: none
+  }
+
+.vehicleStateInfo{
+  display: flex;
+}
+.rowDivEleBtnSection{
+  margin-top: 5px;
+}
+.rowDivEle, .rowDivEleBtnSection{
+  margin-right: 20px;
+}
+.rowDivEleBtnSection .actionBtn .btnTxt{
+    padding: 3px 15px;
+    font-size: 12px;
+    font-weight: 400;
+}
+.mat-tab-label{
+  opacity: 1 !important;
+}
+.mat-tab-label .mat-tab-label-content {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1.2px;
+}
+
+.hr_line{
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.margin-top{
+  margin-top: 10px;
+}
+
+.latest_report{
+  font-weight: 600;
+}
+.securitySettings .rowCol{
+  display: flex;
+  margin-bottom: 15px;
+}
+.securitySettings .rowCol .rowColLable{
+  width: 40%;
+  text-align: left;
+  font-weight: 600;
+}
+.securitySettings .rowCol .rowColOpts{
+  width: 30%;
+  text-align: left;
+}
+.securitySettings .rowCol .rowColOpts .mat-radio-group span{
+  color: #808080;font-weight: 400;font-size: 14px;
+}
+.securitySettings .rowCol .rowColBtn{
+  width: 30%;
+  text-align: right ;
+}
+.white-secondry{
+  background-color: #FFF !important;
+  color: #3C64B1 !important;
+}
+.descWrapper .btn.alert{
+  color: #FFF !important;
+  background-color: #bf0202 !important;
+  text-transform: uppercase !important;
+  font-size: 12px !important;
+  padding: 2px 10px !important;
+}
+.descWrapper .descTxt{
+  margin: 2px 0 0 15px;
+  font-size: 14px;
+  color: #505758;
+}
+.deviceSettings, .peripheralVersions{
+  margin-bottom: 20px;
+  padding-left: 0px;
+}
+.export_btn {
+  color: #FFF !important;
+  border: 2px solid #4ba9d7;
+  border-radius: 6px !important;
+  box-shadow: none;
+  background-color: #4ba9d7 !important;
+  border-color: #4ba9d7 !important;
+}
+.export_cancel_btn {
+  margin-bottom: 0;
+  background: none;
+  color: #007bff !important;
+  border-block-color: #007bff !important;
+  margin-top: 0px;
+}
+.secondary_button_2 {
+  background-color: #ffffff;
+    border: 2px solid #1c5085;
+    padding: 8px 12px 4px 11px!important;
+    font-size: 13px;
+    color: #1c5085;
+    border-radius: 5px;
+    font-family: "Helvetica", "Arial", sans-serif;
+}
+
+.save-btn {
+  color: #FFF !important;
+  background: #35a9d5;
+  border: 2px solid #35a9d5 !important;
+  border-radius: 6px !important;
+  box-shadow: none;
+  margin-right: 0 !important;
+  margin-bottom: 5px !important;
+}
+
+.cancel-btn:hover {
+  background: #FFF;
+  color: #35a9d5 !important;
+}
+
+.cancel-btn {
+  color: #007bff !important;
+  border: 2px solid #35a9d5 !important;
+  border-radius: 6px !important;
+  box-shadow: none;
+  margin-bottom: 5px !important;
+}
+
+.breadCrumb a {
+  color: #808789 !important;
+  font-weight: 400 !important;
+}
+.btnGroupRow.label{
+  display: flex;
+  width: 100% !important;
+  flex-direction: column;
+}
+.btnGroupRow.label .statusBtn{
+  margin-bottom: 20px;
+} 
+.btnGroupRow.label .statusBtn:first-child{
+  margin-right: 20px;
+}
+
+agm-map {
+  /* height: 450px; */
+}
+
+.propTitle {
+  font-size: 12px;
+}
+
+.receivedTime {
+    font-style: italic;
+    font-size: 13px;
+}
+
+.sectionTitle_2 {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+
+.activeBtn {
+  border: none;
+  color: blue;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+
+.btnDeactivated {
+  color: black !important;
+}
+
+
+.deactiveBtn {
+  border: none;
+  color: blue;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}

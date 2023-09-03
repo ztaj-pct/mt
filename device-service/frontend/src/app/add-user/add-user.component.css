@@ -1,0 +1,115 @@
+.primary_button {
+  color: #fff;
+  background: #3c64b1;
+  border: 2px solid #3c64b1;
+  border-radius: 6px;
+}
+
+.secondary_button {
+  color: #007bff !important;
+  background: #f6f6f6 !important;
+  border: 2px solid #f6f6f6;
+  border-radius: 6px;
+}
+
+
+
+/* .cancel-btn {
+  color: #007bff !important;
+  background: #f6f6f6;
+} */
+
+.cancel-btn {
+  color: #007bff !important;
+  border: 2px solid #007bff !important;
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+}
+
+.save_btn {
+  color: #FFF !important;
+  background: #3C64B1;
+  border: 2px solid #3C64B1;
+  border-radius: 6px !important;
+  box-shadow: none;
+}
+
+.cancel-btn:hover {
+  background: #f6f6f6;
+  color: #3C64B1 !important;
+}
+
+
+.select-all {
+  margin: 5px 17px;
+}
+
+.phoneNumberTxtFeild {
+  margin-left: 0px;
+  padding-left: 50px;
+  background: #f4f5f4;
+}
+
+.phoneNumberTxtFeild .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0.25em !important;
+}
+
+
+.select-all {
+  margin: 5px 17px;
+}
+
+.phoneNumberTxtFeild {
+  margin-left: 0px;
+  padding-left: 50px;
+  background: #f4f5f4;
+}
+
+.phoneNumberTxtFeild .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0.25em !important;
+}
+
+
+.dflxRow {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1.125;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-form-field {
+  display: inline-block;
+  position: relative;
+  text-align: left;
+}
+
+.mat-form-field-flex {
+  padding: 0px 12px 8px 12px;
+  font-size: 12px;
+  background: #f4f5f4;
+  color: #5e5e5e;
+  font-weight: 600;
+}
+
+.dataHeading {
+  background: #bababa;
+}
+
+.dataRow {
+  padding-bottom: 12px !important;
+  padding-top: 12px !important;
+  border-bottom: 1px solid gray;
+}
+
+.deviceRules {
+  margin-top: 25px;
+}

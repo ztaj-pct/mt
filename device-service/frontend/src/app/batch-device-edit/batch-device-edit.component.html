@@ -1,0 +1,273 @@
+<div class="container">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <div class="row content_titlebar">
+    <div class="col-lg-12">
+      <div class="breadCrumb">
+        <span class="assetName">
+          <span class="pageName">
+            <a href="javascript:void(0);">Manage Devices</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);" [routerLink]="['../gateway-list']">Devices</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);" [routerLink]="['../gateway-profile']">Device Profile</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);">Update Device Details</a>
+          </span>
+        </span>
+      </div>
+
+
+      <div class="content_titlebar_wrapper">
+        <h2 class="pull-left col-lg-12 noPadding">Batch Update Device Details</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="content_form">
+
+    <form class="ngFormsViews" [formGroup]="deviceEditForm" >
+      <div class="col-lg-4 pl-0">
+
+        <div class="form-group w-100 ">
+          <h3>Organization Details</h3>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="company" class="w-100 control-label" [ngClass]="deviceEditForm.get('purchase_by').errors && (deviceEditForm.get('purchase_by').dirty ||
+             deviceEditForm.get('purchase_by').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove'">Purchased By</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select id="company" formControlName='purchase_by' (selectionChange)="onChangePurchaseBy($event.value)">
+                <mat-option *ngFor='let company of purchasedBy | orderBy: "organisationName"' [value]="company.accountNumber">
+                  {{company?.organisationName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="deviceEditForm.get('purchase_by').errors && (deviceEditForm.get('purchase_by').dirty || deviceEditForm.get('purchase_by').touched)">
+              <span *ngIf="f.purchase_by.errors.required">Purchased By is required.</span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group w-100">
+          <label for="company" class="w-100 control-label required" [ngClass]="deviceEditForm.get('can').errors && (deviceEditForm.get('can').dirty ||
+             deviceEditForm.get('can').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove'">End Customer</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select id="company" formControlName='can'>
+                <mat-option *ngFor='let company of endCustomer | orderBy: "organisationName"' [value]="company.accountNumber">
+                  {{company?.organisationName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="deviceEditForm.get('can').errors && (deviceEditForm.get('can').dirty || deviceEditForm.get('can').touched)">
+              <span *ngIf="f.can.errors.required">End Customer is required.</span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group w-100">
+          <label for="company" class="w-100 control-label" [ngClass]="deviceEditForm.get('installed_by').errors && (deviceEditForm.get('installed_by').dirty ||
+             deviceEditForm.get('installed_by').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Installed By</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select id="company" formControlName='installed_by'>
+                <mat-option *ngFor='let company of installedBy | orderBy: "organisationName"' [value]="company.accountNumber">
+                  {{company?.organisationName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="deviceEditForm.get('installed_by').errors && (deviceEditForm.get('installed_by').dirty || deviceEditForm.get('installed_by').touched)">
+              <span *ngIf="f.installed_by.errors.required">Installed By is required.</span>
+            </span>
+          </div> 
+        </div>
+
+        <div class="form-group w-100 ">
+          <h3>Asset Details</h3>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="asset_type" class="w-100 control-label" [ngClass]="(f.asset_type.invalid
+          && (f.asset_type.dirty|| f.asset_type.touched)) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Asset
+            Type</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input matInput formControlName='asset_type' id="asset_type">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding" *ngIf="(f.asset_type.invalid
+              &&(f.asset_type.dirty|| f.asset_type.touched))">
+              <span *ngIf="f.asset_type.errors.required">Asset Type is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="manufacturer_name" class="w-100 control-label"
+           [ngClass]="(f.manufacturer_name.invalid
+           &&(f.manufacturer_name.dirty|| f.manufacturer_name.touched)) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Manufacturer</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input matInput formControlName='manufacturer_name' id="manufacturer_name">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding" *ngIf="f.manufacturer_name.invalid
+            &&(f.manufacturer_name.dirty|| f.manufacturer_name.touched)">
+              <span *ngIf="f.manufacturer_name.errors.required">Manufacturer is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="year" class="w-100 control-label"
+           [ngClass]="(f.year.invalid
+           &&(f.year.dirty|| f.year.touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Model Year</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input matInput formControlName='year' id="year">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding" *ngIf="(f.year.invalid
+            &&(f.year.dirty|| f.year.touched))">
+              <span *ngIf="f.year.errors.required">Model Year is required.</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 pl-0">
+
+        <div class="form-group w-100 ">
+          <h3>Device Details</h3>
+        </div>
+
+
+        <div class="form-group w-100">
+          <label for="company" class="w-100 control-label" [ngClass]="deviceEditForm.get('product_name').errors && (deviceEditForm.get('product_name').dirty ||
+             deviceEditForm.get('product_name').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Product
+            Type</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select id="company" formControlName='product_name'>
+                <mat-option *ngFor="let product of approvedProducts" [value]="product.product_name">
+                  {{product?.product_name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="deviceEditForm.get('product_name').errors && (deviceEditForm.get('product_name').dirty || deviceEditForm.get('product_name').touched)">
+              <span *ngIf="f.product_name.errors.required">Product Type is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100 ">
+          <label for="product_code" class="w-100 control-label" [ngClass]="(deviceEditForm.get('product_code').hasError('required') && 
+            deviceEditForm.get('product_code').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Product
+            Code</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input  matInput formControlName='product_code' id="product_code">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(deviceEditForm.get('product_code').hasError('required') && deviceEditForm.get('product_code').touched)">
+              <span *ngIf="f.product_code.errors.required">Product Code is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="company" class="w-100 control-label required" [ngClass]="deviceEditForm.get('usage_status').errors && (deviceEditForm.get('usage_status').dirty ||
+             deviceEditForm.get('usage_status').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Usage</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select id="usage_status" formControlName='usage_status'>
+                <mat-option *ngFor='let data of usage | orderBy: "data"' [value]="data.value">
+                  {{data?.data}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-5 mgtp nopadding"
+              *ngIf="deviceEditForm.get('usage_status').errors && (deviceEditForm.get('usage_status').dirty || deviceEditForm.get('usage_status').touched)">
+              <span *ngIf="f.usage_status.errors.required">Usage is required.</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 pl-0">
+
+        <div class="form-group w-100 ">
+          <h3>Carrier Details</h3>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="company" class="w-100 control-label required" 
+          [ngClass]="(f.service_network.invalid
+          &&(f.service_network.dirty|| f.service_network.touched)) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove'">
+           Service Network</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select id="service_network" formControlName='service_network'>
+                <mat-option *ngFor="let data of serviceNetwork" [value]="data.value">
+                  {{data?.data}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-5 mgtp nopadding"
+              *ngIf="(f.service_network.invalid
+              &&(f.service_network.dirty|| f.service_network.touched))">
+              <span *ngIf="f.service_network.errors.required">Service Network is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="country_code" class="w-100 control-label"
+           [ngClass]="(f.country_code.invalid
+           &&(f.country_code.dirty|| f.country_code.touched)) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Country
+            Code</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select id="country_code"  formControlName='country_code'>
+                <mat-option *ngFor="let data of countryCodeList" [value]="data.dial_code">
+                  {{data?.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!-- <span class="error col-lg-5 mgtp nopadding"
+              *ngIf="(f.country_code.invalid
+              &&(f.country_code.dirty|| f.country_code.touched))">
+              <span *ngIf="f.country_code.errors.required">Country code is required.</span>
+            </span> -->
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="active" class="w-100 control-label mb-12">Active</label>
+          <div class="dflxRow">
+            <div class="w-100">
+              <mat-checkbox value="1" formControlName='is_active' id="is_active" name="is_active"
+                [checked]="f.is_active.value">
+              </mat-checkbox>
+            </div>
+          </div>
+        </div> 
+
+      </div>
+
+      <div class="col-lg-12">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+
+          <div class="form-group">
+            <div class="w-100">
+              <button type="submit" class="btn save-btn" (click)="onSubmit(deviceEditForm)"  [disabled]="rolePCTUser">Save</button>
+              &nbsp;&nbsp;
+              <button class="btn cancel-btn" (click)="cancel()"  >Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4"></div>
+      </div>
+    </form>
+
+  </div>
+</div>

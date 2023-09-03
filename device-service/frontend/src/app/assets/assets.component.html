@@ -1,0 +1,169 @@
+<div class="container-fluid">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="breadCrumb">
+                <span class="pageName">
+                  <a href="javascript:void(0);">Manage Assets</a>
+                </span>
+                <!-- <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                  <a href="javascript:void(0);" [routerLink]="['../customerAssets']">Organization with Asset Lists </a>
+                </span> -->
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                  <a href="javascript:void(0);">Upload an Asset List</a>
+                </span>
+              </div>
+            <div class="content_titlebar_wrapper">
+                <h2 class="pull-left col-lg-12 noPadding">Upload an Asset List</h2>
+            </div>
+            <div>
+                <h5 class="pull-left col-lg-12 noPadding">Use This <a href="assets/static/Asset Upload File.xlsx">Asset List Template</a> to collect a list of approved Assets.</h5>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="content_form"> -->
+        <div class="col-lg-12 content_form">
+
+            <form class="form-horizontal" [formGroup]="registerCompany" (ngSubmit)="selectFile($event)">
+                <div class="form-group col-lg-12">
+                    <label for="companies" class="col-sm-2 col-lg-2 control-label required">Organization</label>
+                    <div class="col-sm-5 col-lg-5">
+                        <div class="selectBox">
+                            <select class="form-control" id="company" [(ngModel)]="assetCompany.company"
+                                formControlName='companies'>
+                                <option value="" default selected disabled hidden>Select Organization</option>
+                                <option *ngFor='let company of companies | orderBy: "organisationName"' [ngValue]="company">{{company?.organisationName}}
+                                </option>
+                            </select>
+                            <span class="error"
+              *ngIf="(submitted && g.companies.errors) ||
+                      (registerCompany.get('companies').hasError('required') && registerCompany.get('companies').touched)">
+              <span *ngIf="g.companies.errors.required">Company is required.</span>
+            </span>
+                        </div>
+                        <div class="draggableDiv">
+                            <!-- <div class="loading" *ngIf="loading">Loading&#8230;</div>
+                            <span class="error"
+                                *ngIf="(submitted && g.file.errors)&&(registerCompany.get('file').hasError('required'))">
+                                <span *ngIf="g.file.errors.required">File is required</span>
+                            </span> -->
+                            <div class="containerData" appDnd (fileDropped)="onFileDropped($event)">
+                                <input type="file" class="form-control" id="file" formControlName='file'
+                                    (change)="onFileChangeBrower($event)" />
+                                <div class="dragBoxTxt">
+                                    <div class="cloudIcons"><i class="fa fa-cloud-upload" aria-hidden="true"></i></div>
+                                    <div class="dragDataHere"><a href="javascript:void(0)">Choose a file</a> or drag it
+                                        here.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-12">
+                    <label for="companies" class="col-sm-2 col-lg-2 control-label required">Selected File</label>
+                    <div class="col-sm-5 col-lg-5">
+                        <span class="fileName">{{selectedFileName}}</span>
+                    </div>
+                </div>
+            </form>
+       </div>
+    <!-- </div> -->
+    <div class="files-list ">
+        <div class="single-file" *ngFor="let file of files; let i = index">
+            <img src="assets/img/dnd/ic-file.svg" width="45px" alt="file">
+            <div class="info">
+                <h4 class="name">
+                    {{ file?.name }}
+                </h4>
+                <p class="size">
+                    {{ formatBytes(file?.size) }}
+                </p>
+                <!-- <app-progress [progress]="file?.progress"></app-progress> -->
+            </div>
+            <img src="assets/img/dnd/ic-delete-file.svg" class="delete" width="20px" alt="file" (click)="deleteFile(i)">
+        </div>
+    </div>
+
+    <div #myModel class="modal fade" id="replaceAssetModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Update to Asset List</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        There is an existing Asset List for this Customer. Are you sure you want to update it?
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button save_btn" (click)="insertModified()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button cancel-btn" (click)="rejectModifiedData()"
+                        data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div #myModel class="modal fade" id="nullVin" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Handling of Manufacturer and Model Year</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        This file contains records for which the VIN is not provided, which will not go through the lookup process. New records will use the Manufacturer and Model Year values provided in the file. For existing records, these fields will be updated with the values in the file. Would you like to proceed?
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button  save_btn" (click)="insertToDb()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button cancel-btn" (click)="rejectData()"
+                        data-dismiss="modal">Cancel</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div #myModel class="modal fade" id="nullVinUpdate" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Handling of Manufacturer and Model Year</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        This file contains records for which the VIN is not provided, which will not go through the lookup process. New records will use the Manufacturer and Model Year values provided in the file. For existing records, these fields will be updated with the values in the file. Would you like to proceed?
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button save_btn" (click)="UpdateToDb()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button cancel-btn" (click)="rejectData()"
+                        data-dismiss="modal">Cancel</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="margin-left:10%">
+        <div class="col-sm-10 padl0 btn_section">
+            <button type="submit" class="btn primary_button  save_btn" (click)="save()">Save</button>
+            
+            <button class="btn secondary_button cancel-btn" (click)="cancel()">Cancel</button>
+        </div>
+    </div>
+
+</div>

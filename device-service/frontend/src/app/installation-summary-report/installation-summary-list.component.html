@@ -1,0 +1,89 @@
+<div class="container-fluid">
+    <div class="" id="temp1"></div>
+
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="breadCrumb">
+                <span class="pageName">
+                    <a href="javascript:void(0);">Asset Reports</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+
+                <span class="pageName">
+                    <a href="javascript:void(0);">Installation Report</a>
+                </span>
+            </div>
+            <div class="content_titlebar_wrapper" style="justify-content: flex-start;">
+                <h2 class="pull-left col-lg-6 noPadding" style="margin-right: 18em;">Installation Summary Report</h2>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="approved_assets_txt mrt20">
+            <div class="col-lg-8 text-left padl0 approved_assets_txtEle">
+               
+                <div class="approvedAssetValueDrop" >
+                    <label>Customer :</label>
+                    <div class="dropDownValues">
+                        <mat-form-field class="col-lg-12 nopadding">
+                            <mat-label>Select Company</mat-label>
+                            <mat-select  id="company" class="dropdownCustomer" [formControl]="selectedCompany" (selectionChange)="onCompanySelect($event)" style="width: 180px; margin-top: -10px;">
+                              
+                                <mat-option value="0" default selected >Select Company</mat-option>
+                                <mat-option *ngFor="let company of companies" [value]="company.uuid">{{company?.organisationName}}</mat-option> 
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div class="approvedAssetValueDrop" >
+                    <label>Date Range :</label>
+                    <div class="dropDownValues">
+                        <mat-form-field class="col-lg-12 nopadding">
+                            <mat-label>Select Date Range</mat-label>
+                            <mat-select id="dateRange"  class="dropdownCustomer" [formControl]="selectDays" [(value)]="days" (selectionChange)="onDateRangeSelect($event)" style="width: 180px; margin-top: -10px;">
+                            <mat-option [value]="0" default selected>Select Date Range</mat-option>
+                            <mat-option [value]="1">Last 1 Day</mat-option>
+                             <mat-option [value]="5">Last 5 Days</mat-option>
+                             <mat-option [value]="7">Last 7 Days</mat-option>
+                             <mat-option [value]="15">Last 15 Days</mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+             
+            </div>
+            <span class="col-lg-4 text-right padr0">
+                &nbsp; &nbsp;
+                <button class="btnClear primary_buttonClear" (click)="clearFilter()">Clear Filter</button>
+                &nbsp;&nbsp;
+                <button class="linkT link_button" (click)="onBtExport()"><i class="fa fa-download"
+                        aria-hidden="true"></i><span>EXPORT REPORT</span></button>
+
+
+            </span>
+        </div>
+    </div>
+    <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs"
+        [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" [modules]="modules"
+        [suppressRowClickSelection]="true" [rowSelection]="'multiple'" [gridOptions]="gridOptions"
+        [infiniteInitialRowCount]="infiniteInitialRowCount" [pagination]=true (gridReady)="onGridReady($event)"
+        (firstDataRendered)="onFirstDataRendered($event)" (columnVisible)="onColumnVisible($event)"
+        (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)"
+        (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)"
+        (paginationChanged)="onPaginationChanged($event)" (columnResized)="onColumnResized($event)" [sideBar]="sideBar"
+        [defaultColDef]="defaultColDef" [frameworkComponents]="frameworkComponents" [components]="components">
+    </ag-grid-angular>
+    
+    <div class="pageSizeNumbers">
+        Page Size:
+        <select [(ngModel)]="selected" id="page-size" name="pageSizeObjArr" (ngModelChange)="onPageSizeChange()">
+            <option *ngFor="let value of pageSizeObjArr" [ngValue]="value.idValue">{{value.id}}</option>
+        </select>
+    </div>
+    
+</div>

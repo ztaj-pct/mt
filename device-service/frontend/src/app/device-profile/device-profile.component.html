@@ -1,0 +1,1312 @@
+<script src="/jquery-3.3.1.min.js"></script>
+<script src="/bootstrap.min.js"></script>
+
+<div id="main" class="container-fluid">
+    <div id="container-changeable" class="">
+        <div class="top_container">
+            <div class="loading" *ngIf="loading">Loading&#8230;</div>
+            <div class="breadCrumb">
+                <span class="pageName">
+                    <a [routerLink]="['../gateway-list']">Manage Devices</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <!-- <span class="pageName">
+                    <a [routerLink]="['../gateway-list']">Devices</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span> -->
+                <span class="pageName">
+                    <a>Device Profile</a>
+                </span>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 title-of-section">
+                    Device Profile for {{deviceprovision?.imei}}
+                </div>
+                <div class="col-lg-4 text-right margin-top" style="font-style: italic;">
+                    <span>All times shown in PST</span>
+                </div>
+            </div>
+            <hr class="hr_line">
+            <div class="row">
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col-12 vehicleStateInfo">
+                            <div class="vehicleIdNUmber rowDivEle">
+                                <div class="top_labal statusBtn withIcon green boxBtnMargin">
+                                    {{deviceprovision?.assets_detail_payload?.company_name}}
+                                    {{deviceprovision?.assets_detail_payload?.asset_type}}
+                                    {{deviceprovision?.assets_detail_payload?.asset_id}}
+                                    <a (click)="editDevice()" class="btnIcon"
+                                        *ngIf="!roleCallCenterUser&&!isRolePctUser">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="vehicleStatus rowDivEleBtnSection">
+                                <div class="actionBtn lightGreen">
+                                    <span class="btnTxt">{{deviceprovision?.status}}</span>
+                                </div>
+                            </div>
+                            <div class="vehicleUsage rowDivEleBtnSection">
+                                <div class="actionBtn greenWhite">
+                                    <span class="btnTxt">{{deviceprovision?.usage}}</span>
+                                </div>
+                            </div>
+                            <div class="vehicleAlert rowDivEleBtnSection">
+                                <div class="actionBtn red">
+                                    <!-- <a href="javascript:void(0);" class="btnTxt">ALERT</a> -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 mt-3 mb-3">
+                    <div class="col pl-0 pr-0">
+                        <mat-tab-group (selectedTabChange)="yourFn($event)" [selectedIndex]="selectedTab.value">
+                            <mat-tab label="Asset Status">
+                                <div class="col-12 pl-0 pr-0">
+                                    <p class="lead">These details are current as of the latest maintenance report
+                                        received from the
+                                        device {{deviceprovision?.last_maintenance_report_date }} / Production MS </p>
+                                </div>
+                                <div class="approved_assets_txt">
+                                    <div class="col-lg-3 noPadding w360 mr30">
+                                        <div class="row">
+                                            <div class="col-12 flex_center">
+                                                <div class="col boxStatus">
+                                                    <div class="pl-0">
+                                                        <div class="boxTitle">Current Status</div>
+                                                        <div class="readOnlyModeInfo">
+                                                            <div class="data-col">
+                                                                <div class="h_label" style="color: #1c5085;;"><span
+                                                                        class="latest_report">Latest
+                                                                        Report</span></div>
+
+                                                                <div class="h_label text-right">
+                                                                    <button type="submit" class="secondary_button_2"
+                                                                        (click)="showLatestRawReport()">Details</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="data-col">
+                                                                <div class="label"> {{deviceprovision?.last_event}}
+                                                                    <span *ngIf="deviceprovision?.last_event">at</span>
+                                                                    <span> {{last_report_date}}</span>
+                                                                </div>
+                                                                <!-- <div class="ro-value">
+                                                                        {{deviceprovision?.last_report_date | date :
+                                                                        'yyyy/MM/dd hh:mm:ss'}} </div> -->
+                                                            </div>
+                                                            <div class="data-col">
+                                                                <div class="label">
+                                                                    <div class="h_label" style="color: #1c5085;"><span
+                                                                            class="latest_report">Gateway Power
+                                                                        </span></div>
+                                                                    <div><b>Primary Power :</b> <span>
+                                                                            {{primaryPower}}</span> <span
+                                                                            *ngIf="primaryPower>0">V</span> </div>
+
+
+
+                                                                    <div class="mt-2"><b>Secondary Power :</b> <span>
+                                                                            {{secondaryPower}}</span><span
+                                                                            *ngIf="secondaryPower>0">V</span> </div>
+
+
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="data-col"
+                                                                *ngIf="deviceprovision?.can==='A-00243'">
+                                                                <div class="label">
+                                                                    <button type="submit"
+                                                                        *ngIf="!deviceprovision.retrive_status||deviceprovision.retrive_status!=='StatusNotCompleted'"
+                                                                        class="btn btn-primary"
+                                                                        (click)="retrieveSensorDetails()">Retrieve
+                                                                        Sensor Details</button>
+                                                                    <button type="submit"
+                                                                        *ngIf="deviceprovision.retrive_status==='StatusNotCompleted'"
+                                                                        class="btn btn-primary"
+                                                                        (click)="refreshSensor()">Refresh Retrieve
+                                                                        Sensor Details</button>
+                                                                </div>
+                                                                <!-- <div class="ro-value"> <a
+                                                                        href="javascript:void(0);">Asset is updating at
+                                                                        irregular intervals</a></div> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mt-4 flex_center">
+                                                <div class="col boxStatus">
+                                                    <div class="pl-0">
+                                                        <div class="boxTitle">
+                                                            <div class="statusBtn withIcon green">
+                                                                Asset Details
+                                                                <!-- <a href="javascript:void(0);" class="btnIcon">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                </a> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="readOnlyModeInfo">
+                                                            <div class="data-col">
+                                                                <div class="h_label">
+                                                                    {{deviceprovision?.assets_detail_payload?.company_name}}
+                                                                    {{deviceprovision?.assets_detail_payload?.asset_id}}
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="data-col">
+                                                                <span class="assets_labal">
+                                                                    <!-- {{deviceprovision?.assets_detail_payload?.year}}
+                                                                    {{deviceprovision?.assets_detail_payload?.manufacturer_name}}
+                                                                    {{deviceprovision?.assets_detail_payload?.asset_type}}
+                                                                    {{deviceprovision?.assets_detail_payload?.vin}} -->
+                                                                    <span style="text-transform: capitalize;">
+                                                                        {{deviceprovision?.assets_detail_payload?.year}}&nbsp;
+                                                                        {{deviceprovision?.assets_detail_payload?.manufacturer_name}}
+                                                                        {{deviceprovision?.assets_detail_payload?.asset_type}}
+                                                                    </span><br>
+                                                                    <span style="text-transform: uppercase;">
+                                                                        {{deviceprovision?.assets_detail_payload?.vin}}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                            <div class="data-col">
+                                                                <div class="label">
+                                                                    <div>
+                                                                        <b>Forwarding Group:</b>
+                                                                        {{deviceGroupDetail?.forwarding_group != null ?
+                                                                        deviceGroupDetail?.forwarding_group : 'None'}}
+                                                                    </div>
+                                                                    <br>
+                                                                    <div>
+                                                                        <b>Parent Group:</b>
+                                                                        {{deviceGroupDetail?.purchase_by_name != null ?
+                                                                        deviceGroupDetail?.purchase_by_name : 'None' }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mt-4 flex_center">
+                                                <div class="col boxStatus">
+                                                    <div class="pl-0">
+                                                        <div class="boxTitle">
+                                                            <div class="statusBtn withIcon green">
+                                                                Device Details
+                                                                <!-- <a href="javascript:void(0);" class="btnIcon">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                </a> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="readOnlyModeInfo">
+                                                            <div class="data-col">
+                                                                <div class="label" style="font-weight: 700;"> Product
+                                                                    Type: {{deviceprovision?.product_name}}
+                                                                    <span
+                                                                        *ngIf="deviceprovision?.product_code">(</span>{{deviceprovision?.product_code}}<span
+                                                                        *ngIf="deviceprovision?.product_code">)</span>
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="data-col">
+                                                                <div class="label" style="font-weight: 700;"> Hardware
+                                                                    Model: {{deviceprovision?.device_type}}
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="data-col">
+                                                                <div class="label"><b>Installed:</b>
+                                                                    <span
+                                                                        *ngIf="deviceprovision?.installed_status_flag === 'Y'">YES</span>
+                                                                    <span
+                                                                        *ngIf="deviceprovision?.installed_status_flag === 'N'">No</span>
+                                                                    <span
+                                                                        *ngIf="deviceprovision?.installed_status_flag !== 'N' && deviceprovision?.installed_status_flag !== 'Y'">N/A</span>
+                                                                </div>
+                                                                <div class="ro-value">
+                                                                    {{deviceprovision?.assets_detail_payload?.installed_date
+                                                                    | date : 'yyyy/MM/dd hh:mm:ss'}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="data-col">
+                                                                <div class="label btnGroupRow">
+                                                                    <div class="statusBtn lightGreen"
+                                                                        *ngIf="deviceprovision?.status!==undefined&&deviceprovision?.status!==null">
+                                                                        <span
+                                                                            class="btnTxt btnRadius">{{deviceprovision?.status}}</span>
+                                                                    </div>
+
+                                                                    <div class="statusBtn white"
+                                                                        *ngIf="deviceprovision?.usage!==undefined&&deviceprovision?.usage!==null">
+                                                                        <span
+                                                                            class="btnTxt">{{deviceprovision?.usage}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                    <!-- <div class="col-lg-1 noPadding">&nbsp;</div> -->
+                                    <div class="col-lg-9 noPadding">
+                                        <div class="col-lg-12" style="padding: 0px;">
+                                            <h4 class="pull-left col-lg-4" style="padding: 0px;">Connected Sensors</h4>
+                                            <div class="pull-right col-lg-8 text-right" style="padding: 0px;">
+                                                <button class="linkT link_button" (click)="refreshAsset()"><i
+                                                        class="fa fa-repeat"
+                                                        aria-hidden="true"></i><span>REFRESH</span></button>
+                                                &nbsp;
+                                                <!-- <button class="linkT link_button"
+                                                    *ngIf="deviceprovision?.can==='A-00243'"
+                                                    (click)="refreshSensor()"><i class="fa fa-repeat"
+                                                        aria-hidden="true"></i><span>REFRESH
+                                                        RETRIEVE SENSOR</span></button> -->
+
+                                            </div>
+                                        </div>
+                                        <div class="chartDataTbl">
+                                            <table class="table table-hover breakdownChartDataTbl">
+                                                <thead>
+                                                    <tr>
+                                                        <!-- <th width="10%">Category</th> -->
+                                                        <th width="15%">Product</th>
+                                                        <th width="10%">Product Code</th>
+                                                        <th width="6%">Position</th>
+                                                        <!-- <th width="5%">Alt. Position</th> -->
+                                                        <th width="8%">Type</th>
+                                                        <th width="8%">Status</th>
+                                                        <th width="14%">Reading</th>
+                                                        <th width="7%">Vendor</th>
+                                                        <th width="14%">Sensor ID/MAC</th>
+                                                        <th width="14%">Report Time</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let sensor of sensorList;">
+                                                        <!-- <td>{{sensor?.product_name}}</td> -->
+                                                        <td>{{sensor?.product_name}}</td>
+                                                        <td>{{sensor?.product_code}}</td>
+                                                        <td>{{sensor?.positionName}}</td>
+                                                        <!-- <td>{{sensor?.altPositionName}}</td> -->
+                                                        <td>{{sensor?.type}}</td>
+                                                        <td *ngIf="sensor.status" class="sensor_status">{{sensor?.status}}</td>
+                                                        <td *ngIf="!sensor.status" class="sensor_status">N/A</td>
+                                                        <td
+                                                            *ngIf="sensor.at_command_status!='PENDING'&&!sensor.inPending" class="sensor_status">
+                                                            <span
+                                                                *ngIf="sensor.status=='OFFLINE'||sensor.status=='Offline'||sensor.status=='offline'">
+                                                                Not Available
+                                                            </span>
+                                                            <span
+                                                                *ngIf="sensor.status!='OFFLINE'&&sensor.status!='Offline'&&sensor.status!='offline'">
+                                                                {{sensor?.reading}}
+                                                            </span>
+                                                        </td>
+                                                        <td *ngIf="sensor.at_command_status==='PENDING'||sensor.inPending"
+                                                            style="font-style: italic;" class="sensor_status">Updating</td>
+                                                        <td><span *ngIf="sensor.vendor">{{sensor?.vendor}}</span>
+                                                            <span *ngIf="!sensor.vendor">--</span>
+                                                        </td>
+                                                        <td>
+                                                            {{sensor?.mac_address}}</td>
+                                                        <!-- <td *ngIf="sensor.at_command_status==='PENDING'">
+                                                            {{sensor?.new_sensor_id}}</td> -->
+                                                        <td
+                                                            *ngIf="sensor.at_command_status!='PENDING'&&!sensor.inPending">
+                                                            {{sensor?.receivedTimeStamp}}</td>
+                                                        <td
+                                                            *ngIf="sensor.at_command_status==='PENDING'||sensor.inPending">
+                                                            --</td>
+                                                        <td>
+                                                            <a (click)="openSensorEditPopup(sensor)" class="btnIcon"
+                                                                *ngIf="(sensor.product_name=='MicroSP TPMS Sensor'|| sensor.product_name=='MicroSP TPMS'||sensor.product_name=='MICROSP TPMS SENSOR') && sensor.mac_address!=null&&sensor.mac_address!=undefined&&sensor.mac_address.length>0 && sensor.at_command_status!=='PENDING' && (primaryPower>=10 || secondaryPower>=10) && (recieverStatus=='ONLINE' || recieverStatus=='Online')">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                            <a (click)="openGatewayPowerLow(sensor)" class="btnIcon"
+                                                                *ngIf="(sensor.product_name=='MicroSP TPMS Sensor'|| sensor.product_name=='MicroSP TPMS'||sensor.product_name=='MICROSP TPMS SENSOR')&&sensor.mac_address!=null&&sensor.mac_address!=undefined&&sensor.mac_address.length>0&&sensor.at_command_status!=='PENDING' && (flag || recieverStatus=='OFFLINE'|| recieverStatus=='Offline')">
+                                                                <i class="fa fa-pencil" style="color:#7b83856e"></i>
+                                                            </a>
+                                                            <a (click)="refreshUpdatedSesnor(sensor)" class="btnIcon"
+                                                                *ngIf="(sensor.product_name=='MicroSP TPMS Sensor'|| sensor.product_name=='MicroSP TPMS'||sensor.product_name=='MICROSP TPMS SENSOR')&&sensor.mac_address!=null&&sensor.mac_address!=undefined&&sensor.mac_address.length>0&&sensor.at_command_status==='PENDING'">
+                                                                <i class="fa fa-repeat"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Reports & Location" *ngIf="!(roleCallCenterUser)">
+                                <div class="col-12 pl-0 pr-0" *ngIf="reportTab">
+                                    <div class="content_titlebar_wrapper">
+                                        <div class="pull-left col-lg-3 noPadding inDivTitle">Device Reports
+                                            &nbsp; &nbsp;&nbsp; &nbsp;
+                                            <span *ngIf="mapViewHideShow" style="font-size: 14px; font-weight: 500;">
+                                                <mat-checkbox [(ngModel)]="isChecked"
+                                                    (change)="selectAllRow($event)"><span
+                                                        style="font-weight: bold">Select All</span></mat-checkbox>
+                                            </span>
+                                        </div>
+                                        <div class="col-lg-2" style="padding: 0px!important;">
+                                            <button class="linkT link_button activeBtn" id="btn1"
+                                                (click)="hideMapView()"><i class="fa fa-list-alt"
+                                                    aria-hidden="true"></i><span>List
+                                                    VIEW</span></button> &nbsp; &nbsp;
+                                            <button class="linkT link_button deactiveBtn btnDeactivated" id="btn2"
+                                                (click)="showMapView()"><i class="fa fa-map"
+                                                    aria-hidden="true"></i><span>MAP
+                                                    VIEW</span></button>
+
+                                        </div>
+                                        <div class="col-lg-2 receivedTime" style="padding: 3px 0px 0px 0px;">
+                                            <i>Data refreshed {{receivedTimeStamp | date : 'yyyy/MM/dd hh:mm:ss'}}</i>
+                                        </div>
+                                        <div class="pull-right col-lg-5 noPadding text-right"
+                                            style="padding-left: 0px;">
+                                            <!-- <button
+                                                *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'"
+                                                class="linkT link_button" (click)="uploadgateways()"><i
+                                                    class="fa fa-map-marker" aria-hidden="true"></i><span>MAP
+                                                    VIEW</span></button> &nbsp; &nbsp; -->
+                                            <button class="linkT link_button" (click)="openExportPopup()"><i
+                                                    class="fa fa-download" aria-hidden="true"></i><span>EXPORT
+                                                    LIST</span></button> &nbsp; &nbsp;
+                                            <button class="linkT link_button" (click)="onBtNormalCols()"><i
+                                                    class="fa fa-repeat"
+                                                    aria-hidden="true"></i><span>REFRESH</span></button>&nbsp; &nbsp;
+                                            <button class="linkT link_button" *ngIf="isGroupColumn === false"
+                                                (click)="columnGroups()"><i aria-hidden="true"></i><span>HIDE COLUMN
+                                                    GROUPS</span></button>
+                                            <button class="linkT link_button" *ngIf="isGroupColumn === true"
+                                                (click)="columnGroups()"><i aria-hidden="true"></i><span>SHOW COLUMN
+                                                    GROUPS</span></button>
+                                            &nbsp; &nbsp;
+                                            <button class="primary_buttonClear" (click)="clearFilter()"><i
+                                                    aria-hidden="true"></i><span>Clear Filter</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 noPadding" *ngIf="reportTab && !mapViewHideShow">
+                                    <ag-grid-angular #agGrid id="myGrid"  style="width: 100%;  height: calc(100vh - 380px);"
+                                        class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs"
+                                        [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+                                        [maxBlocksInCache]="maxBlocksInCache"
+                                        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+                                        [modules]="modules" [gridOptions]="gridOptions"
+                                        [infiniteInitialRowCount]="infiniteInitialRowCount"
+                                        [groupHeaderHeight]="groupHeaderHeight" [headerHeight]="headerHeight"
+                                        [rowModelType]="rowModelType" [paginationPageSize]="paginationPageSize"
+                                        (gridReady)="onGridReady($event)" (columnVisible)="onColumnVisible($event)" 
+                                        (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)"
+                                        (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)"
+                                        (columnGroupOpened)="onColumnGroupOpened($event)" (columnGroupClosed)="onColumnGroupClosed($event)"
+                                        [sideBar]="sideBar" [defaultColDef]="defaultColDef"
+                                        [suppressRowClickSelection]="true" [rowSelection]="'multiple'"
+                                        [frameworkComponents]="frameworkComponents" [components]="components"
+                                        [enableRangeSelection]="true">
+                                    </ag-grid-angular>
+                                </div>
+
+                                <div class="col-lg-12 noPadding" *ngIf="mapViewHideShow">
+                                    <div class="col-lg-4" style="padding-right: 0px; padding-left: 0px;">
+                                        <ag-grid-angular #agGrid id="myGrid"
+                                            style="width: 100%;  height: calc(100vh - 380px);" class="ag-theme-alpine"
+                                            [rowData]="rowData" [columnDefs]="columnDefs2"
+                                            (cellClicked)="onCellClicked($event)" [modules]="modules"
+                                            [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" 
+                                            (columnVisible)="onColumnVisible($event)"
+                                            (columnPinned)="onColumnPinned($event)"
+                                            (sortChanged)="onSortChanged($event)" (dragStopped)="onDragStopped($event)"
+                                            (filterChanged)="onFilterChanged($event)" [defaultColDef]="defaultColDef"
+                                            [suppressRowClickSelection]="true" [rowSelection]="'multiple'"
+                                            [frameworkComponents]="frameworkComponents" [components]="components"
+                                            [groupHeaderHeight]="groupHeaderHeight" [headerHeight]="headerHeight" [sideBar]="false"
+                                            [enableRangeSelection]="true"
+                                            [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+                                            (rowSelected)="onRowSelected($event)" [rowMultiSelectWithClick]="true"
+                                            (rangeSelectionChanged)="onRangeSelectionChanged($event)">
+                                        </ag-grid-angular>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <agm-map AgmStreetViewControl [latitude]="lat" [longitude]="lng"
+                                            style=" height: calc(100vh - 380px);" [zoom]="zoom" [mapTypeId]="'terrain'"
+                                            [mapTypeControl]="true">
+                                            <agm-marker *ngFor="let row of mapRowData; let i=index" [iconUrl]='url'
+                                                [latitude]="row.general_mask_fields.latitude"
+                                                [longitude]="row.general_mask_fields.longitude" [visible]="true">
+                                                <agm-snazzy-info-window *ngIf="mapRowData.length-1==i" [isOpen]="true"
+                                                    [showCloseButton]="false" [maxWidth]="270" [maxHeight]="180"
+                                                    [closeWhenOthersOpen]="true" [pointer]="false"
+                                                    [closeOnMapClick]="false">
+                                                    <ng-template>
+                                                        <div style="width:100%">
+                                                            <div class="paWrapper" style="text-align: left;">
+                                                                <div class="propTitle"><b>Device ID:</b>
+                                                                    {{row?.report_header?.device_id}}</div>
+                                                                <div class="propTitle"><b>Seq:</b>
+                                                                    {{row?.report_header?.sequence}}
+                                                                    <b>{{row?.general_mask_fields?.motion}}</b>
+                                                                </div>
+                                                                <div class="propTitle"><b>GPS Time:</b>
+                                                                    {{row?.general_mask_fields?.gps_time}}</div>
+                                                                <div class="propTitle"><b>Lat:</b>
+                                                                    {{latInDms}}<b> Lon:</b>
+                                                                    {{lngInDms}}</div>
+                                                                <div class="propTitle"><b>Location:</b> {{marker}}</div>
+                                                                <div class="propTitle"><b>Speed:</b>
+                                                                    {{row?.general_mask_fields?.speed_kms}}<b>
+                                                                        Heading:</b>
+                                                                    {{row?.general_mask_fields?.heading}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </agm-snazzy-info-window>
+                                                <agm-polyline [visible]="true" [strokeWeight]="3"
+                                                    [strokeColor]="'green'">
+                                                    <agm-icon-sequence [fixedRotation]="false" [repeat]="'50px'"
+                                                        [offset]="'100'" [path]="'FORWARD_OPEN_ARROW'">
+                                                    </agm-icon-sequence>
+                                                    <agm-polyline-point *ngFor="let row of mapRowData"
+                                                        [latitude]="row.general_mask_fields.latitude"
+                                                        [longitude]="row.general_mask_fields.longitude">
+                                                    </agm-polyline-point>
+                                                </agm-polyline>
+                                            </agm-marker>
+                                        </agm-map>
+                                    </div>
+                                </div>
+
+                            </mat-tab>
+                            <mat-tab label="Configuration" *ngIf="!(roleCallCenterUser)">
+                                <div class="col-12 pl-0">
+                                    <p>These details are current as of the latest maintenance report received from the
+                                        device {{deviceprovision?.last_report_date | date : 'yyyy/MM/dd hh:mm:ss'}} /
+                                        Production MS </p>
+                                </div>
+                                <div class="col-12 pl-0">
+                                    <div class="row">
+                                        <div class="col-12 flex_center mt-20">
+                                            <div class="col-4">
+                                                <div class="pl-0">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 pl-0">
+                                                            <h6 class="sectionTitle_2">Firmware Load</h6>
+                                                            <table id=""
+                                                                class="table table-hover breakdownChartDataTbl">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th width="25%">BIN</th>
+                                                                        <th width="25%">APP</th>
+                                                                        <th width="25%">MCU</th>
+                                                                        <th width="25%">BLE</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span
+                                                                                *ngIf="redisData?.software_version?.osVersion">V
+                                                                            </span>
+                                                                            {{redisData?.software_version?.osVersion
+                                                                            | uppercase}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{redisData?.software_version?.deviceName}}{{redisData?.software_version?.appVersion
+                                                                            | uppercase}}
+                                                                        </td>
+                                                                        <td>
+                                                                            <span
+                                                                                *ngIf="redisData?.software_version?.extenderVersion">V</span>{{redisData?.software_version?.extenderVersion
+                                                                            | uppercase}}
+                                                                        </td>
+                                                                        <td>
+                                                                            <span
+                                                                                *ngIf="redisData?.software_version?.bleVersion">V</span>{{redisData?.software_version?.bleVersion
+                                                                            | uppercase}}
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="boxStatus configTab">
+                                                        <div class="pl-0">
+                                                            <div class="boxTitle">
+                                                                <div class="statusBtn withIcon green boxBtnMargin">
+                                                                    Hardware Details
+                                                                    <!-- <a href="javascript:void(0);" class="btnIcon">
+                                                                        <i class="fa fa-pencil"></i>
+                                                                    </a> -->
+                                                                </div>
+                                                            </div>
+                                                            <div class="readOnlyModeInfo">
+                                                                <div class="row">
+                                                                    <div class="col-12"><b>Hardware
+                                                                            Type:</b>&nbsp;{{configurationDetails?.hardware_type}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-12"><b>HWID:</b> &nbsp;<span
+                                                                            *ngIf="redisData&&redisData.software_version&&redisData.software_version.hwIdVersion">{{redisData?.software_version?.hwIdVersion}}R{{redisData?.software_version?.hwVersionRevision}}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-12"><b>Product code:</b>&nbsp;
+                                                                        {{configurationDetails?.product_name}}
+                                                                        ({{configurationDetails?.product_code}})
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        &nbsp;
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="boxStatus configTab">
+                                                        <div class="col-12 pl-0">
+                                                            <div class="boxTitle">
+                                                                <div class="statusBtn withIcon green boxBtnMargin">
+                                                                    Carrier Details
+                                                                    <!-- <a href="javascript:void(0);" class="btnIcon">
+                                                                        <i class="fa fa-pencil"></i>
+                                                                    </a> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="readOnlyModeInfo">
+                                                            <div class="data-col">
+                                                                <div class="h_label">
+                                                                    {{configurationDetails?.cellular_payload?.imei}}
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12"><b>ICCD/SIM
+                                                                        #:</b>&nbsp;{{configurationDetails?.cellular_payload?.cellular}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12"><b>IMSI:</b>&nbsp;
+                                                                    {{configurationDetails?.cellular_payload?.imsi}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-6"><b>Country:</b>&nbsp;
+                                                                    {{configurationDetails?.cellular_payload?.service_country}}
+                                                                </div>
+                                                                <div class="col-6"><b>Phone #:</b> &nbsp;
+                                                                    {{configurationDetails?.cellular_payload?.phone}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="boxStatus configTab">
+                                                        <div class="col-12 pl-0">
+                                                            <div class="boxTitle">
+                                                                <div class="statusBtn withIcon green boxBtnMargin">
+                                                                    Peripheral Details
+                                                                    <!-- <a href="javascript:void(0);" class="btnIcon">
+                                                                        <i class="fa fa-pencil"></i>
+                                                                    </a> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col pl-0">
+                                                            <div class="readOnlyModeInfo">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <b>GPIO:</b>&nbsp;{{redisData?.gpio?.gpioStatus}}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-12"><b>TFTP:</b>&nbsp;
+                                                                        {{redisData?.tftp_status?.tftpStatus}}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-8">
+                                                <div class="row mb-3">
+                                                    <div class="col-lg-12">
+                                                        <h6 class="sectionTitle_2">Gateway Configuration</h6>
+                                                        <table id="" class="table table-hover breakdownChartDataTbl">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="25"></th>
+                                                                    <th width="15">Config 1</th>
+                                                                    <th width="15">Config 2</th>
+                                                                    <th width="15">Config 3</th>
+                                                                    <th width="15">Config 4</th>
+                                                                    <th width="25">Config 5</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <td>{{config1?.configIdentificationVersion}}</td>
+                                                                    <td>{{config2?.configIdentificationVersion}}</td>
+                                                                    <td>{{config3?.configIdentificationVersion}}</td>
+                                                                    <td>{{config4?.configIdentificationVersion}}</td>
+                                                                    <td>{{config5?.configIdentificationVersion}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>Revision</th>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>CRC</th>
+                                                                    <td>{{config1?.configCRC}}</td>
+                                                                    <td>{{config2?.configCRC}}</td>
+                                                                    <td>{{config3?.configCRC}}</td>
+                                                                    <td>{{config4?.configCRC}}</td>
+                                                                    <td>{{config5?.configCRC}}</td>
+                                                                </tr>
+                                                                <!--Need to check this code BY Developer Whos aware with this data
+                                                                <tr
+                                                                *ngFor="let configData of redisData?.waterfall?.waterfallInfo">
+                                                                <td>Config {{configData?.configId}}</td>
+                                                                <td>{{configData?.configIdentificationVersion}}</td>
+                                                                <td>{{getBuildNumber(configData?.configIdentificationVersion)}}
+                                                                </td>
+                                                                <td>{{configData?.configCRC}}</td>
+                                                                </tr>-->
+                                                            </tbody>
+
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-12">
+                                                        <!--MS2-564-->
+                                                        <div class="noPadding deviceSettings">
+                                                            <h4 class="sectionTitle_2 mb-2">Device Security Settings
+                                                            </h4>
+                                                            <div class="securitySettings">
+                                                                <div class="rowCol noPadding">
+                                                                    <label class="rowColLable">Secure Key on File for
+                                                                        this
+                                                                        device</label>
+                                                                    <div class="rowColOpts">{{isSecureKeyPresent ? "YES"
+                                                                        : "NO"}}</div>
+                                                                    <!-- <div class="rowColBtn">
+                                                                            <button class="btn btn-primary white-secondry">Change Device Key</button>
+                                                                        </div> -->
+                                                                </div>
+
+                                                                <div class="rowCol noPadding">
+                                                                    <label class="rowColLable">Require Report
+                                                                        Signing</label>
+                                                                    <div class="rowColOpts"
+                                                                        *ngIf='isSecureKeyPresent== true'>
+                                                                        <mat-radio-group aria-label="Select an option"
+                                                                            name='report_signing'
+                                                                            [formControl]="isRequireReportSigning"
+                                                                            (change)="onChange($event)">
+                                                                            <mat-radio-button
+                                                                                [value]="true"><span>YES</span>
+                                                                            </mat-radio-button>
+                                                                            <mat-radio-button
+                                                                                [value]="false"><span>NO</span>
+                                                                            </mat-radio-button>
+                                                                        </mat-radio-group>
+                                                                    </div>
+                                                                    <div class="rowColOpts"
+                                                                        *ngIf='isSecureKeyPresent== false'>
+                                                                        <div class="descTxt">
+                                                                            N/A
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="rowColBtn">&nbsp;</div>
+                                                                </div>
+
+                                                                <div class="rowCol noPadding">
+                                                                    <label class="rowColLable">Require Verification of
+                                                                        Command
+                                                                        Responses</label>
+                                                                    <div class="rowColOpts"
+                                                                        *ngIf='isSecureKeyPresent== true'>
+                                                                        <mat-radio-group aria-label="Select an option"
+                                                                            name='response_verfication'
+                                                                            [formControl]="isRequireVerfication"
+                                                                            (change)="onChange($event)">
+                                                                            <mat-radio-button
+                                                                                [value]="true"><span>YES</span>
+                                                                            </mat-radio-button>
+                                                                            <mat-radio-button
+                                                                                [value]="false"><span>NO</span>
+                                                                            </mat-radio-button>
+                                                                        </mat-radio-group>
+                                                                    </div>
+                                                                    <div class="rowColOpts"
+                                                                        *ngIf='isSecureKeyPresent== false'>
+                                                                        <div class="descTxt">
+                                                                            N/A
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="rowColBtn"
+                                                                        *ngIf='isSecureKeyPresent== true'
+                                                                        (click)="generateSignedCommand()">
+                                                                        <button class="btn btn-primary">Generate Signed
+                                                                            Command</button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="rowCol noPadding descWrapper"
+                                                                    *ngIf='isAlertPresent'>
+                                                                    <button class="btn alert"
+                                                                        style='pointer-events: none; cursor: not-allowed'>Alert</button>
+                                                                    <div class="descTxt">
+                                                                        {{alertMessage}}
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                        <!--MS2-564-->
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="noPadding peripheralVersions">
+                                                            <h4 class="sectionTitle_2">Peripheral Versions</h4>
+                                                            <div class="chartDataTbl">
+                                                                <table class="table table-hover breakdownChartDataTbl">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th width="20%">Category</th>
+                                                                            <th width="30%">Sensor Type</th>
+                                                                            <th width="20%">Status</th>
+                                                                            <th width="30%">Sensor Data</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let sensor of peripheralVersions">
+                                                                            <td>{{sensor.category}}</td>
+                                                                            <td>{{sensor.type}}</td>
+                                                                            <td >{{sensor.sensorStatus}}</td>
+                                                                            <td>{{sensor.sensorData}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </mat-tab>
+                            <!-- <mat-tab label="Sensor Performance"> Sensor Performance </mat-tab> -->
+                            <!-- <mat-tab label="AT Commands"><app-atcommand-list></app-atcommand-list></mat-tab> -->
+                            <mat-tab label="AT Commands" *ngIf="!(roleCallCenterUser)">
+                                <div *ngIf="atCommandTab">
+                                    <app-atcommand-list id="atCommandsReportTab"></app-atcommand-list>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Data Forwarding" *ngIf="!(roleCallCenterUser)">
+                                <div *ngIf="deviceForwardingTab">
+                                    <!-- <app-device-forwarding id="deviceForwardingReportTab"></app-device-forwarding> -->
+                                    <app-device-data-forwarding #deviceForwardingReportTab
+                                        id="deviceForwardingReportTab"></app-device-data-forwarding>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Campaigns" *ngIf="!(roleCallCenterUser)">
+                                <div *ngIf="campaignTab">
+                                    <app-campaign-tab id="campaignsReportTab"></app-campaign-tab>
+                                </div>
+                            </mat-tab>
+
+                            <mat-tab label="History">
+                                <div *ngIf ='historyTab' >
+                                    <installation-details></installation-details>
+                                </div>
+                            </mat-tab>
+                            
+                            <!-- <mat-tab label="Parsed Report">
+                                <div class="col boxStatus">
+                                    <form class="ngFormsViews" [formGroup]="rawreportform"
+                                        (ngSubmit)="onSubmit(rawreportform)">
+                                        <div class="boxTitle" width="50%">Parse Raw Report</div>
+                                        <div class="option-select">
+                                            <div class="h_label">Raw Report</div>
+                                            <textarea style="border: solid; width: 50%; height: 7em;" required matInput
+                                                #rawreport formControlName='raw_report' id="raw_report">
+                                            </textarea>
+                                            <span>
+                                                <div class="h_label">Format</div>
+                                                <mat-select style="width: 50%; border: solid; height: 2em;" id="format"
+                                                    formControlName='format'>
+                                                    <mat-option value="xml">XML</mat-option>
+                                                    <mat-option value="json">JSON</mat-option>
+                                                </mat-select>
+                                            </span>
+                                            <span>
+                                                <div class="h_label">Type</div>
+                                                <mat-select style="width: 50%; border: solid; height: 2em;" id="type"
+                                                    formControlName='type'>
+                                                    <mat-option value="report">Report</mat-option>
+                                                    <mat-option value="tlv">TLV</mat-option>
+                                                </mat-select>
+                                            </span>
+                                            <div class="col-lg-12 noPadding">&nbsp;</div>
+                                        </div>
+                                        <button class="primary_button">Submit</button>
+                                    </form>
+                                </div>
+                                <div class="col boxStatus" *ngIf="isSubmitted == true">
+                                    {{parsedReport}}
+                                </div>
+                            </mat-tab> -->
+                        </mat-tab-group>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #latestReportModel class="modal fade" id="latestReportModel" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Raw Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea #userinput id="clipboard-example-textarea" class="popup-text-area" rows="6" cols="60"
+                    [(ngModel)]="latestRawReport">
+            </textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary export_cancel_btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" style="margin-top: 0px;"
+                    (click)="copyToClipBoard(userinput)">Copy to
+                    clipboard</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #exportCSVModal class="modal fade" id="exportCSVModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Export Report Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="last_name" class="w-100 control-label required">Number of records to export:</label>
+                <mat-form-field class="col-lg-5 nopadding">
+                    <input matInput id="range" class="" maxlength="7" value="10000" [(ngModel)]="range">
+                </mat-form-field>
+                <label for="last_name" class="w-100 control-label">Exports larger than 10,000 records will be processed
+                    in the
+                    background and may take 10-15 minutes to complete. You will receive an email when the file is ready
+                    to
+                    download.</label>
+            </div>
+            <div class="modal-footer" style="justify-content: center!important;">
+                <button type="button" class="btn btn-primary export_btn" (click)="exportDeviceList()"
+                    data-dismiss="modal" [disabled]="!(range&&range>0)">Export</button>
+                <button type="button" class="btn btn-secondary export_cancel_btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #SensorEditModal class="modal fade" id="SensorEditModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="width: 80%;">
+            <div style="border: 1px solid black; padding:5px">
+                <div class="modal-header">
+                    <h5 *ngIf="!atCommandSentfailed" class="modal-title" id="exampleModalLongTitle">{{sensorName}}:
+                        {{showLocation}}</h5>
+                    <h5 *ngIf="atCommandSentfailed" class="modal-title" id="exampleModalLongTitle">{{erroHeading}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" *ngIf="!hideButton"
+                        #closeAddExpenseModal>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" *ngIf="!atCommandSentfailed">
+                    <div class="row">
+                        <div class="col-3" style="padding-right:0px;">
+                            <label for="last_name" style="margin-top: 10px; font-weight: 500;"
+                                class="w-100 control-label">Sensor
+                                ID:</label>
+                        </div>
+                        <div class="col-9 nopadding" style="padding-left:0px;">
+                            <mat-form-field class="col-lg-5 nopadding" style="max-width: 80%; padding-left:0px;">
+                                <input matInput id="range" (input)="validate($event)" class="" maxlength="8"
+                                    [(ngModel)]="sensorId">
+                            </mat-form-field>
+                            <label for="last_name"
+                                style="margin-top: 10px; margin-bottom: 10px; font-weight: 300;font-style: italic;"
+                                class="w-100 control-label">Edit the 8-characters to update the sensor
+                                ID.</label>
+                            <label for="last_name" style="margin-top: 0px; margin-bottom: 13px; color: red; "
+                                *ngIf="isInvalid" class="w-100 control-label">{{message}}</label>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                        </div>
+                        <div class="col-8" style="text-align: center;">
+                            <button type="button" class="btn btn-primary" (click)="saveSensorId()"
+                                [disabled]="!(sensorId&&sensorId.length>5)||isInvalid">Change
+                                ID</button>
+                            <!-- <button type="button" class="btn btn-secondary"
+                        style="margin-bottom: 0;background: none;color: #007bff!important;border-block-color: #007bff!important;"
+                        data-dismiss="modal">Cancel</button> -->
+                        </div>
+
+                        <div class="col-2">
+
+                        </div>
+
+                    </div>
+                    <label for="last_name" class="w-100 control-label" style="margin-top: 20px;">After the new ID is
+                        saved, the sensor will start
+                        reporting data for this position. It may take up to 3 minutes for the sensor report. </label>
+                </div>
+                <div class="modal-body" *ngIf="atCommandSentfailed">
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-10" style="padding-left:0px;">
+                            <label for="last_name" style="margin-top: 10px; margin-bottom: 10px; font-weight: 500;"
+                                class="w-100 control-label">{{atCommandErrorMessage}}</label>
+                        </div>
+                        <div class="col-1">
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="!hideButton">
+                        <div class="col-2">
+                        </div>
+                        <div class="col-8" style="text-align: center;">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                            &nbsp;&nbsp;
+                            &nbsp;&nbsp;
+                            <button type="button" class="btn btn-secondary" *ngIf="retrySensorButton"
+                                style="margin-bottom: 0;background: none;color: #007bff!important;border-block-color: #007bff!important;"
+                                (click)="editSensorRetry()">Retry</button>
+                        </div>
+                        <div class="col-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #RetriveSensorModal class="modal fade" id="RetriveSensorModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="width: 80%;">
+            <div style="border: 1px solid black; padding:5px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{retrieveSensorHeading}}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" *ngIf="errors" aria-label="Close"
+                        #closeExpenseModalForRetrieveSensor>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-11 nopadding" style="padding-left:0px;">
+                            <label *ngIf="retrieveSensorMessage&&retrieveSensorMessage.length>0" for="last_name"
+                                style="margin-top: 0px; margin-bottom: 13px;"
+                                class="w-100 control-label">{{retrieveSensorMessage}}</label>
+                            <label *ngIf="retrieveSensorErrorMessage&&retrieveSensorErrorMessage.length>0"
+                                for="last_name" style="margin-top: 0px; margin-bottom: 13px; color: red; "
+                                class="w-100 control-label">{{retrieveSensorErrorMessage}}</label>
+                        </div>
+
+                    </div>
+                    <div class="row" *ngIf="errors">
+                        <div class="col-2"></div>
+                        <div class="col-8" style="text-align: center;">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                aria-label="Close">OK</button>
+                            &nbsp;&nbsp;
+                            &nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary" *ngIf="retryRetrive" data-dismiss="modal"
+                                aria-label="Close" (click)="retryRetrieveSensorDetails()">Retry</button>
+                        </div>
+                        <div class="col-2"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div #deviceKeyRequest class="modal fade" id="deviceKeyRequest" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to change security settings?
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="changeDeviceKeyRequest()"
+                    data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onCancelRequest()"
+                    style="margin-bottom: 0;background: none;color: #007bff!important;border-block-color: #007bff!important;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #generateSignedCommandRequest class="modal fade" id="generateSignedCommandRequest" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-wrapper">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Request Signed Command
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)='refreshEvent()'>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="dflxRow">
+                    <mat-label>Enter expiration time (seconds) :
+                    </mat-label>
+                    <mat-form-field>
+                        <input matInput [formControl]='expiration_time' id="expiration_time"
+                            (input)='changeRequestCommand()'>
+                    </mat-form-field>
+                </div>
+                <div class="dflxRow">
+                    <mat-label>Enter a Commad to Sign :
+                    </mat-label>
+                    <mat-form-field>
+                        <input matInput [formControl]='atcommand_request' (input)='changeRequestCommand()'
+                            id="atcommand_request">
+                    </mat-form-field>
+                </div>
+                <div class="dflxRow notifyTextEle">
+                    Active key will be fetched from database (if exist)
+                </div>
+                <div class="modal-footer reqCommandBtn">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal"
+                        [disabled]="isDisableCommandRequest" (click)='generateSignedRequest()'>Request Command</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div #SignedCommandResponse class="modal fade" id="signedCommandResponse" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-wrapper">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Signed Command</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="dflxRow signedCmdTxt">
+                        The signed command you requested is below.
+                    </div>
+                    <div class="dflxRow">
+                        <textarea #userinput id="signedCmdTxtArea" class="popup-text-area" rows="1" cols="60"
+                            [(ngModel)]="signedCommandResponse">
+                </textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        (click)="responseUpdate()">OK</button>
+                    <button type="button" class="btn btn-primary" (click)="copyToClipBoard(userinput)">Copy to
+                        clipboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #deleteForwardingRuleModal class="modal fade" id="deleteForwardingRuleModal" role="dialog">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Deletion</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="w-100">
+                    Are you sure you want to remove this data forwarding rule?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn save-btn" (click)="confirmDeleteForwardingRule()"
+                    data-dismiss="modal">Yes</button>
+                <button type="button" class="btn cancel-btn" (click)="cancelDeleteForwardingRule()"
+                    data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #gatewayPowerLow class="modal fade" id="gatewayPowerLow" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="width: 80%;">
+            <div style="border: 1px solid black; padding:5px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"> Insufficient Gateway Power </h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" #gatewayPowerLow>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-11 nopadding" style="padding-left:0px;">
+                            <label style="margin-top: 0px; margin-bottom: 13px;" class="w-100 control-label">The
+                                gateway’s Primary or Secondary power must be at least 10 V in order to complete the
+                                update. Please connect the gateway to power and try again.</label>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div #recieverOfline class="modal fade" id="recieverOfline" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="width: 80%;">
+            <div style="border: 1px solid black; padding:5px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"> Sensor Currently Offline </h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" #recieverOfline>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-11 nopadding" style="padding-left:0px;">
+                            <label style="margin-top: 0px; margin-bottom: 13px;" class="w-100 control-label">The TPMS
+                                sensors are currently not online and cannot be updated.</label>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div #expandImageModal class="modal fade" id="expandImageModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="padding-top:0px;">
+
+            <div class="modal-header" style="border-bottom: 0px;padding:0px">
+                <!-- <h5 class="modal-title" id="exampleModalLongTitle">Export Report Data</h5> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img width="100%" height="100%" style=" pointer-events: none;" [src]="imageUrl">
+            </div>
+            <!-- <div class="modal-footer" style="justify-content: center!important;">
+        <button type="button" class="btn btn-primary export_btn" (click)="exportDeviceList()" [disabled]="!(range&&range>0)" data-dismiss="modal">Export</button>
+        <button type="button" class="btn btn-secondary export_cancel_btn" data-dismiss="modal"  style="margin-bottom: 0;background: none;color: #007bff!important;border-block-color: #007bff!important;">Cancel</button>
+      </div> -->
+        </div>
+    </div>
+</div>
+<div class="col-lg-12" style="font-weight: bold; text-align: end;padding: 20px; width: 97% !important;">
+    Total Elements : {{this.totalRecords}}
+  </div>

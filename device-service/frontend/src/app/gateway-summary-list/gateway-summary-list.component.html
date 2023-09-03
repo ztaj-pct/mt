@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <div class="row content_titlebar">
+    <div class="col-lg-12">
+      <div class="breadCrumb">
+        <span class="pageName">
+          <a href="javascript:void(0);">Manage Devices</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);" [routerLink]="['../gatewaysummary']">Device Summary</a>
+        </span>
+      </div>
+      <div class="content_titlebar_wrapper">
+        <h2 class="pull-left col-lg-6 noPadding">Device Summary by Customer</h2>
+        <div class="pull-right col-lg-6 noPadding text-right">
+          <!-- <button *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'" class="linkT link_button"
+          (click)="addGateway()"><i class="fa fa-plus" aria-hidden="true"></i><span>Create New
+            Gateway</span></button> &nbsp; &nbsp;  -->
+            <button class="linkT link_button" (click)="openExportPopup()"><i class="fa fa-download"
+              aria-hidden="true"></i><span>EXPORT
+              LIST</span></button>&nbsp; &nbsp;
+          <button
+            *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'"
+            class="linkT link_button" (click)="uploadGateway()"><i class="fa fa-cloud-upload"
+              aria-hidden="true"></i><span>Onboard Device</span></button>
+          <button class="linkT link_button" (click)="onBtNormalCols()"><i class="fa fa-repeat"
+              aria-hidden="true"></i><span>REFRESH</span></button>    
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height: calc(100vh - 230px);" class="ag-theme-alpine" [rowData]="rowData"
+    [columnDefs]="columnDefs" [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" [modules]="modules" [gridOptions]="gridOptions"
+    [infiniteInitialRowCount]="infiniteInitialRowCount" (gridReady)="onGridReady($event)"
+    (columnVisible)="onColumnVisible($event)"
+    (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)" (dragStopped)="onDragStopped($event)"
+    (filterChanged)="onFilterChanged($event)" (columnResized)="onColumnResized($event)" [sideBar]="sideBar"
+    [defaultColDef]="defaultColDef" [frameworkComponents]="frameworkComponents" [components]="components" [enableRangeSelection]="true">
+  </ag-grid-angular>
+
+</div>
+
+
+<div #exportCSVModal class="modal fade" id="exportCSVModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Export Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="last_name" class="w-100 control-label required">Number of records to export (max 500):</label>
+        <mat-form-field class="col-lg-5 nopadding">
+          <input matInput id="range" class="" maxlength="4" value="500" [(ngModel)]="range">
+        </mat-form-field>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary save_btn" (click)="exportDeviceList()"
+        [disabled]="!(range&&range>0)" data-dismiss="modal">Export</button>
+      <button type="button" class="btn btn-secondary export_cancel_btn" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

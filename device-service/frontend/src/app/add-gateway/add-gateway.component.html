@@ -1,0 +1,206 @@
+<div class="container">
+    <div class="row content_titlebar">
+      <div class="col-lg-12">
+        <div class="breadCrumb">
+          <span class="pageName">
+            <a href="javascript:void(0);">Admin</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);">Add  Shipment Details</a>
+          </span>
+        </div>
+        <div class="content_titlebar_wrapper">
+          <h2 class="pull-left col-lg-12 noPadding">Add Gateway Details</h2>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row content_form">
+      <form   class="ngFormsViews" [formGroup]="shipmentform" (ngSubmit)="onSubmit(shipmentform)">
+        <div class="col-lg-6 pl-0"> 
+
+          <div class="form-group w-100 ">
+            <label for="product_short_name" class="w-100 control-label required" [ngClass]="(submitted && f.product_short_name.errors)||(shipmentform.get('product_short_name').hasError('required') &&shipmentform.get('product_short_name').touched)||(shipmentform.get('product_short_name').hasError('pattern') &&shipmentform.get('product_short_name').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' " >Product Name</label>
+            <div class="dflxRow">
+              <mat-form-field class="col-lg-5 nopadding">
+                <input required matInput #pname maxlength="20" formControlName='product_short_name'  id="product_short_name" >
+                <mat-hint align="end">{{pname.value?.length || 0}}/20</mat-hint>
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding"
+                *ngIf="(submitted && f.product_short_name.errors)||(shipmentform.get('product_short_name').hasError('required') &&shipmentform.get('product_short_name').touched)||(shipmentform.get('product_short_name').hasError('pattern') &&shipmentform.get('product_short_name').touched)">
+                <span *ngIf="f.product_short_name.errors.maxlength">Product Name is Too Long</span>
+                <span *ngIf="f.product_short_name.errors.required">Product Name is required.</span>
+                <span *ngIf="f.product_short_name.errors.pattern"> Product Name Invalid</span>
+              </span>
+            </div>
+          </div>
+          <div class="form-group w-100 ">
+            <label for="product_code" class="w-100 control-label required" 
+            [ngClass]="(submitted && f.product_code.errors)||
+            (shipmentform.get('product_code').hasError('required') &&shipmentform.get('product_code').touched)||
+            (shipmentform.get('product_code').hasError('pattern') 
+            &&shipmentform.get('product_code').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' " >
+             Product Code </label>
+            <div class="dflxRow">
+              <mat-form-field class="col-lg-5 nopadding">
+                <input required matInput #pcode maxlength="20" formControlName='product_code'  id="product_code" >
+                <mat-hint align="end">{{pcode.value?.length || 0}}/20</mat-hint>
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding"
+                *ngIf="(submitted && f.product_code.errors)||(shipmentform.get('product_code').hasError('required') 
+                &&shipmentform.get('product_code').touched)||
+                (shipmentform.get('product_code').hasError('pattern') &&shipmentform.get('product_code').touched)">
+                <span *ngIf="f.product_code.errors.maxlength">Product Code is Too Long</span>
+                <span *ngIf="f.product_code.errors.required">Product Code is required.</span>
+                <span *ngIf="f.product_code.errors.pattern"> Product Code Invalid</span>
+              </span>
+            </div>
+          </div>
+
+
+          <div class="form-group w-100 ">
+            <label for="salesforce_order_number" class="w-100 control-label required" 
+            [ngClass]="(submitted && f.salesforce_order_number.errors)||
+            (shipmentform.get('salesforce_order_number').hasError('required') &&shipmentform.get('salesforce_order_number').touched)||
+            (shipmentform.get('salesforce_order_number').hasError('pattern') &&shipmentform.get('salesforce_order_number').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' " >
+              Salesforce Order Number</label>
+            <div class="dflxRow">
+              <mat-form-field class="col-lg-5 nopadding">
+                <input required matInput #sforderno maxlength="20" formControlName='salesforce_order_number'  id="salesforce_order_number" >
+                <mat-hint align="end">{{sforderno.value?.length || 0}}/20</mat-hint>
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding"
+                *ngIf="(submitted && f.salesforce_order_number.errors)||
+                (shipmentform.get('salesforce_order_number').hasError('required') 
+                &&shipmentform.get('salesforce_order_number').touched)||
+                (shipmentform.get('salesforce_order_number').hasError('pattern') &&shipmentform.get('salesforce_order_number').touched)">
+                <span *ngIf="f.salesforce_order_number.errors.maxlength">Salesforce Order Numberis Too Long</span>
+                <span *ngIf="f.salesforce_order_number.errors.required">Salesforce Order Number is required.</span>
+                <span *ngIf="f.salesforce_order_number.errors.pattern"> Salesforce Order Number Invalid</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group w-100">
+            <label for="companies" class="w-100 control-label required" [ngClass]="(submitted && f.company.errors) ||
+            (shipmentform.get('company').hasError('required') &&
+            shipmentform.get('company').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Company</label>
+            <div class="dflxRow">
+              <mat-form-field class="col-lg-5 nopadding">
+                <mat-select id="company" formControlName='company'>
+                  <mat-option [value]="" default selected disabled hidden>Select Company</mat-option>
+                  <mat-option *ngFor="let company of companies" [value]="company">{{company?.customer.company_name}}
+                  </mat-option> 
+                </mat-select>
+              </mat-form-field>
+                <span class="error col-lg-4 pl-25 nopadding" *ngIf="(submitted && f.company.errors) ||
+                            (shipmentform.get('company').hasError('required') && shipmentform.get('company').touched)">
+                  <span *ngIf="f.company.errors.required">You must specify a Company for the User.</span>
+                </span>
+            </div>
+          </div>
+
+          <div class="form-group w-100">
+            <label for="epicor_order_number" class="w-100 control-label required" 
+            [ngClass]="(submitted && f.epicor_order_number.errors)||(shipmentform.get('epicor_order_number').hasError('required') 
+            &&shipmentform.get('epicor_order_number').touched)||(shipmentform.get('epicor_order_number').hasError('maxlength')
+             &&shipmentform.get('epicor_order_number').touched)||(shipmentform.get('epicor_order_number').hasError('pattern')
+              &&shipmentform.get('epicor_order_number').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">
+                Epicor Order Number </label>
+            <div class="dflxRow">
+              <mat-form-field class="col-lg-5 nopadding">
+                <input required matInput #epicorno maxlength="20" formControlName='epicor_order_number'  id="epicor_order_number">
+                <mat-hint align="end">{{epicorno.value?.length || 0}}/20</mat-hint>
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding" *ngIf="(submitted && f.epicor_order_number.errors)||
+              (shipmentform.get('epicor_order_number').hasError('required') 
+                &&shipmentform.get('epicor_order_number').touched)||(shipmentform.get('epicor_order_number').hasError('pattern')
+                 &&shipmentform.get('epicor_order_number').touched)">
+                <span *ngIf="f.epicor_order_number.errors.maxlength">Epicor Order Number  is Too Long</span>
+                <span *ngIf="f.epicor_order_number.errors.required">Epicor Order Number  is required.</span>
+                <span *ngIf="f.epicor_order_number.errors.pattern">Epicor Order Number  Invalid</span>
+              </span>
+            </div>
+            </div>
+            </div>
+          <div class="col-lg-12">
+             <div class="form-group w-100">
+                <label for="imei_list" class="w-100 control-label required"  [ngClass]="(submitted && f.imei_list.errors)
+              ||(shipmentform.get('imei_list').hasError('required') 
+              &&shipmentform.get('imei_list').touched)||(shipmentform.get('imei_list').hasError('maxlength')
+               &&shipmentform.get('imei_list').touched)||(shipmentform.get('imei_list').hasError('pattern')
+                &&shipmentform.get('imei_list').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">
+                 IMEI List</label>
+              <mat-form-field class="example-full-width">
+               <mat-label>Enter Note:</mat-label>
+              <textarea matInput placeholder="Enter the imei number with comma separator"  formControlName='imei_list' id ='imei_list'></textarea>
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(submitted && f.imei_list.errors)||(shipmentform.get('imei_list').hasError('required') 
+              &&shipmentform.get('imei_list').touched)||(shipmentform.get('imei_list').hasError('pattern')
+               &&shipmentform.get('imei_list').touched)">
+              <span *ngIf="f.imei_list.errors.required">IMEI List  is required.</span>
+              <span *ngIf="f.imei_list.errors.pattern">IMEI List  Invalid</span>
+              </span>
+            </div>
+            
+            <div class="form-group w-100">
+             <label for="sensor_product_name" class="w-100 control-label required" 
+             [ngClass]="(submitted && f.sensor_product_name.errors)||(shipmentform.get('sensor_product_name').hasError('required') 
+             &&shipmentform.get('sensor_product_name').touched)||(shipmentform.get('sensor_product_name').hasError('maxlength')
+             &&shipmentform.get('sensor_product_name').touched)||(shipmentform.get('sensor_product_name').hasError('pattern')
+               &&shipmentform.get('sensor_product_name').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">
+                Sensor Product Name </label>
+             <div class="dflxRow">
+              <mat-form-field class="col-lg-5 nopadding">
+                <input required matInput #sensorpname maxlength="20" formControlName='sensor_product_name'  id="sensor_product_name">
+                <mat-hint align="end">{{sensorpname.value?.length || 0}}/20</mat-hint>
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding" *ngIf="(submitted && f.sensor_product_name.errors)||
+              (shipmentform.get('sensor_product_name').hasError('required') 
+                &&shipmentform.get('sensor_product_name').touched)||(shipmentform.get('sensor_product_name').hasError('pattern')
+                 &&shipmentform.get('sensor_product_name').touched)">
+                <span *ngIf="f.sensor_product_name.errors.maxlength">Sensor Product Name  is Too Long</span>
+                <span *ngIf="f.sensor_product_name.errors.required">Sensor Product Name is required.</span>
+                <span *ngIf="f.sensor_product_name.errors.pattern">Sensor Product Name  Invalid</span>
+              </span>
+               </div>
+              <div class="form-group w-100">
+             <label for="sensor_product_code" class="w-100 control-label required" 
+             [ngClass]="(submitted && f.sensor_product_code.errors)||(shipmentform.get('sensor_product_code').hasError('required') 
+              &&shipmentform.get('sensor_product_code').touched)||(shipmentform.get('sensor_product_code').hasError('maxlength')
+               &&shipmentform.get('sensor_product_code').touched)||(shipmentform.get('sensor_product_code').hasError('pattern')
+                &&shipmentform.get('sensor_product_code').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">
+                  Sensor product Code </label>
+              <div class="dflxRow">
+              <mat-form-field class="col-lg-5 nopadding">
+                <input required matInput #sensorpcode maxlength="20" formControlName='sensor_product_code'  id="sensor_product_code">
+                <mat-hint align="end">{{sensorpcode.value?.length || 0}}/20</mat-hint>
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding" *ngIf="(submitted && f.sensor_product_code.errors)||
+              (shipmentform.get('sensor_product_code').hasError('required') 
+                &&shipmentform.get('sensor_product_code').touched)||(shipmentform.get('sensor_product_code').hasError('pattern')
+                 &&shipmentform.get('sensor_product_code').touched)">
+                <span *ngIf="f.sensor_product_code.errors.maxlength">Sensor Product Code  is Too Long</span>
+                <span *ngIf="f.sensor_product_code.errors.required">Sensor Product Code is required.</span>
+                <span *ngIf="f.sensor_product_code.errors.pattern">Sensor Product Code  Invalid</span>
+              </span>
+            </div>  
+          </div>
+          </div>
+          </div>
+         
+
+        <div class="col-lg-12">
+          <div class="form-group">
+            <div class="w-100 text-center">
+              <button type="submit"  class="btn primary_button">Save</button>
+                &nbsp;&nbsp;
+              <button class="btn secondary_button" (click)="cancel()">Cancel</button>
+             </div>
+          </div>
+      </div>
+     </form>
+    </div>
+  </div>

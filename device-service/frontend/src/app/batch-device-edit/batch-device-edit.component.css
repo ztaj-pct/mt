@@ -1,0 +1,42 @@
+
+.primary_button {
+    color: #fff;
+    background: #3c64b1;
+    border: 2px solid #3c64b1;
+    border-radius: 6px;
+  }
+  
+  .secondary_button {
+    color: #3c64b1;
+    background: #3c64b1;
+    border: 2px solid #3c64b1;  
+    border-radius: 6px;
+  }
+  
+
+  .save-btn {
+    color: #FFF !important;
+    background: #35a9d5;
+    border: 2px solid #35a9d5 !important;
+    border-radius: 6px !important;
+    box-shadow: none;
+    margin-right: 0 !important;
+    margin-bottom: 5px !important;
+  }
+
+  .cancel-btn:hover {
+    background: #FFF;
+    color: #35a9d5 !important;
+  }
+  
+  .cancel-btn {
+    color: #007bff !important;
+    border: 2px solid #35a9d5 !important;
+    border-radius: 6px !important;
+    box-shadow: none;
+    margin-bottom: 5px !important;
+  }
+
+  .nopadding{
+    padding-left: 0px;
+  }

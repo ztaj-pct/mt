@@ -1,0 +1,203 @@
+.ax_default {
+  font-family:'ArialMT', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+#u665_input {
+  position:absolute;
+  left:22px;
+  top:-2px;
+}
+
+.select-all{
+  margin: 5px 17px;
+}
+.checkbox {
+  font-family:'ArialMT', 'Arial';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:left;
+}
+
+
+:host ::ng-deep .ui-multiselected-item-token,
+:host ::ng-deep .ui-multiselected-empty-token {
+    padding: 2px 4px;
+    margin: 0 0.286em 0 0;
+    display: inline-block;
+    vertical-align:middle;
+    height: 1.857em;
+}
+
+:host ::ng-deep .ui-multiselected-item-token {
+    background: #007ad9;
+    color: #ffffff;
+}
+
+:host ::ng-deep .ui-multiselected-empty-token {
+    background: #d95f00;
+    color: #ffffff;
+}
+
+.mb-3px {
+  margin-bottom: -3px !important;
+}
+
+.mt30px {
+  margin-top:30px !important;
+}
+
+.mt10px {
+  margin-top:10px !important;
+}
+
+.mt35px {
+  margin-top:35px !important;
+}
+
+.mt00px {
+  margin-bottom: 0px !important;
+}
+
+.deviceInputEle{
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+}
+.deviceInputEle mat-radio-group{
+display: flex;
+ flex-direction: row;
+}
+.deviceInputEle .deviceInputEle{
+  background: #f3f5f4;
+  color: #666;
+  font-size: 12px;
+  font-style: italic;
+  border: 0px !important;
+  width: 50%;
+  font-weight: bold;
+  box-shadow: none;
+}
+/* .custom-width{
+width: 27% !important;
+}
+*/
+
+.cancel-btn{
+  color: #007bff!important;
+  border: 2px solid #35a9d5 !important;
+  border-radius: 6px!important;
+  box-shadow: none;
+}
+
+.btn-outline-primary:hover{
+  color: #fff!important;
+}
+/*issue: MS2-565 */
+.save_btn{
+  color: #FFF!important;
+  background: #35a9d5;
+  border: 2px solid #35a9d5 !important;
+  border-radius: 6px!important;
+  box-shadow: none;
+}
+.modal-footer .btn+.btn{
+  margin-bottom: 5px !important;
+}
+.cancel-btn:hover{
+  background: #FFF;
+  color: #35a9d5 !important;
+}
+
+.sectionTabTitle .sectionTitleName{
+  font-size: 18px;
+}
+
+.sectionTabTitle .innerSectionTitle{
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.heading {
+  color: black;
+  font-size: 22px;
+  padding-bottom: 10px;
+  padding-top: 18px;
+  font-weight: 800;
+}
+
+.subheading {
+  color: black;
+  font-size: 19px;
+  padding-bottom: 13px;
+  padding-top: 18px;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+/***MS2-565***/
+.cfGroupDesc {
+  margin-top: 0px;
+}
+
+.removeRuleMoreLink {
+  color: #727b7d;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.removeRuleMoreLink:hover {
+  text-decoration: none;
+}
+
+.noRuleMsg {
+  margin: 2px 2px 2px 2px;
+}
+
+.subTitle {
+  font-size: 19px !important;
+  margin: 10px 0;
+}
+
+.firmwaretitle {
+  font-size: 22px !important;
+  margin: 10px 0;
+  margin-bottom: 20px;
+}
+
+.primary_button {
+  margin-right: 0 !important;
+}
+
+.breakdownChartDataTbl{
+  border: 1px solid #babfc7;
+}
+.breakdownChartDataTbl tr th{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  background-color: #f8f8f8;
+  font-weight: 700;
+  color: #000;
+  border-bottom: 1px solid #babfc7;
+}
+.breakdownChartDataTbl tr td{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  border-bottom: 1px solid #babfc7;
+  color: #000;
+  font-weight: 400;
+  letter-spacing: 0px;
+}
+.breakdownChartDataTbl tr:last-child td{
+  border-bottom: none;
+}

@@ -1,0 +1,933 @@
+<div class="container">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="breadCrumb">
+                <span class="pageName">
+                    <a href="javascript:void(0);">Admin</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                    <a href="javascript:void(0);" [routerLink]="['../company']">Organizations</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                    <a href="javascript:void(0);">Create or Edit an Organization</a>
+                </span>
+            </div>
+            <!-- <div class="content_titlebar_wrapper">
+                        <h2 class="pull-left col-lg-12 noPadding">Create or Edit a Company</h2>
+                    </div> -->
+            <div class="content_titlebar_wrapper">
+                <h2 class="col-lg-12 noPadding">
+                    <span class="pull-left sectionTitleName">Create or Edit an Organization</span>
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="content_form">
+        <form class="ngFormsViews" [formGroup]="companyForm">
+
+            <mat-tab-group>
+                <mat-tab label="Organization Details">
+                    <div id="orgDetails">
+                        <h4 class="title">Organization Details</h4>
+                        <div class="pl-0">
+                            <div class="col-lg-12 pl-0">
+                                <!--Left Side Section-->
+                                <div class="col-lg-6 pl-0">
+                                    <div class="section">
+                                        <label class="sectionLable required"
+                                            [ngClass]="(submitted && companyForm.get('organisation_name').errors) ||
+                                                    (companyForm.get('organisation_name').hasError('required') && companyForm.get('organisation_name').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Name</label>
+                                        <div class="inputSection">
+                                            <span class="col-lg-8 pl-0">
+                                                <mat-form-field class="nopadding">
+                                                    <input formControlName='organisation_name' required matInput
+                                                        placeholder="Organization Name">
+                                                </mat-form-field>
+
+                                                <span class="error col-lg-12 pl-25 nopadding"
+                                                    *ngIf="(submitted && companyForm.get('organisation_name').errors) ||
+                                                      (companyForm.get('organisation_name').hasError('required') && companyForm.get('organisation_name').touched)">
+                                                    <span *ngIf="companyForm.get('organisation_name').errors.required">
+                                                        Organization Name is required.
+                                                    </span>
+                                                </span>
+                                            </span>
+                                            <span class="col-lg-4 pl-4">
+                                                <mat-checkbox formControlName='status' [checked]="true"
+                                                    [disabled]="false && !this.organisationId">&nbsp;Active</mat-checkbox>
+                                            </span>
+                                        </div>
+                                        <div class="inputDesc">This name should match the Salesforce Account Name</div>
+                                    </div>
+
+                                    <div class="section">
+                                        <label class="sectionLable required">Salesforce Account Number</label>
+                                        <div class="inputSection">
+                                            <span class="col-lg-8 pl-0">
+                                                <mat-form-field class="nopadding">
+                                                    <input formControlName='salesforce_account_number' required matInput
+                                                        placeholder="Salesforce Account Number">
+                                                </mat-form-field>
+                                                <span class="error col-lg-12 pl-25 nopadding" *ngIf="(submitted && companyForm.get('salesforce_account_number').errors) ||
+                                                      (companyForm.get('salesforce_account_number').hasError('required') 
+                                                      && companyForm.get('salesforce_account_number').touched)">
+                                                    <span
+                                                        *ngIf="companyForm.get('salesforce_account_number').errors.required">
+                                                        Salesforce Account Number is required.
+                                                    </span>
+                                                </span>
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="section">
+                                        <label class="sectionLable required"
+                                            [ngClass]="(submitted && companyForm.get('epicor_account_number').errors) ||
+                                                    (companyForm.get('epicor_account_number').hasError('required') && companyForm.get('epicor_account_number').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Epicor
+                                            Account Number</label>
+                                        <div class="inputSection">
+                                            <span class="col-lg-8 pl-0">
+                                                <mat-form-field class="nopadding">
+                                                    <input formControlName='epicor_account_number' required matInput
+                                                        placeholder="Epicor
+                                                        Account Number">
+                                                </mat-form-field>
+                                                <span class="error col-lg-12 pl-25 nopadding"
+                                                    *ngIf="(submitted && companyForm.get('epicor_account_number').errors) ||
+                                                      (companyForm.get('epicor_account_number').hasError('required') && companyForm.get('epicor_account_number').touched)">
+                                                    <span
+                                                        *ngIf="companyForm.get('epicor_account_number').errors.required">Epicor
+                                                        Account Number is
+                                                        required.</span>
+
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="section orgRole">
+                                        <label class="sectionLable required">Organization Roles</label>
+                                        <div class="inputSection">
+                                            <span class="col-lg-4 pl-0">
+                                                <mat-checkbox formControlName='end_customer' [checked]="true">&nbsp;End
+                                                    Customer</mat-checkbox>
+                                            </span>
+                                            <span class="col-lg-4 pl-4">
+                                                <mat-checkbox formControlName='reseller' [checked]="false">
+                                                    &nbsp;Reseller</mat-checkbox>
+                                            </span>
+                                        </div>
+                                        <div class="inputSection">
+                                            <span class="col-lg-4 pl-0">
+                                                <mat-checkbox formControlName='installer' [checked]="false">
+                                                    &nbsp;Installer</mat-checkbox>
+                                            </span>
+                                            <span class="col-lg-4 pl-4">
+                                                <mat-checkbox formControlName='maintenance_mode' [checked]="false">
+                                                    &nbsp;Maintenance Mode</mat-checkbox>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--Right Side Section-->
+                                <div class="col-lg-6 rightSideSection">
+                                    <div class="section">
+                                        <label class="sectionLable">Use Approved Asset List</label>
+                                        <div class="inputSection approvedAssetList">
+                                            <span class="col-lg-8 pl-0">
+                                                <mat-radio-group class="tp-radio-group col-lg-12 nopadding"
+                                                    formControlName='is_asset_list_required' id="isAssetListRequired"
+                                                    placeholder="isAssetListRequired">
+                                                    <mat-radio-button class="control-label"
+                                                        *ngFor="let obj of AssetListRequired" [value]="obj.value">
+                                                        {{obj.name}}
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="section addInstaller" *ngIf="companyForm.controls.end_customer.value">
+                                        <label class="sectionLable">Buys From</label>
+                                        <div class="inputSection"
+                                            *ngFor="let buys_from of companyForm.get('buys_from')['controls'];let i = index"
+                                            [formGroup]="buys_from">
+                                            <span class="col-lg-8 pl-0">
+                                                <span class="installerList">
+                                                    <mat-form-field class="">
+                                                        <mat-select formControlName='company_id'
+                                                            (selectionChange)="onChangeForReseller($event, i)">
+                                                            <mat-option value="" default selected disabled hidden>Select
+                                                                Reseller </mat-option>
+                                                            <mat-option *ngFor="let reseller of resellerList"
+                                                                [value]="reseller.id" value="{{reseller.id}}">
+                                                                {{reseller.organisationName}}</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </span>
+                                                <a href="javascript:void(0)" class="removeMoreLink"
+                                                    (click)="deleteReseller(i)">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+
+                                        <div class="inputSection mt-1">
+                                            <span class="col-lg-8 pl-0">
+                                                <a href="javascript:void(0)" class="addMoreLink"
+                                                    (click)="addNewReseller(1)">
+                                                    <i class="plusIcon" aria-hidden="true">+</i>
+                                                    <span>Add Another Reseller</span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="section addInstaller" *ngIf="companyForm.controls.end_customer.value">
+                                        <label class="sectionLable">Authorized Installers</label>
+                                        <div class="inputSection"
+                                            *ngFor="let AI of companyForm.get('AI')['controls'];let i = index"
+                                            [formGroup]="AI">
+                                            <span class="col-lg-8 pl-0">
+                                                <span class="installerList">
+                                                    <mat-form-field class="">
+                                                        <mat-select formControlName='company_id'
+                                                            (selectionChange)="onChangeForInstaller($event, i)">
+                                                            <mat-option value="" default selected disabled hidden>Select
+                                                                Installer</mat-option>
+                                                            <mat-option *ngFor="let installer of installerList"
+                                                                [value]="installer.id"
+                                                                value="{{installer.id}}">{{installer.organisationName}}</mat-option>
+
+
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </span>
+
+                                                <a href="javascript:void(0)" class="removeMoreLink"
+                                                    (click)="deleteInstaller(i)">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </a>
+
+
+                                            </span>
+                                        </div>
+
+                                        <div class="inputSection mt-1">
+                                            <span class="col-lg-8 pl-0">
+                                                <a href="javascript:void(0)" class="addMoreLink"
+                                                    (click)="addNewInstaller(1)">
+                                                    <i class="plusIcon" aria-hidden="true">+</i>
+                                                    <span>Add Another Installer</span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="section addInstaller" *ngIf="companyForm.controls.end_customer.value">
+                                        <label class="sectionLable">Maintenance Partner</label>
+                                        <div class="inputSection"
+                                            *ngFor="let MAINTENANCE of companyForm.get('MAINTENANCE')['controls'];let i = index"
+                                            [formGroup]="MAINTENANCE">
+                                            <span class="col-lg-8 pl-0">
+                                                <span class="installerList">
+                                                    <mat-form-field class="">
+                                                        <mat-select formControlName='company_id'
+                                                            (selectionChange)="onChangeForInstaller($event, i)">
+                                                            <mat-option value="" default selected disabled hidden>Select
+                                                                Maintenance Partner</mat-option>
+                                                            <mat-option *ngFor="let maintanence of maintanenceList"
+                                                                [value]="maintanence.id"
+                                                                value="{{maintanence.id}}">{{maintanence.organisationName}}</mat-option>
+
+
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </span>
+
+                                                <a href="javascript:void(0)" class="removeMoreLink"
+                                                    (click)="deleteMaintenance(i)">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </a>
+
+
+                                            </span>
+                                        </div>
+
+                                        <div class="inputSection mt-1">
+                                            <span class="col-lg-8 pl-0">
+                                                <a href="javascript:void(0)" class="addMoreLink"
+                                                    (click)="addNewMaintenance(1)">
+                                                    <i class="plusIcon" aria-hidden="true">+</i>
+                                                    <span>Add Another Maintenance Partner</span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="section"
+                                        *ngIf="companyForm.controls.installer.value||companyForm.controls.maintenance_mode.value">
+                                        <label for="companyList" class="sectionLable">Access to View</label>
+                                        <div class="inputSection">
+                                            <mat-form-field class="col-lg-8 pl-0">
+                                                <mat-select name="companies" formControlName="access_id"
+                                                    [compareWith]="attributeDisplay" #select multiple>
+                                                    <div class="select-all">
+                                                        <mat-checkbox [(ngModel)]="allSelected"
+                                                            [ngModelOptions]="{standalone: true}" [checked]="false"
+                                                            (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                                    </div>
+                                                    <mat-option (click)="optionClick()"
+                                                        *ngFor="let company of companiesList" [value]="company.organisationName">
+                                                        {{company.organisationName}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <span class="error col-lg-4 pl-25 nopadding"
+                                                *ngIf="(companyForm.get('access_id').hasError('required') && companyForm.get('access_id').touched)">
+                                                <span *ngIf="companyForm.get('access_id').errors.required">Access To
+                                                    View Name is
+                                                    required.</span>
+                                            </span>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btnOrgSection col-lg-12">
+                        <div class="btnRow">
+                            <button type="submit" class="primaryBtn" (click)="onSubmit(companyForm)">Save</button>
+                            <button type="button" class="secondaryBtn" (click)="cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Locations">
+                    <!-- <div id="locationDetails"> -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="title">Locations</h6>
+                        </div>
+                    </div>
+
+                    <!-- <div class="pl-0"> -->
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="booleanValues" class="w-100 control-label">Organization Uses
+                                    Location</label>
+                                <div class="tabColLables mt10px">
+                                    <mat-radio-group aria-label="Select an option">
+                                        <mat-radio-button [checked]="locationButton" [value]="false" [disabled]="redioButtonDisable"  (change)="handleChangeloc(false)">
+                                            <div class="form-group mt00px">
+                                                <div>
+                                                    <span class="fw400">No</span>
+                                                </div>
+                                            </div>
+                                        </mat-radio-button>
+                                        <mat-radio-button class="ml-30"  [checked]="locationButton2" [checked]="false" [value]="true" [disabled]="redioButtonDisable" (change)="handleChangeloc(true)">
+                                            <div class="form-group w-100 mt00px">
+                                                <div>
+                                                    <span class="fw400">Yes</span>
+                                                </div>
+                                            </div>
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10" *ngIf="locationHideShow">
+                            <div class="col-lg-12">
+                                <label>Location List</label>
+                            </div>
+                            <div class="col-lg-12">
+                                <table class="table table-hover breakdownChartDataTbl">
+                                    <thead>
+                                        <tr>
+                                            <th width="20%">LOCATION NAME</th>
+                                            <th width="20%">STREET ADDRESS</th>
+                                            <th width="15%">CITY</th>
+                                            <th width="15%">STATE</th>
+                                            <th width="15%">ZIP</th>
+                                            <th width="5%"></th>
+                                            <th width="5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let location of locationsList">
+                                        <tr>
+                                            <td>{{location?.location_name}}</td>
+                                            <td>{{location?.street_address}}</td>
+                                            <td>{{location?.city}}</td>
+                                            <td>{{location?.state}}</td>
+                                            <td>{{location?.zip_code}}</td>
+                                            <td> <i class="fa fa-pencil" (click)="editLocation(location)"
+                                                    aria-hidden="true"></i></td>
+                                            <td> <i class="fa fa-times" (click)="openDeletePopup(location?.id)"
+                                                    aria-hidden="true"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="inputSection mt-1">
+                                    <span class="col-lg-8 pl-0" style="margin-bottom: 2%">
+                                        <a href="javascript:void(0)" class="addMoreLink" (click)="addNewLocation(1)">
+                                            <i class="plusIcon" aria-hidden="true"
+                                                style="font-size: x-large;">+</i>&nbsp;&nbsp;
+                                            <span>Add Another Location</span>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="inputSection"
+                                    *ngFor="let ORG_LOCATION of companyForm.get('ORG_LOCATION')['controls'];let i = index"
+                                    [formGroup]="ORG_LOCATION">
+                                    <span class="col-lg-12 pl-0">
+                                        <span class="col-lg-2 pl-0">
+                                            <mat-form-field class="nopadding">
+                                                <input formControlName='location_name' required matInput>
+                                            </mat-form-field>
+                                            <label class="sectionLable required">Location Name</label>
+                                            <span class="error col-lg-12 pl-25 nopadding"
+                                                *ngIf="(submitted && ORG_LOCATION.get('location_name').errors) ||
+                                                                                      (ORG_LOCATION.get('location_name').hasError('required') 
+                                                                                      && ORG_LOCATION.get('location_name').touched)">
+                                                <span *ngIf="ORG_LOCATION.get('location_name').errors.required">
+                                                    Location Name is required.
+                                                </span>
+                                            </span>
+                                        </span>
+                                        <span class="col-lg-4 pl-0">
+                                            <mat-form-field class="nopadding">
+                                                <input formControlName='street_address' matInput>
+                                            </mat-form-field>
+                                            <label class="sectionLable">Street Address</label>
+                                        </span>
+                                        <span class="col-lg-2 pl-0">
+                                            <mat-form-field class="nopadding">
+                                                <input formControlName='city' matInput>
+                                            </mat-form-field>
+                                            <label class="sectionLable">City</label>
+                                        </span>
+                                        <span class="col-lg-1 pl-0">
+                                            <mat-form-field class="nopadding">
+                                                <input formControlName='state' matInput>
+                                            </mat-form-field>
+                                            <label class="sectionLable">State</label>
+                                        </span>
+                                        <span class="col-lg-2 pl-0">
+                                            <mat-form-field class="nopadding">
+                                                <input formControlName='zip_code' matInput>
+                                            </mat-form-field>
+                                            <label class="sectionLable">Zip</label>
+                                        </span>
+                                        <span>
+                                            <a href="javascript:void(0)" class="removeMoreLink"
+                                                (click)="deleteLocation(i)">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="btnOrgSection col-lg-12" style="justify-content: left;"
+                                    *ngIf="companyForm.get('ORG_LOCATION').length > 0">
+                                    <div class="btnRow">
+                                        <button type="submit" class="primaryBtn"
+                                            (click)="saveNewLocation()">Save</button>
+                                        <button type="button" class="secondaryBtn"
+                                            (click)="deleteLocation()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Data Forwarding" *ngIf="companyForm.controls.end_customer.value">
+                    <div id="orgDetails">
+                        <h4 class="title">Data Forwarding</h4>
+                        <div class="pl-0">
+                            <div class="col-lg-12 pl-0">
+                                <div class="col-lg-6 pl-0 rightBlockDeviceUpload">
+                                    <h4 class="subTitle">Customer-Level Forwarding Rules</h4>
+                                    <div class="secttionDesc">Data from this Organization's devices will be forwarded to
+                                        the endpoints below</div>
+                                    <div class="tblData">
+                                        <div class="col-lg-12 p-0 dataHeading"
+                                            *ngIf="forwarding_list.value.length <= 0">
+                                            <div class="noRuleMsg">This Organization does not currently have any data
+                                                forwarding rules.</div>
+                                        </div>
+                                        <div class="col-lg-12 p-0 dataHeading" *ngIf="forwarding_list.value.length > 0">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-12 p-0 dataRow"
+                                            *ngFor="let rule of forwarding_list.value; let i=index">
+                                            <div class="col-lg-3 tblRowData">
+                                                {{rule.format}}
+                                            </div>
+                                            <div class="col-lg-8 tblRowData">
+                                                <div>{{rule.description}}</div>/<div>({{rule.url}})</div>
+                                            </div>
+                                            <div class="col-lg-1 tblRowData">
+                                                <a href="javascript:void(0)" class="removeRuleMoreLink"
+                                                    (click)="onDeleteForwardingRule(i)">
+                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group deviceRules col-lg-12 mt-">
+                                        <div class="form-row" *ngIf="showAnotherRuleForm">
+                                            <div class="form-group col-md-10">
+                                                <mat-form-field appearance="fill" class="w-100 nopadding">
+                                                    <mat-label>
+                                                        Endpoint URL
+                                                    </mat-label>
+                                                    <mat-select id="urlId" formControlName='forwarding_rule_url_uuid'
+                                                        (selectionChange)="onSelectChangeEndpointHandlerUpdate($event)">
+                                                        <mat-option *ngFor='let urlObj of customerForwardingRuleUrls'
+                                                            [value]="urlObj">
+                                                            {{urlObj.ruleName}} ({{urlObj.format}})
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <span class="error col-lg-12 pl-25 nopadding" *ngIf="(submitted && companyForm.get('forwarding_rule_url_uuid').errors) ||
+                                        (companyForm.get('forwarding_rule_url_uuid').hasError('required') 
+                                        && companyForm.get('forwarding_rule_url_uuid').touched)">
+                                                    <span
+                                                        *ngIf="companyForm.get('forwarding_rule_url_uuid').errors.required">
+                                                        Endpoint url is required.
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="addRowBtnSection"
+                                            *ngIf="forwarding_list.controls.length <= 4 && !showAnotherRuleForm">
+                                            <a class="addRowBtn" (click)="showAddAnotherRuleForm()"> <i
+                                                    class="fa fa-plus" aria-hidden="true"></i> Add Another Rule </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 rightBlockDeviceUpload">
+                                    <div class="form-group mb-3">
+                                        <h4 class="subTitle">Forwarding Group</h4>
+                                        <div class="secttionDesc">Note: The forwarding group is used for customer
+                                            management and analysis and does not control the data forwarding behavior.
+                                        </div>
+                                        <div class="col-lg-6 p1-0">
+                                            &nbsp;
+                                        </div>
+                                        <div class="d-flex w-100">
+                                            <div class="col-lg-6 pl-0">
+                                                <div class="selectBox">
+                                                    <mat-form-field class="nopadding">
+                                                        <mat-select formControlName='customer_forwarding_group_uuid'
+                                                            [(ngModel)]="customerForwardingGroupUuid"
+                                                            (selectionChange)="onChangeForwordingGroup($event)">
+                                                            <mat-option value="" default selected disabled hidden>Select
+                                                                Group</mat-option>
+                                                            <mat-option *ngFor="let group of customerForwardingGroups"
+                                                                [value]="group.uuid"
+                                                                value="{{group.uuid}}">{{group.name}}</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 cfGroupDesc">
+                                                {{customerForwardingGroupDesc}}
+                                            </div>
+                                            <!-- <div class="col-lg-6">
+                                    <label class="mb-2">Parent Group</label>
+                                    <div class="selectBox">
+                                        <mat-form-field class="nopadding">
+                                            <mat-select>
+                                                <mat-option value="pco1">Please choose one</mat-option>
+                                                <mat-option value="pco2">Please choose one</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div> -->
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btnOrgSection col-lg-12">
+                            <div class="btnRow">
+                                <button type="submit" class="primaryBtn" (click)="onSubmit(companyForm)">Save</button>
+                                <button type="button" class="secondaryBtn" (click)="cancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Firmware Updates" *ngIf="companyForm.controls.end_customer.value">
+                    <h4 class="firmwaretitle">
+                        Firmware Update Requirements
+                    </h4>
+
+                    <div class="firmwareUpdate">
+                        <div class="form-group">
+                            <label for="booleanValues" class="w-100 control-label">Approval Required for Device
+                                Updates</label>
+                            <div class="tabColLables mt10px">
+                                <mat-radio-group aria-label="Select an option"
+                                    formControlName='is_approval_req_for_device_update'>
+                                    <mat-radio-button [value]="false">
+                                        <div class="form-group mt00px">
+                                            <div>
+                                                <span class="fw400">No</span>
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="ml-30" [value]="true">
+                                        <div class="form-group w-100 mt00px">
+                                            <div>
+                                                <span class="fw400">Yes</span>
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="booleanValues" class="w-100 control-label">Test Required before Device
+                                Updates</label>
+                            <div class="tabColLables mt10px deviceInputEle">
+                                <mat-radio-group aria-label="Select an option"
+                                    formControlName='is_test_req_before_device_update'>
+                                    <mat-radio-button [value]="false">
+                                        <div class="form-group mt00px">
+                                            <div>
+                                                <span class="fw400">No</span>
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="ml-30" [value]="true">
+                                        <div class="form-group w-100 mt00px">
+                                            <div>
+                                                <span class="fw400">Yes</span>
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                                <input type="number" formControlName='no_of_device' class="form-control deviceInputEle"
+                                    placeholder="# of Devices" min="0">
+                            </div>
+                            <span class="error nopadding" *ngIf="(submitted && companyForm.get('no_of_device').errors) ||
+                                    (companyForm.get('no_of_device').hasError('min') 
+                                    && companyForm.get('no_of_device').touched)">
+                                <span *ngIf="companyForm.get('no_of_device').errors.min">
+                                    Negative value is not allow
+                                </span>
+                            </span>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="booleanValues" class="w-100 control-label">Monthly Release Notes
+                                Required</label>
+                            <div class="tabColLables mt10px">
+                                <mat-radio-group aria-label="Select an option"
+                                    formControlName='is_monthly_release_notes_req'>
+                                    <mat-radio-button [value]="false">
+                                        <div class="form-group mt00px">
+                                            <div>
+                                                <span class="fw400">No</span>
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="ml-30" [value]="true">
+                                        <div class="form-group w-100 mt00px">
+                                            <div>
+                                                <span class="fw400">Yes</span>
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="booleanValues" class="w-100 control-label">Digital Signature Required for
+                                Firmware</label>
+                            <div class="tabColLables mt10px">
+                                <mat-radio-group aria-label="Select an option"
+                                    formControlName='is_digital_sign_req_for_firmware'>
+                                    <mat-radio-button [value]="false">
+                                        <div class="form-group mt00px">
+                                            <div>
+                                                <span class="fw400">No</span>
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="ml-30" [value]="true">
+                                        <div class="form-group w-100 mt00px">
+                                            <div>
+                                                <span class="fw400">Yes</span>
+
+                                            </div>
+                                        </div>
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="btnOrgSection col-lg-12">
+                            <div class="btnRow">
+                                <button type="submit" class="primaryBtn" (click)="onSubmit(companyForm)">Save</button>
+                                <button type="button" class="secondaryBtn" (click)="cancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </form>
+    </div>
+
+    <div #inactiveCompanyModal class="modal fade" id="inactiveCompanyModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Deactivation</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        Are you sure you want to make this Company inactive?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button save_btn" (click)="confirmDeactivation()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div #deleteForwardingRuleModal class="modal fade" id="deleteForwardingRuleModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Organization-Level Rule Removed</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        This rule will be removed from all devices associated with this organization. You can add rules
+                        to individual devices via the Device Profile if needed.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button save_btn" (click)="confirmDeleteForwardingRule()"
+                        data-dismiss="modal">OK</button>
+                    <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div #ignoreRulesImeiWarningModal class="modal fade" id="ignoreRulesImeiWarningModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Warning</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        The following devices for this organization are set to ignore this rule, and won’t be affected
+                        by this change.
+                        <div *ngIf="ignoreRulesImeis != null && ignoreRulesImeis.length > 0">
+                            <div *ngFor="let r of ignoreRulesImeis">
+                                {{r}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button save_btn" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div #newOrganizationLevelRuleModal class="modal fade" id="newOrganizationLevelRuleModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Organization-Level Rule</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        This rule will be added to all devices associated with this organization. You can exclude
+                        individual devices via the Device Profile if needed.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button save_btn" (click)="addNewRule()"
+                        data-dismiss="modal">OK</button>
+                    <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal"
+                        (click)="cancelAddNewRule()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div #deleteLocationModal class="modal fade" id="deleteLocationModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">{{heading}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="w-100">
+                    {{message}}
+                </div>
+            </div>
+            <div class="modal-footer" *ngIf="!isError">
+                <button type="button" class="btn primary_button save_btn" (click)="deleteLocations()"
+                    data-dismiss="modal">Yes</button>
+                <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #editLocationModal class="modal fade" id="editLocationModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Location</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="ngFormsViews" [formGroup]="locationUpdateForm">
+                    <div class="col-lg-6">
+
+                        <div class="form-group w-100 ">
+                            <label for="location_name" class="w-100 control-label required"
+                                [ngClass]="(submitted && locationForm.location_name.errors)||(locationUpdateForm.get('location_name').hasError('required') &&locationUpdateForm.get('location_name').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Location Name</label>
+                            <div class="dflxRow">
+                                <mat-form-field class="col-lg-10 nopadding">
+                                    <input required matInput formControlName='location_name' id="location_name" class="">
+                                </mat-form-field>
+                                <span class="error col-lg-2 pl-25 nopadding"
+                                    *ngIf="(submitted && locationForm.location_name.errors)||(locationUpdateForm.get('location_name').hasError('required') &&locationUpdateForm.get('location_name').touched)">
+                                    <span *ngIf="locationForm.location_name.errors.required">Location Name is required.</span>
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group w-100 ">
+                            <!-- <label for="street_address" class="w-100 control-label required"
+                                [ngClass]="((submitted && locationForm.street_address.errors)||
+                        (locationUpdateForm.get('street_address').hasError('required') &&locationUpdateForm.get('street_address').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove'">Street
+                                Address</label> -->
+
+                                <label for="street_address" class="w-100 control-label required">Street Address</label>
+                                <div class="dflxRow">
+                                <mat-form-field class="col-lg-10 nopadding">
+                                    <input required matInput #fname maxlength="20" formControlName='street_address'
+                                        id="street_address">
+                                </mat-form-field>
+                                <!-- <span class="error col-lg-2 pl-25 nopadding"
+                                    *ngIf="(submitted && locationForm.street_address.errors)||
+                            (locationUpdateForm.get('street_address').hasError('required') &&locationUpdateForm.get('street_address').touched)">
+                                    <span *ngIf="locationForm.street_address.errors.required">Street Address is
+                                        required.</span>
+                                </span> -->
+                            </div>
+                        </div>
+
+                        <div class="form-group w-100 ">
+                            <!-- <label for="city" class="w-100 control-label required"
+                                [ngClass]="((submitted && locationForm.city.errors)||
+                         (locationUpdateForm.get('city').hasError('required') &&locationUpdateForm.get('city').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">City</label> -->
+                         <label for="city" class="w-100 control-label required">City</label>
+                            <div class="dflxRow">
+                                <mat-form-field class="col-lg-10 nopadding">
+                                    <input required matInput #lname maxlength="20" formControlName='city' id="city">
+                                </mat-form-field>
+                                <!-- <span class="error col-lg-2 pl-25 nopadding"
+                                    *ngIf="(submitted && locationForm.city.errors)||
+                          (locationUpdateForm.get('city').hasError('required') &&locationUpdateForm.get('city').touched)">
+                                    <span *ngIf="locationForm.city.errors.required">City is required.</span>
+                                </span> -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <div class="form-group w-100">
+                            <!-- <label for="state" class="w-100 control-label required"
+                                [ngClass]="((submitted && locationForm.state.errors)||
+                         (locationUpdateForm.get('state').hasError('required') &&locationUpdateForm.get('state').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">State</label> -->
+                         <label for="state" class="w-100 control-label required">State</label>
+                            <div class="dflxRow stateNumberCountryFlag">
+                                <mat-form-field class="col-lg-10 nopadding stateNumberTxtFeild">
+                                    <input required matInput formControlName='state' id="state" />
+                                </mat-form-field>
+                                <!-- <span class="error col-lg-2 pl-25 nopadding"
+                                    *ngIf="(submitted && locationForm.state.errors)||
+                          (locationUpdateForm.get('state').hasError('required') &&locationUpdateForm.get('state').touched)">
+                                    <span *ngIf="locationForm.state.errors.required">State is required.</span>
+                                </span> -->
+                            </div>
+                        </div>
+
+
+                        <div class="form-group w-100">
+                            <!-- <label for="zip_code" class="w-100 control-label required"
+                                [ngClass]="((submitted && locationForm.zip_code.errors)||
+                         (locationUpdateForm.get('zip_code').hasError('required') &&locationUpdateForm.get('zip_code').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Zip
+                                Code</label> -->
+                                <label for="zip_code" class="w-100 control-label required">Zip Code</label>
+                            <div class="dflxRow zip_codeNumberCountryFlag">
+                                <mat-form-field class="col-lg-10 nopadding zip_codeNumberTxtFeild">
+                                    <input required matInput formControlName='zip_code' id="zip_code" />
+                                </mat-form-field>
+                                <!-- <span class="error col-lg-2 pl-25 nopadding"
+                                    *ngIf="(submitted && locationForm.zip_code.errors)||
+                          (locationUpdateForm.get('zip_code').hasError('required') &&locationUpdateForm.get('zip_code').touched)">
+                                    <span *ngIf="locationForm.zip_code.errors.required">Zip is required.</span>
+                                </span> -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn primary_button save_btn" (click)="updateLocations()"
+                    data-dismiss="modal">Yes</button>
+                <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

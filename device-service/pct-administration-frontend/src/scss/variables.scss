@@ -1,0 +1,102 @@
+/* ---------------------
+@Auth: Ankit Sharma 
+Date: 04/22/2019
+Desc: Theme configuration
+-----------------------*/
+
+
+/*--------------------- 
+HTML and Body 
+-----------------------*/
+
+$header_bg : #002e6d;
+
+
+
+
+
+$dark_orange: #B13335;
+$mid_orange: #D53438;
+$light_orange : #EF8236;
+$grey_color: #606062;
+$grey_hover_color: #575757;
+
+$header_bg_shade : #f0f0f0;
+/*New Adptx Branding*/
+
+$white: #FFF;
+$off_white: #f2f2f2;
+$off_orange: #ff9e8a;
+$black: #000;
+$low_black: #0f0f0f;
+
+$body_bg : #f1f1f1;
+$body_fontsize : 14px;
+$body_fontfamily : Roboto, "Helvetica Neue, sans-serif";
+$body_txt_color: #000;
+
+/* change branding */
+/* $blue_bg: #292961;*/ 
+$blue_bg: $header_bg_shade;
+$loginbox_bg: #f5f5f5;
+$brdr_clr: #d8d8d8;
+/*---------------------
+Theme Colors 
+-----------------------*/
+/* change branding */
+
+/* $primary_color: #ad1f02; */
+$primary_color: $dark_orange;
+$opq_orange: rgba(173, 31, 2, .1);  /*old : fcebe0*/
+$opq_orange_hover: #f2cbb1;
+
+$mat_nav_color: #ffc4c5;
+$txt_highligter_color : #FFF;
+$label_color: $primary_color;
+$nav_txt_color: $dark_orange;
+$nav_border: $dark_orange;
+
+$container_brdr: #f2f2f2;
+$border_color: $dark_orange;
+$light_border: #e7e7e7;
+$secondary_color:  $dark_orange;
+/*-----------------
+Material Styling
+------------------*/
+$input_bottom_border : rgba(0,0,0,.42);
+$form_field_label:  rgba(0, 0, 0, 1);
+$form_field_label_focus : rgba(0, 0, 0, 0.7);
+$form_field : #666;
+$form_field_focus : $form_field;
+$input_ele : #000;
+/* change branding */
+$chkbox_clr: $dark_orange;
+$radio_clr: $dark_orange;
+$date_clr: $dark_orange;
+$date_hov_clr : rgba(173, 31, 2, .32);
+$tab_link_color:   rgba(0,0,0,.87);
+/*-----------------
+Button Styling
+------------------*/
+/* change branding */
+$primary_btn_bg : $dark_orange;
+$primary_btn_bg_hover :  $light_orange;
+$secondary_btn_bg : $grey_color;
+$secondary_btn_bg_hover : $grey_hover_color;
+$btn_color: #FFF;
+/* $xs_b_btn_color: #292961;  
+$xs_b_btn_color_hover: #17174d;
+$xs_b_btn_color: #1a188b;
+$xs_b_btn_color_hover: #0b0972;
+*/
+$xs_b_btn_color: #3937bd;
+$xs_b_btn_color_hover: #0402c0;
+/* Footer Styling */
+$footer_links: #F6f6f6;
+$resp_fot_bg: #eadbd8;
+/*-----------------
+Error Styling
+------------------*/
+$warning: #f44336;
+$error: #bd362f;
+$success: #51a351;

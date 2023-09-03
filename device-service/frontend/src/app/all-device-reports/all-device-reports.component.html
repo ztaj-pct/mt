@@ -1,0 +1,543 @@
+<div class="container-fluid" id="allDeviceReport">
+  <div id="container-changeable" class="">
+    <div class="top_container">
+      <div class="loading" *ngIf="loading">Loading&#8230;</div>
+      <div class="row content_titlebar" (click)="hide()">
+        <div class="col-lg-12">
+          <div class="breadCrumb">
+            <span class="pageName">
+              <a href="javascript:void(0);">Manage Devices</a>
+            </span>
+            <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+            <span class="pageName">
+              <a href="javascript:void(0);">All Device Reports</a>
+            </span>
+          </div>
+
+          <div class="pageTitle">
+            <h2 class="pull-left col-lg-4 noPadding">Device Reports</h2>
+            <div class="pull-right col-lg-8 noPadding text-right" style="font-style: italic;">
+              <span>All times shown in PST</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <form [formGroup]="filterForm">
+        <!-- <div class="col-lg-12" style="margin-left: -16px;" (click)="hide()">
+          <ul class="filter-menu">
+            <li>
+              <a style="color:#050505;font-weight: bold;margin-bottom: -12px;font-size: 24px;"> Select Devices </a>
+            </li>
+          </ul>
+        </div> -->
+        <div class="row">
+          <div class="col-lg-11">
+
+            <ul class="filter-menu">
+              <li>
+                <a style="color:#050505;font-weight: bold; margin: 0px; padding-top: 5px; padding-left: 15px;"> Select Devices </a>
+              </li>
+              <li>
+                <a (click)="showHideFilter('ImeiFilter')">
+                  <span class="filter-lable">IMEI:
+                    <span *ngIf="filterForm.controls.imei_selection.value==='1'">Any
+                    </span>
+                    <span *ngIf="filterForm.controls.imei_selection.value==='2'">Specific IMEI</span>
+
+                  </span>
+                  <span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                  <span *ngIf="filterForm.controls.imei_selection.value==='2'">
+                    <i class="fa fa-times" aria-hidden="true" (click)="clearAdvanceFilter('ImeiFilter')"></i>
+                  </span>
+
+                </a>
+                <ul class="dropdown-menu header-dropdown megaMenu" *ngIf="imeiFilter">
+                  <mat-radio-group aria-label="Select an option" formControlName="imei_selection">
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-radio-button value="1" (click)="selectAnyForSpecificImei()">Any</mat-radio-button>
+                      </div>
+                      <div class="col-12">
+                        <hr class="filter-hr">
+                      </div>
+                      <div class="col-12" style="margin-bottom: 5px;">
+                        <mat-radio-button value="2" >Specific IMEI(s)</mat-radio-button>
+                      </div>
+                      <div class="col-12">
+                        <textarea #userinput id="clipboard-example-textarea" class="popup-text-area" rows="10" cols="40"
+                          formControlName="imei_ids" (click)="selectSpecificImei()">
+                      </textarea>
+                      </div>
+                       <div class="col-12" style="text-align: right;">
+                        <button  class="btn save_btn" (click)="selectSpecificImei2()">Search</button>
+                      </div> 
+                    </div>
+                  </mat-radio-group>
+                </ul>
+              </li>
+
+              <li>
+                <a (click)="showHideFilter('AssetFilter')">
+                  <span class="filter-lable">Asset ID:
+                    <span *ngIf="filterForm.controls.asset_selection.value==='1'">Any
+                    </span>
+                    <span *ngIf="filterForm.controls.asset_selection.value==='2'">Specific Assets</span>
+
+                  </span>
+                  <span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                  <span *ngIf="filterForm.controls.asset_selection.value==='2'">
+                    <i class="fa fa-times" aria-hidden="true" (click)="clearAdvanceFilter('AssetFilter')"></i>
+                  </span>
+
+                  <!-- <span><i aria-hidden="true"></i></span> -->
+                </a>
+                <ul class="dropdown-menu header-dropdown megaMenu" *ngIf="assetFilter">
+                  <mat-radio-group aria-label="Select an option" formControlName="asset_selection">
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-radio-button value="1" (click)="selectAnyForSpecificAssets()">Any</mat-radio-button>
+                      </div>
+                      <div class="col-12">
+                        <hr class="filter-hr">
+                      </div>
+                      <div class="col-12" style="margin-bottom: 5px;">
+                        <mat-radio-button value="2">Specific Assets</mat-radio-button>
+                      </div>
+                      <div class="col-12">
+                        <textarea #userinput id="clipboard-example-textarea" class="popup-text-area" rows="10" cols="40"
+                          formControlName="asset_ids" (click)="selectSpecificAssets()">
+                      </textarea>
+                      </div>
+                      <div class="col-12" style="text-align: right;">
+                        <button  class="btn save_btn" (click)="selectSpecificAssets2()">Search</button>
+                      </div> 
+                    </div>
+                  </mat-radio-group>
+                </ul>
+              </li>
+
+              <li>
+                <a (click)="showHideFilter('CustomerFilter')">
+                  <span class="filter-lable">Customer:
+                    <span
+                      *ngIf="filterForm.controls.customer_list.value==''||filterForm.controls.customer_list.value.length<=0">Any
+                    </span>
+                    <span
+                      *ngIf="filterForm.controls.customer_list.value!==''&&filterForm.controls.customer_list.value.length==1"
+                      class="cut-text">{{customerName}}</span>
+                    <span
+                      *ngIf="filterForm.controls.customer_list.value!==''&&filterForm.controls.customer_list.value.length>1"
+                      class="cut-text">List</span>
+
+                  </span>
+                  <span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                  <span
+                    *ngIf="filterForm.controls.customer_list.value!==''&&filterForm.controls.customer_list.value.length>0">
+                    <i class="fa fa-times" aria-hidden="true" (click)="clearAdvanceFilter('CustomerFilter')"></i>
+                  </span>
+
+                  <!-- <span><i aria-hidden="true"></i></span> -->
+                </a>
+                <ul class="dropdown-menu header-dropdown megaMenu" *ngIf="customerFilter">
+                  <div class="row">
+                    <!-- <div class="col-12">
+                      <mat-form-field>
+                        <input required matInput #textInput (input)="SearchData(textInput.value)"
+                          placeholder="Search Customer" id="iccid">
+                      </mat-form-field>
+                    </div> -->
+
+
+                    <div class="col-12 customer-filter-scroll">
+
+                      <mat-form-field appearance="fill" class="inputTxt">
+                        <mat-label>Select Customer</mat-label>
+                        <mat-select name="customer" formControlName="customer_list"
+                          (selectionChange)="selectCustomerChangeHandler($event)" multiple>
+                          <input required matInput #textInput (input)="SearchData(textInput.value)"
+                            placeholder="Search Customer" id="iccid" style="height: 40px; padding: 20px;">
+                          <mat-option #allSelected (click)="toggleAllSelection(allSelected)" [value]="0">Select All
+                          </mat-option>
+                          <mat-optgroup label="Recent Customer">
+                            <mat-option *ngFor='let group of recentCustomerList' [value]="group?.accountNumber">
+                              {{group?.organisationName}}
+                            </mat-option>
+                          </mat-optgroup>
+                          <mat-optgroup label="All Customer">
+                            <mat-option *ngFor='let group of customerList | orderBy: "organisationName"; let i=index;'
+                              [value]="group?.accountNumber">{{group?.organisationName}}
+                            </mat-option>
+                          </mat-optgroup>
+                        </mat-select>
+                      </mat-form-field>
+
+                    </div>
+
+                    <!-- <div class="col-12" style="margin-top: 5px;">
+                      <button class="btn save_btn" (click)="customerFilter=false">Save</button>
+                    </div> -->
+                  </div>
+                </ul>
+              </li>
+
+              <li>
+                <a (click)="showHideFilter('ReportFilter')">
+                  <span class="filter-lable">Report Time:
+                    <span
+                      *ngIf="filterForm.controls.date_rang.value==''||filterForm.controls.date_rang.value.length<=0">Any
+                    </span>
+                    <span *ngIf="filterForm.controls.date_rang.value!==''&&filterForm.controls.date_rang.value.length>0"
+                      class="cut-text">{{qaDateType}}</span>
+                  </span>
+                  <span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                  <span *ngIf="filterForm.controls.date_rang.value!==''&&filterForm.controls.date_rang.value.length>0">
+                    <i class="fa fa-times" aria-hidden="true" (click)="clearAdvanceFilter('ReportFilter')"></i>
+                  </span>
+                  <!-- <span><i aria-hidden="true"></i></span> -->
+                </a>
+                <ul class="dropdown-menu header-dropdown megaMenu" style="min-width: 450px !important;"
+                  *ngIf="reportFilter">
+                  <div class="row">
+                    <div class="col-3" style="text-align: right;padding-right: 10px;">
+                      <p style="font-weight: 500; margin-top: 13%;">Date Range</p>
+                    </div>
+                    <div class="col-9">
+                      <mat-form-field appearance="fill" class="inputTxt" style="width: 60%">
+                        <mat-select name="date_rang" (selectionChange)="selectChangeHandler($event,false)"
+                          formControlName="date_rang">
+                          <mat-option *ngFor='let group of dateRangeType' [value]="group.value">{{group.data}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3" style="margin-bottom: 5px; text-align: right;padding-right: 10px;">
+                      <p style="margin-top: 8%;font-style: italic;font-weight: 300;"> From</p>
+                    </div>
+
+                    <div class="col-9" style="margin-bottom: 10px;">
+                      <input class="date-time-picker" formControlName="from" [max]="to" [readonly]="dateIsReadOnly"
+                        [owlDateTime]="dt1" placeholder="Date Time" (ngModelChange)="onDateChange($event,'FROM')">
+                      <span style="margin-left: 10px;" [owlDateTimeTrigger]="dt1" *ngIf="!dateIsReadOnly"><i
+                          class="fa fa-calendar"></i></span>
+                      <owl-date-time #dt1></owl-date-time>
+
+                    </div>
+
+                    <div class="col-3" style="margin-bottom: 5px; text-align: right;padding-right: 10px;">
+                      <p style="margin-top: 8%;font-style: italic;font-weight: 300;"> To</p>
+                    </div>
+
+                    <div class="col-9" style="margin-bottom: 10px;">
+
+                      <input class="date-time-picker" [owlDateTime]="dt2" [min]="from" [max]="today" formControlName="to"
+                        [readonly]="dateIsReadOnly" placeholder="Date Time" (ngModelChange)="onDateChange($event,'TO')">
+                      <span style="margin-left: 10px;" [owlDateTimeTrigger]="dt2" *ngIf="!dateIsReadOnly"><i
+                          class="fa fa-calendar"></i></span>
+                      <owl-date-time #dt2></owl-date-time>
+                    </div>
+
+                    <!-- <div class="col-12">
+                      <button class="btn save_btn" (click)="reportFilter=false">Save</button>
+                    </div> -->
+                  </div>
+
+                </ul>
+              </li>
+
+              <li>
+                <a (click)="showHideFilter('DeviceTypeFilter')">
+                  <span class="filter-lable">Device Type:
+                    <span
+                      *ngIf="filterForm.controls.device_type.value==''||filterForm.controls.device_type.value.length<=0">Any
+                    </span>
+                    <span
+                      *ngIf="filterForm.controls.device_type.value!==''&&filterForm.controls.device_type.value.length>0"
+                      class="cut-text">{{filterForm.controls.device_type.value}}</span>
+                  </span>
+                  <span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                  <span
+                    *ngIf="filterForm.controls.device_type.value!==''&&filterForm.controls.device_type.value.length>0">
+                    <i class="fa fa-times" aria-hidden="true" (click)="clearAdvanceFilter('DeviceTypeFilter')"></i>
+                  </span>
+                </a>
+                <ul class="dropdown-menu header-dropdown megaMenu" *ngIf="deviceTypeFilter">
+                  <div class="row">
+                    <div class="col-12">
+                      <mat-form-field appearance="fill">
+                        <mat-select name="deviceType" style="border: 0px !important;" formControlName="device_type" (selectionChange)="advanceFilter()"> 
+                          <mat-option *ngFor='let group of deviceTypeList' [value]="group.value">{{group.data}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                    <!-- <div class="col-12">
+                      <button class="btn save_btn" (click)="deviceTypeFilter=false">Save</button>
+                    </div> -->
+                  </div>
+                </ul>
+              </li>
+
+              <li>
+                <a (click)="showHideFilter('SourceFilter')">
+                  <span class="filter-lable">Source(Listener):
+
+                    <span
+                      *ngIf="filterForm.controls.source.value==''||filterForm.controls.source.value.length<=0||filterForm.controls.source.value==='1'">Any
+                    </span>
+                    <span *ngIf="filterForm.controls.source.value!==''&&filterForm.controls.source.value==='2'"
+                      class="cut-text">XIP</span>
+                    <span *ngIf="filterForm.controls.source.value!==''&&filterForm.controls.source.value==='34'"
+                      class="cut-text">XMIP</span>
+
+                  </span>
+                  <span>
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                  <span><i aria-hidden="true"></i></span>
+                  <span
+                    *ngIf="filterForm.controls.source.value!==''&&filterForm.controls.source.value.length>0&&(filterForm.controls.source.value==='2'||filterForm.controls.source.value==='34')">
+                    <i class="fa fa-times" aria-hidden="true" (click)="clearAdvanceFilter('SourceFilter')"></i>
+                  </span>
+                </a>
+
+                <ul class="dropdown-menu header-dropdown megaMenu" *ngIf="sourceFilter">
+                  <mat-radio-group aria-label="Select an option" formControlName="source" (change)="advanceFilter()">
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-radio-button value="1">All</mat-radio-button>
+                      </div>
+                      <div class="col-12">
+                        <mat-radio-button value="2">XIP(Events)</mat-radio-button>
+                      </div>
+                      <div class="col-12">
+                        <mat-radio-button value="34">XMIP(Maintenance)</mat-radio-button>
+                      </div>
+                      <!-- <div class="col-12">
+                        <button class="btn save_btn" (click)="sourceFilter=false">Save</button>
+                      </div> -->
+                    </div>
+                  </mat-radio-group>
+                </ul>
+              </li>
+
+              <!-- <li>
+                <button class="btn save_btn" (click)="advanceFilter()">Show</button>
+              </li> -->
+            </ul>
+          </div>
+          <!-- <div class="col-1" style="padding-left: 6px;">
+            <ul class="filter-menu">
+            <li>
+              <button class="btn save_btn" (click)="advanceFilter()">Show</button>
+            </li>
+            </ul>
+          </div> -->
+        </div>
+      </form>
+
+      <div class="col-12 pl-0 pr-0" style="margin-top: 10px;" (click)="hide()">
+        <div class="content_titlebar_wrapper">
+          <div class="pull-left col-lg-3 noPadding">
+            
+          <h2 style="display: inline">Reports</h2>
+          &nbsp; &nbsp;&nbsp; &nbsp;
+          <span *ngIf="mapViewHideShow">
+            <mat-checkbox [(ngModel)]="isChecked" (change)="selectAllRow($event)" ><span style="font-weight: bold">Select All</span></mat-checkbox>
+          </span>
+          </div>
+          <div class="col-lg-3 noPadding">
+            <button class="linkT link_button activeBtn"  id="btn1" (click)="hideMapView()"><i class="fa fa-list-alt"
+                aria-hidden="true"></i><span>List
+                VIEW</span></button> &nbsp; &nbsp;
+            <button class="linkT link_button deactiveBtn btnDeactivated"  id="btn2" (click)="showMapView()"><i class="fa fa-map"
+                aria-hidden="true"></i><span>MAP
+                VIEW</span></button>
+          </div>
+          <div class="pull-right col-lg-6 noPadding text-right">
+            <button class="linkT link_button" (click)="openExportPopup()"><i class="fa fa-download"
+                aria-hidden="true"></i><span>EXPORT
+                LIST</span></button> &nbsp; &nbsp;
+            <button class="linkT link_button" (click)="onBtNormalCols()"><i class="fa fa-repeat"
+                aria-hidden="true"></i><span>REFRESH</span></button>&nbsp; &nbsp;
+            <button class="linkT link_button" *ngIf="isGroupColumn === false" (click)="columnGroups()"><i
+                aria-hidden="true"></i><span>HIDE COLUMN
+                GROUPS</span></button>
+            <button class="linkT link_button" *ngIf="isGroupColumn === true" (click)="columnGroups()"><i
+                aria-hidden="true"></i><span>SHOW COLUMN
+                GROUPS</span></button>
+            &nbsp; &nbsp;
+            <button class="primary_buttonClear" (click)="clearFilter()"><i aria-hidden="true"></i><span>Clear
+                Filter</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 noPadding" (click)="hide()" *ngIf="!mapViewHideShow">
+        <ag-grid-angular #agGrid id="myGrid" style="width: 100%;  height: calc(100vh - 290px);"
+          class="ag-theme-alpine all-device-report" [groupHeaderHeight]="groupHeaderHeight"
+          [headerHeight]="headerHeight"  [floatingFiltersHeight]="floatingFiltersHeight" [rowData]="rowData"
+          [columnDefs]="columnDefs" (cellClicked)="onCellClicked($event)" [modules]="modules"
+          [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" (columnVisible)="onColumnVisible($event)" 
+          (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)"
+          (columnGroupOpened)="onColumnGroupOpened($event)" (columnGroupClosed)="onColumnGroupClosed($event)"
+          (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)" [sideBar]="sideBar"
+          [defaultColDef]="defaultColDef" [suppressRowClickSelection]="true" [rowSelection]="'multiple'"
+          [frameworkComponents]="frameworkComponents" [components]="components" [enableRangeSelection]="true"
+          [overlayNoRowsTemplate]="overlayNoRowsTemplate" >
+        </ag-grid-angular>
+
+        <!--  (firstDataRendered)="headerHeightSetter($event)" (columnResized)="headerHeightSetter($event)" -->
+      </div>
+
+      <div class="col-lg-12 noPadding" (click)="hide()" *ngIf="mapViewHideShow">
+        <div class="col-lg-4" style="padding-right: 0px">
+          <ag-grid-angular #agGrid id="myGrid" style="width: 100%;  height: calc(100vh - 295px);"
+            class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs2" (cellClicked)="onCellClicked($event)"
+            [modules]="modules" [groupHeaderHeight]="groupHeaderHeight" [headerHeight]="headerHeight"
+            [floatingFiltersHeight]="floatingFiltersHeight" [gridOptions]="gridOptions"
+            (gridReady)="onGridReady($event)" (columnVisible)="onColumnVisible($event)"
+            (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)"
+            (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)"
+            [defaultColDef]="defaultColDef" [suppressRowClickSelection]="true" [rowSelection]="'multiple'"
+            [frameworkComponents]="frameworkComponents" [components]="components" [sideBar]="false"
+            [enableRangeSelection]="true" [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+            (rowSelected)="onRowSelected($event)" [rowMultiSelectWithClick]="true"  (rangeSelectionChanged)="onRangeSelectionChanged($event)">
+          </ag-grid-angular>
+          <!-- (firstDataRendered)="headerHeightSetter($event)" (columnResized)="headerHeightSetter($event)" -->
+        </div>
+        <div class="col-lg-8">
+          <agm-map AgmStreetViewControl [latitude]="lat" [longitude]="lng" style=" height: calc(100vh - 295px);" [zoom]="zoom" [mapTypeId]="'terrain'"
+            [mapTypeControl]="true">
+            <agm-marker *ngFor="let row of mapRowData, let i=index" [iconUrl]='url' [latitude]="row.general_mask_fields.latitude"
+              [longitude]="row.general_mask_fields.longitude" [visible]="true">
+              <agm-snazzy-info-window *ngIf="lastSelectedRow" [isOpen]="true" [showCloseButton]="false" [maxWidth]="270"
+                [maxHeight]="180" [closeWhenOthersOpen]="true" [pointer]="false" [closeOnMapClick]="false">
+                <ng-template>
+                  <div style="width:100%">
+                    <div class="paWrapper" style="text-align: left;">
+                      <div class="propTitle"><b>Device ID:</b> {{lastSelectedRow?.report_header?.device_id}}</div>
+                      <div class="propTitle"><b>Seq:</b> {{lastSelectedRow?.report_header?.sequence}}
+                        <b>{{lastSelectedRow?.general_mask_fields?.motion}}</b>
+                      </div>
+                      <div class="propTitle"><b>GPS Time:</b> {{lastSelectedRow?.general_mask_fields?.gps_time}}</div>
+                      <div class="propTitle"><b>Lat:</b> {{latInDms}}<b> Lon:</b> {{lngInDms}}</div>
+                      <div class="propTitle"><b>Location:</b> {{marker}}</div>
+                      <div class="propTitle"><b>Speed:</b> {{lastSelectedRow?.general_mask_fields?.speed_kms}}<b>
+                          Heading:</b>
+                        {{lastSelectedRow?.general_mask_fields?.heading}}</div>
+                    </div>
+                  </div>
+                </ng-template>
+              </agm-snazzy-info-window>
+
+              <agm-polyline *ngFor="let a of mapRowDatas | keyvalue; let i =index" [visible]="true" [strokeWeight]="3"
+                [strokeColor]="colorCode[i]">
+                <agm-icon-sequence [fixedRotation]="false" [repeat]="'50px'" [offset]="'100'"
+                  [path]="'FORWARD_OPEN_ARROW'">
+                </agm-icon-sequence>
+                <agm-polyline-point *ngFor="let row of a.value" [latitude]="row.general_mask_fields.latitude"
+                  [longitude]="row.general_mask_fields.longitude">
+                </agm-polyline-point>
+              </agm-polyline>
+            </agm-marker>
+          </agm-map>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div #latestReportModel class="modal fade" id="latestReportModel" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Raw Report</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea #userinput id="clipboard-example-textarea" class="popup-text-area" rows="6" cols="60"
+          [(ngModel)]="latestRawReport">
+            </textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="copyToClipBoard(userinput)">Copy to
+          clipboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div #exportCSVModal class="modal fade" id="exportCSVModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Export Report Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label for="last_name" class="w-100 control-label required">Number of records to export:</label>
+        <mat-form-field class="col-lg-5 nopadding">
+          <input matInput id="range" class="" maxlength="7" value="10000" [(ngModel)]="range">
+        </mat-form-field>
+        <label for="last_name" class="w-100 control-label">Exports larger than 10,000 records will be processed in the
+          background and may take 10-15 minutes to complete. You will receive an email when the file is ready to
+          download.</label>
+      </div>
+      <div class="modal-footer" style="justify-content: center!important;">
+        <button type="button" class="btn btn-primary export_btn" (click)="exportDeviceList()"
+          [disabled]="!(range&&range>0)" data-dismiss="modal">Export</button>
+        <button type="button" class="btn btn-secondary export_cancel_btn" data-dismiss="modal"
+          style="margin-bottom: 0;background: none;color: #007bff!important;border-block-color: #007bff!important;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div #expandImageModal class="modal fade" id="expandImageModal" tabindex="-1" role="dialog"
+  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+    <div class="modal-content" style="padding-top:0px;">
+
+      <div class="modal-header" style="border-bottom: 0px;padding:0px">
+        <!-- <h5 class="modal-title" id="exampleModalLongTitle">Export Report Data</h5> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img width="100%" height="100%" style=" pointer-events: none;" [src]="imageUrl">
+      </div>
+      <!-- <div class="modal-footer" style="justify-content: center!important;">
+        <button type="button" class="btn btn-primary export_btn" (click)="exportDeviceList()" [disabled]="!(range&&range>0)" data-dismiss="modal">Export</button>
+        <button type="button" class="btn btn-secondary export_cancel_btn" data-dismiss="modal"  style="margin-bottom: 0;background: none;color: #007bff!important;border-block-color: #007bff!important;">Cancel</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+<div class="col-lg-12" style="font-weight: bold; text-align: end;padding: 20px; width: 97% !important;">
+  Total Elements : {{this.totalNumberOfRecords}}
+</div>

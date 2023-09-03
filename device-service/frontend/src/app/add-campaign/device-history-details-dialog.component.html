@@ -1,0 +1,292 @@
+<div>
+  <button class="close" mat-button (click)="onNoClick()">X</button>
+  <h1 mat-dialog-title>Device History</h1>
+  <mat-dialog-content>
+
+    <div class="col-lg-12 noPadding">
+      <div class="col-lg-4 noPadding">
+        <h4 style="white-space: nowrap;margin-top: 18px;">Device History for : {{ data.data.imei }}</h4>
+      </div>
+
+
+      <div class="col-lg-4 noPadding boxModel mr-2">
+        <span class="statusOfCampaign">
+          <a href="javascript:void(0);" class="statusBtn installed" *ngIf="data.data.campaign_installed_device != null && 
+          data.data.campaign_installed_device.installed_Flag == 'Y'">
+            INSTALLED
+          </a>
+          <a href="javascript:void(0);" class="statusBtn pending" *ngIf="data.data.campaign_installed_device != null && 
+          data.data.campaign_installed_device.installed_Flag == 'N'">
+            PENDING
+          </a>
+        </span>
+      </div>
+    </div>
+
+    <hr>
+    <div style="padding-bottom:1.5rem;"><strong>Latest Maintenance Report</strong></div>
+    <div class="mainTableContainer">
+      <div class="container">
+        <table class="table table-hover breakdownChartDataTbl tablePopup">
+          <thead>
+            <tr style="background-color:#f9f9f9">
+              <th>BIN</th>
+              <th>App</th>
+              <th>MCU</th>
+              <th>BLE</th>
+              <th>Config 1</th>
+              <th>Config 1 CRC</th>
+              <th>Config 2</th>
+              <th>Config 2 CRC</th>
+              <th>Config 3</th>
+              <th>Config 3 CRC</th>
+              <th>Config 4</th>
+              <th>Config 4 CRC</th>
+              <th>Config 5</th>
+              <th>Config 5 CRC</th>
+              <th>Server</th>
+              <th>Received Time</th>
+
+              <th>Device Type</th>
+              <th>LiteSentry Hardware</th>
+              <th>LiteSentry App</th>
+              <th>LiteSentry Boot</th>
+              <th>MicroSP MCU</th>
+              <th>MicroSP App</th>
+              <th>Maxbotix Hardware</th>
+              <th>Maxbotix Firmware</th>
+              <th>Riot Hardware</th>
+              <th>Riot Firmware</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                [ngClass]="(data.data?.device_report?.baseband_SW_VERSION?.toLowerCase() != baselineData.bin_version?.toLowerCase()) && (baselineData.bin_version?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.baseband_SW_VERSION }}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.app_SW_VERSION?.toLowerCase() != baselineData.app_version?.toLowerCase()) && (baselineData.app_version?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.app_SW_VERSION}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.extender_VERSION?.toLowerCase() != baselineData.mcu_version?.toLowerCase()) && (baselineData.mcu_version?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.extender_VERSION}}</td>
+              <!-- <td [ngClass]="('NA'.toLowerCase() != baselineData.ble_version?.toLowerCase()) ? 'high-light-changes' : ''">NA</td> -->
+              
+              <td
+                [ngClass]="(data.data?.device_report?.ble_VERSION?.toLowerCase() != baselineData.ble_version?.toLowerCase()) && (baselineData.ble_version?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.ble_VERSION}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config1CIV?.toLowerCase() != baselineData.config1?.toLowerCase()) && (baselineData.config1?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config1CIV}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config1CRC?.toLowerCase() != baselineData.config1_crc?.toLowerCase()) && (baselineData.config1_crc?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config1CRC}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config2CIV?.toLowerCase() != baselineData.config2?.toLowerCase()) && (baselineData.config2?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config2CIV}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config2CRC?.toLowerCase() != baselineData.config2_crc?.toLowerCase()) && (baselineData.config2_crc?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config2CRC}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config3CIV?.toLowerCase() != baselineData.config3?.toLowerCase()) && (baselineData.config3?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config3CIV}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config3CRC?.toLowerCase() != baselineData.config3_crc?.toLowerCase()) && (baselineData.config3_crc?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config3CRC}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config4CIV?.toLowerCase() != baselineData.config4?.toLowerCase()) && (baselineData.config4?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config4CIV}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.config4CRC?.toLowerCase() != baselineData.config4_crc?.toLowerCase()) && (baselineData.config4_crc?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.config4CRC}}</td>
+              <td>{{ data.data?.device_report?.config5CIV}}</td>
+              <td>{{ data.data?.device_report?.config5CRC}}</td>
+              <td>{{ data.data?.device_report?.server_INFO_STR}} </td>
+              <td>{{ data.data?.last_report}}</td>
+
+              <td
+                [ngClass]="(data.data?.device_report?.device_type?.toLowerCase() != baselineData.device_type?.toLowerCase()) && (baselineData.device_type?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.device_type}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.liteSentryHw?.toLowerCase() != baselineData.lite_sentry_hardware?.toLowerCase()) && (baselineData.lite_sentry_hardware?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.liteSentryHw}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.liteSentryApp?.toLowerCase() != baselineData.lite_sentry_app?.toLowerCase()) && (baselineData.lite_sentry_app?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.liteSentryApp}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.liteSentryBoot?.toLowerCase() != baselineData.lite_sentry_boot?.toLowerCase()) && (baselineData.lite_sentry_boot?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.liteSentryBoot}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.steMCU?.toLowerCase() != baselineData.microsp_mcu?.toLowerCase()) && (baselineData.microsp_mcu?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.steMCU}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.steApp?.toLowerCase() != baselineData.microsp_app?.toLowerCase()) && (baselineData.microsp_app?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.steApp}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.maxbotixhardware?.toLowerCase() != baselineData.cargo_maxbotix_hardware?.toLowerCase()) && (baselineData.cargo_maxbotix_hardware?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.maxbotixhardware}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.maxbotixFirmware?.toLowerCase() != baselineData.cargo_maxbotix_firmware?.toLowerCase()) && (baselineData.cargo_maxbotix_firmware?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.maxbotixFirmware}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.riothardware?.toLowerCase() != baselineData.cargo_riot_hardware?.toLowerCase()) && (baselineData.cargo_riot_hardware?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.riothardware}}</td>
+              <td
+                [ngClass]="(data.data?.device_report?.riotFirmware?.toLowerCase() != baselineData.cargo_riot_firmware?.toLowerCase()) && (baselineData.cargo_riot_firmware?.toLowerCase() != 'any') ? 'high-light-changes' : ''">
+                {{ data.data?.device_report?.riotFirmware}}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Added Section for baseline -->
+    <hr>
+    <div style="padding-bottom:1.5rem;"><strong>Current Campaign Baseline</strong></div>
+    <div class="mainTableContainer">
+      <div class="container">
+        <table class="table table-hover breakdownChartDataTbl tablePopup">
+          <thead>
+            <tr style="background-color:#f9f9f9">
+              <th>BIN</th>
+              <th>App</th>
+              <th>MCU</th>
+              <th>BLE</th>
+              <th>Config 1</th>
+              <th>Config 1 CRC</th>
+              <th>Config 2</th>
+              <th>Config 2 CRC</th>
+              <th>Config 3</th>
+              <th>Config 3 CRC</th>
+              <th>Config 4</th>
+              <th>Config 4 CRC</th>
+              <th>Name</th>
+              <th>Created</th>
+
+              <th>Device Type</th>
+              <th>LiteSentry Hardware</th>
+              <th>LiteSentry App</th>
+              <th>LiteSentry Boot</th>
+              <th>MicroSP MCU</th>
+              <th>MicroSP App</th>
+              <th>Maxbotix Hardware</th>
+              <th>Maxbotix Firmware</th>
+              <th>Riot Hardware</th>
+              <th>Riot Firmware</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ baselineData.bin_version }}</td>
+              <td>{{ baselineData.app_version }}</td>
+              <td>{{ baselineData.mcu_version }}</td>
+              <td>{{ baselineData.ble_version }}</td>
+              <td>{{ baselineData.config1 }}</td>
+              <td>{{ baselineData.config1_crc }}</td>
+              <td>{{ baselineData.config2 }}</td>
+              <td>{{ baselineData.config2_crc }}</td>
+              <td>{{ baselineData.config3 }}</td>
+              <td>{{ baselineData.config3_crc }}</td>
+              <td>{{ baselineData.config4 }}</td>
+              <td>{{ baselineData.config4_crc }}</td>
+              <td>{{ baselineData.package_name }}</td>
+              <td>{{ baselineData.created_at }} PDT</td>
+
+              <td>{{ baselineData.device_type }}</td>
+              <td>{{ baselineData.lite_sentry_hardware }}</td>
+              <td>{{ baselineData.lite_sentry_app }}</td>
+              <td>{{ baselineData.lite_sentry_boot }}</td>
+              <td>{{ baselineData.microsp_mcu }}</td>
+              <td>{{ baselineData.microsp_app }}</td>
+              <td>{{ baselineData.cargo_maxbotix_hardware }}</td>
+              <td>{{ baselineData.cargo_maxbotix_firmware }}</td>
+              <td>{{ baselineData.cargo_riot_hardware }}</td>
+              <td>{{ baselineData.cargo_riot_firmware }}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- End section of baseline -->
+    <hr>
+    <div style="padding-bottom:1.5rem;"><strong>Campaign Installed Device</strong></div>
+    <div class="mainTableContainer">
+      <div class="container">
+        <table class="table table-hover breakdownChartDataTbl tablePopup">
+          <thead>
+            <tr style="background-color:#f9f9f9">
+              <th>QA Status</th>
+              <th>QA TimeStamp</th>
+              <th>Latest Maintenance QA</th>
+              <th>Latest Maintenance QA Timestamp</th>
+              <th>IS Power Up After QA</th>
+              <th>First Power Up Timestamp After QA</th>
+              <th>Power Up Report Counter</th>
+              <th>Is Installed For Campaign</th>
+              <th>Is Installed For Campaign Timestamp</th>
+              <th>Batch_Processed</th>
+              <th>Last Updated AT</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                {{data.data.campaign_installed_device && data.data.campaign_installed_device.qa_STATUS == true?'Success':'NA'}}
+              </td>
+              <td>{{data.data.campaign_installed_device ? data.data.campaign_installed_device.qa_TIMESTAMP:'NA'}}</td>
+              <td>
+                {{data.data.campaign_installed_device && data.data.campaign_installed_device.latest_MAINTENANCE_QA == true?'Available':'Not Available'}}
+              </td>
+              <td>
+                {{data.data.campaign_installed_device ? data.data.campaign_installed_device.latest_MAINTENANCE_QA_TIMESTAMP:'NA'}}
+              </td>
+              <td>
+                {{data.data.campaign_installed_device && data.data.campaign_installed_device.is_POWER_UP_AFTER_QA == true?'Available':'Not Available'}}
+              </td>
+              <td>
+                {{data.data.campaign_installed_device ? data.data.campaign_installed_device.first_POWER_UP_TIMESTAMP_AFTER_QA:'NA'}}
+              </td>
+              <td>
+                {{data.data.campaign_installed_device ? data.data.campaign_installed_device.power_UP_REPORT_COUNTER:'0'}}
+              </td>
+              <td>
+                {{data.data.campaign_installed_device && data.data.campaign_installed_device.is_INSTALLED_FOR_CAMPAIGN == true?'Yes':'No'}}
+              </td>
+              <td>
+                {{data.data.campaign_installed_device ? data.data.campaign_installed_device.is_INSTALLED_FOR_CAMPAIGN_TIMESTAMP :'NA'}}
+              </td>
+              <td>
+                {{data.data.campaign_installed_device && data.data.campaign_installed_device.is_EXISTING_DB_DEVICE ==  true?'Yes':'No'}}
+              </td>
+              <td>{{data.data.campaign_installed_device ? data.data.campaign_installed_device.last_UPDATED_AT:'NA'}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div class="grid-wrapper">
+      <hr />
+
+
+
+      <div style="padding-bottom:1.5rem;"><strong>Campaign History</strong></div>
+      <div class="outer-div">
+        <div class="grid-wrapper">
+          <ag-grid-angular #agGrid style="height: 250px;" id="myGridPopup" class="ag-theme-alpine ag-grid-element"
+            [modules]="modules" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [rowData]="rowData"
+            [domLayout]="domLayout" (gridReady)="onGridReady($event)"></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

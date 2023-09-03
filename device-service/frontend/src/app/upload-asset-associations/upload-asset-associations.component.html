@@ -1,0 +1,143 @@
+<div class="container-fluid">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="breadCrumb" style="font-style: italic;">
+                <span class="pageName">
+                    <a href="javascript:void(0);">Manage Assets</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                    <a href="javascript:void(0);" [routerLink]="['../customerAssets']">Load Asset Associations</a>
+                </span>
+            </div>
+            <div class="content_titlebar_wrapper">
+                <h2 class="pull-left col-lg-12 noPadding">Load Asset Associations</h2>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="content_form"> -->
+    <div class="col-lg-12 form-style approved_assets_txt">
+        <h3>Upload Association File</h3>
+    </div>
+    <div class="col-lg-12 content_form" style="padding-left: 0px;">
+
+        <form class="form-horizontal" [formGroup]="registerCompany" (ngSubmit)="selectFile($event)">
+            <div class="form-group col-lg-12">
+                <label for="companies" class="col-sm-2 col-lg-2 control-label" style="font-weight: 600;">End
+                    Customer</label>
+                <div class="col-sm-5 col-lg-5">
+                    <div class="selectBox">
+                        <select class="form-control" id="company" [(ngModel)]="assetCompany.company"
+                            formControlName='companies' style="background: #0000000a;">
+                            <option value="" default selected disabled hidden>Select Organization</option>
+                            <option *ngFor='let company of companies | orderBy: "organisationName"' [ngValue]="company">{{company?.organisationName}}
+                            </option>
+                        </select>
+                        <span class="error"
+                            *ngIf="(submitted && g.companies.errors) ||
+                    (registerCompany.get('companies').hasError('required') && registerCompany.get('companies').touched)">
+                            <span *ngIf="g.companies.errors.required">End Customer is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <label class="col-sm-12 col-lg-12 control-label">Uplad files should be in CSV formate and follow <a
+                        href="assets/static/AssetAssociationTemplate.csv">this template</a>.</label>
+            </div>
+            <div class="col-lg-12">
+                <div class="draggableDiv">
+                    <!-- <div class="loading" *ngIf="loading">Loading&#8230;</div>
+                      <span class="error"
+                          *ngIf="(submitted && g.file.errors)&&(registerCompany.get('file').hasError('required'))">
+                          <span *ngIf="g.file.errors.required">File is required</span>
+                      </span> -->
+                    <div class="containerData" appDnd (fileDropped)="onFileDropped($event)">
+                        <input type="file" class="form-control" id="file" formControlName='file'
+                            (change)="onFileChangeBrower($event)" />
+                        <div class="dragBoxTxt">
+                            <div class="cloudIcons"><i class="fa fa-cloud-upload" aria-hidden="true"></i></div>
+                            <div class="dragDataHere"><a href="javascript:void(0)">Choose a file</a> or drag it
+                                here.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-lg-12">
+                <label for="companies" class="col-sm-1 col-lg-1 control-label required" style="font-weight: 600;
+                padding-right: 8px">Selected File:</label>
+                <div class="col-sm-5 col-lg-5" style="margin-top: 6px; padding-left: 0px;">
+                    <span class="fileName">{{selectedFileName}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- </div> -->
+    <div class="files-list ">
+        <div class="single-file" *ngFor="let file of files; let i = index">
+            <img src="assets/img/dnd/ic-file.svg" width="45px" alt="file">
+            <div class="info">
+                <h4 class="name">
+                    {{ file?.name }}
+                </h4>
+                <p class="size">
+                    {{ formatBytes(file?.size) }}
+                </p>
+                <!-- <app-progress [progress]="file?.progress"></app-progress> -->
+            </div>
+            <img src="assets/img/dnd/ic-delete-file.svg" class="delete" width="20px" alt="file" (click)="deleteFile(i)">
+        </div>
+    </div>
+
+    <div class="col-sm-10 padl0 btn_section" style="text-align: center;">
+        <button *ngIf="isRoleCustomerManagerInstaller != 'true'" type="submit" class="btn primary_button  save_btn"
+            (click)="save()">Finish</button>
+
+        <button class="btn secondary_button cancel-btn" (click)="cancel()">Cancel</button>
+    </div>
+</div>
+
+
+<div #AssociationMessageModel class="modal fade" id="AssociationMessageModel" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="width: 80%;">
+            <div style="border: 1px solid black; padding:5px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{errorHeading}}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        #closeExpenseModalForAssociationMessage>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-10 nopadding" style="padding-left:0px;">
+                            <label for="last_name" style="margin-top: 0px; margin-bottom: 13px;"
+                                class="w-100 control-label">{{errorMessage}}</label>
+                        </div>
+                        <div class="col-1">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-8" style="text-align: center;">
+                            <button type="button" class="btn save_btn" data-dismiss="modal"
+                                aria-label="Close">OK</button>
+                        </div>
+                        <div class="col-2"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,166 @@
+<div class="container" id="shippedDeviceDetail">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <form class="form-horizontal" [formGroup]="shippedDeviceForm" (ngSubmit)="selectFile($event)">
+    <div class="row content_titlebar">
+      <div class="col-lg-12">
+        <div class="breadCrumb">
+          <span class="pageName">
+            <a href="javascript:void(0);">Manage Shipped Devices</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+         
+          <span class="pageName">
+              <a href="javascript:void(0);">Upload Shipped Devices</a>
+            </span>
+        </div>
+        <div class="content_titlebar_wrapper">
+          <h2 class="pull-left col-lg-12 noPadding">Upload Shipped Device Details</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row content_titlebar">
+      <div class="col-lg-6 w45L">
+        <div class="content_titlebar_wrapper">
+          <h4 class="">Order Summary</h4>
+        </div>
+
+        <div class="formDiv">
+          <div class="form-group col-lg-12">
+            <label for="companies" class="col-sm-5 col-lg-5 control-label required mrt10">Epicor Order #</label>
+            <div class="col-sm-5 col-lg-5">
+              <input type="text" class="form-control txtValue" (blur)="onBlurEventForEpicor($event)"
+                formControlName='epicorOrderNo'>
+              <span class="error"
+                *ngIf="(shippedDeviceForm.get('epicorOrderNo').hasError('required') && shippedDeviceForm.get('epicorOrderNo').touched)">
+                <span *ngIf="f.epicorOrderNo.errors.required">Epicor Number is required</span>
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-lg-12">
+            <label for="companies" class="col-sm-5 col-lg-5 control-label ">Customer</label>
+            <div class="col-sm-5 col-lg-5 txtValue">
+              {{salesForceOrderResponse?.message.salesforce_account_name}} </div>
+          </div>
+          <div class="form-group col-lg-12">
+            <label for="companies" class="col-sm-5 col-lg-5 control-label ">Salesforce Order #</label>
+            <div class="col-sm-5 col-lg-5 txtValue">
+              {{salesForceOrderResponse?.message.salesforce_order_number}} </div>
+          </div>
+          <div class="form-group col-lg-12">
+            <label for="companies" class="col-sm-5 col-lg-5 control-label ">Order Date</label>
+            <div class="col-sm-5 col-lg-5 txtValue">
+              -- </div>
+          </div>
+          <div class="form-group col-lg-12">
+            <label for="companies" class="col-sm-5 col-lg-5 control-label ">Total Products Ordered</label>
+            <div class="col-sm-5 col-lg-5 txtValue">
+              {{totalProductsOrdered}} </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-lg-6 w45R">
+        <div class="content_titlebar_wrapper">
+          <h4 class="">Line Item Details</h4>
+        </div>
+        <div class="formDiv">
+          <div class="form-group col-lg-12">
+            <p class="control-label confirmInstruction">Please confirm the quantity shipped for each line item as reflected in your data
+              file.</p>
+          </div>
+          <div class="form-group col-lg-12"
+            *ngFor="let shipment of salesForceOrderResponse?.message.shipment_details ; let i = index">
+            <label for="companies" class="col-sm-4 col-lg-4 control-label required">{{i+1}}. {{shipment.product_short_name}} ({{shipment.product_code}})</label>
+            <div class="col-sm-4 col-lg-4 txtLable"> Confirm Qty</div>
+            <div class="col-sm-4 col-lg-4">
+              <input type="text" class="form-control" id="id_{{i}}" (change)="changeConfirmQuantity(i)">
+            </div>
+          </div>
+          <!-- <div class="form-group col-lg-12">
+            <label for="companies" class="col-sm-4 col-lg-4 control-label ">2. Product 2 (77-UI01)</label>
+            <div class="col-sm-4 col-lg-4 txtLable">Confirm Qty</div>
+            <div class="col-sm-4 col-lg-4">
+              <input type="text" class="form-control">
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="row content_titlebar subsection">
+      <div class="col-lg-12">
+        <div>
+          <h2 class="pull-left col-lg-12 noPadding">Upload Shipped Device IDs</h2>
+        </div>
+        <div>
+          <p class="pull-left col-lg-12 noPadding txtValue marb0">Upload files should be in CSV format and follow this
+            <a href="assets/static/Shipped_Device_Upload_File.xls">template</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row content_form mart0">
+      <div class="col-lg-12">
+
+        <div class="form-horizontal">
+          <div class="form-group col-lg-12">
+            <div class="col-sm-5 col-lg-6">
+
+              <div class="draggableDiv">
+
+                <div class="containerData" appDnd (fileDropped)="onFileDropped($event)">
+                  <input type="file" class="form-control" id="file" formControlName='file'
+                    (change)="onFileChangeBrower($event)" />
+                  <div class="dragBoxTxt">
+                    <div class="cloudIcons"><i class="fa fa-cloud-upload" aria-hidden="true"></i></div>
+                    <div class="dragDataHere"><a href="javascript:void(0)">Choose a file</a> or drag it
+                      here.</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="formDiv">
+            <div class="form-group col-lg-12">
+              <label for="companies" class="col-sm-2 col-lg-2 control-label required">Selected File</label>
+              <div class="col-sm-5 col-lg-5 txtValue">
+                <span class="fileName">{{selectedFileName}}</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <div class="col-sm-10 btn_section">
+              <button type="button" class="btn primary_button" (click)="save()">Finish</button>
+              &nbsp;
+              <button class="btn secondary_button" (click)="cancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div #myModel class="modal fade" id="fieldErrorMessageModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <!-- <h4 class="modal-title"></h4> -->
+            </div>
+            <div class="modal-body">
+              <div class="w-100">
+                       {{fieldErrorMessage}}
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn primary_button"
+                    data-dismiss="modal">OK</button>
+               
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,225 @@
+<div class="container">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <div class="row content_titlebar" >
+    <div class="col-lg-12" style="margin-left: -11px;">
+      <div class="breadCrumb">
+        <span class="pageName">
+          <a href="javascript:void(0);">Manage Devices</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);" [routerLink]="['../gateway-list']">All Device</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);">Update Device Data Forwarding Rules</a>
+        </span>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="row content_form">
+    <form class="ngFormsViews" [formGroup]="update_gateway_form" (ngSubmit)="onSubmit(update_gateway_form)">
+      
+        <div class="content_titlebar_wrapper">
+          <div >
+            <h2 class="pull-left col-lg-12 noPadding">Update Device Data Forwarding Rules</h2>
+            <label for="deviceId" class="control-label" style="margin-right:15px;margin-bottom: 15px;font-weight: 400 !important;">The data forwarding rules
+              for the selected devices
+              will be updated as specified below.</label>
+          </div>
+          <h3 class="pull-left col-lg-12 noPadding">Device Data Forwarding</h3>
+        </div>
+        <br>
+        <br>
+        <br>
+      <div class="tabColLables">
+        <div style="position: relative;margin-bottom: 15px;">
+          <mat-radio-group class="sensorRadioGrp" aria-label="Select an option"
+            formControlName='primaryAction' (change)="radioChange()">
+            <mat-radio-button style="margin-bottom: 15px;" value="specify">
+              <span class="sensLableForMain">Specify device-level forwarding rules for these IMEIs.</span>
+            </mat-radio-button>
+            <div style="margin-left: 35px;">
+            <div *ngFor="let sensorGroup of update_gateway_form.get('rules')['controls'];let i = index"
+              [formGroup]="sensorGroup">
+              <div class="form-group" style="margin-bottom: 0px !important;">
+                <div class="col-sm-12 col-lg-12 sensorGroupRow">
+
+                  <div class="selectBox">
+                    <mat-form-field >
+                        <mat-select formControlName='rule' (selectionChange)="onChangeForSensor($event, i)">
+                            <mat-option value="" default selected hidden>Select Rule</mat-option>
+                            <mat-option *ngFor="let rule of sensorList"
+                            [value]="rule.uuid" value="{{rule.uuid}}"  >{{rule.ruleName}} ({{rule.format}})</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                  
+                  <span style="white-space:nowarp;margin-left: 20px;">{{description[i]}}</span>
+              
+                  <a  style="margin-left: 20px;font-size: 25px;" href="javascript:void(0)" class="removeRuleMoreLink" (click)="deleteSensor(i)">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+                    
+                </div>
+              </div>
+            </div> 
+            
+            <div class="addRowBtnSection" *ngIf="maxRules">
+              <a  style="font-weight: bold;" class="addRowBtn" (click)="addNewSensor(1)"> <i class="fa fa-plus" aria-hidden="true"></i> Add Another Rule </a>
+          </div>
+            <div class="tabColLables">
+              <label for="deviceId" class="control-label"
+                style="margin-right:15px;margin-bottom: 15px;margin-top: 15px;font-weight: 400 !important"> These
+                rules should be:</label>
+              <div style="position: relative;margin-bottom: 15px;">
+                <mat-radio-group class="sensorRadioGrp" aria-label="Select an option"
+                  formControlName='secondaryAction' (change)="radioChange1()">
+                  <mat-radio-button value="add">
+                    <span class="sensLable">Add to existing rules</span>
+                  </mat-radio-button>
+                  <br>
+                  <mat-radio-button class="ml-30" value="replace">
+                    <span class="sensLable">Replace existing rules</span>
+                  </mat-radio-button>
+                </mat-radio-group> 
+              </div>
+            </div>
+          </div>
+             <br>
+            <mat-radio-button class="ml-30" style="margin-bottom: 15px;" value="restore">
+              <span class="sensLableForMain">Restore the default rules</span>
+            </mat-radio-button>
+            <br>
+            <mat-radio-button class="ml-30" style="margin-bottom: 15px;" value="remove">
+              <span class="sensLableForMain">Remove all existing rules</span>
+            </mat-radio-button>
+            
+            
+          </mat-radio-group>
+        </div>
+      </div>
+
+
+      <div class="col-lg-12 btnSectionRow">
+        <div class="form-group">
+          <div class="w-100 text-center">
+            <button type="submit" class="btn save_btn" [disabled]="buttonDisabled" >Update</button>
+            &nbsp;&nbsp;
+            <button class="btn secondary_button cancel-btn" (click)="cancel()" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div #confirmConfigurationChange class="modal fade" id="confirmConfigurationChange" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm Rules Change</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            Are you sure you want to update the rules of these gateways?
+
+            <br><b>Note:</b> It will take few moments for the gateway list to be updated.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button save_btn" (click)="updateDataForwardRule()"
+            data-dismiss="modal">Yes</button>
+          <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #confirmAddDeviceSpecificRules class="modal fade" id="confirmAddDeviceSpecificRules" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Device-Specific Rules</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            The rule(s) specified in this form will be added to the selected devices. Existing rules will not be changed.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button save_btn" (click)="updateDataForwardRule()"
+            data-dismiss="modal">OK</button>
+          <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #confirmReplaceDeviceSpecificRules class="modal fade" id="confirmReplaceDeviceSpecificRules" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Replace Device-Specific Rules</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            The rule(s) specified in this form will be added to the selected devices. Existing device-level rules will be removed, but rules inherited from organizations will not be changed.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button save_btn" (click)="updateDataForwardRule()"
+            data-dismiss="modal">OK</button>
+          <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #confirmRestoreDefaultRules class="modal fade" id="confirmRestoreDefaultRules" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Restore Default Rules</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            All device-specific rules and instructions to ignore organization-level rules will be removed from the selected devices.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button save_btn" (click)="updateDataForwardRule()"
+            data-dismiss="modal">OK</button>
+          <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #confirmRemoveAllDataForwardingRules class="modal fade" id="confirmRemoveAllDataForwardingRules" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Remove All Data Forwarding Rules</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            All device-specific rules will be removed from the selected devices, all organization-level rules will be ignored.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button save_btn" (click)="updateDataForwardRule()"
+            data-dismiss="modal">OK</button>
+          <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

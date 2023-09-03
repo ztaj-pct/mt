@@ -1,0 +1,61 @@
+<div class="col-12">
+    <app-add-atcommand (someEvent)="refresh()"></app-add-atcommand>
+</div>
+<!-- <div class="col-6">
+    <h4 class="content_titlebar_wrapper">AT Command Queue</h4>
+</div>
+<div class="col-6">
+    <button class="linkT link_button"><i class="fa fa-repeat" aria-hidden="true"></i><span>CHECK FOR UDP
+            RESPONSE</span></button>
+    &nbsp; &nbsp;
+</div> -->
+
+<div class="col-12">
+    <div class="content_titlebar_wrapper">
+        <div class="pull-left col-lg-4 noPadding inDivTitle">AT Command Queue</div>
+        <div class="pull-right col-lg-8 noPadding text-right">
+            <!-- <span style="font-size:14px;">The auto refresh happens only every 10 seconds </span>&nbsp;&nbsp; -->
+            <button class="linkT link_button" (click)="refresh()"><i class="fa fa-repeat" aria-hidden="true"></i><span>CHECK FOR UDP
+                    RESPONSE</span></button>
+        </div>
+    </div>
+</div>
+
+<div class="col-12" style="margin-top: 45px;">
+    <ag-grid-angular #agGrid id="ATCommand" class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs"
+        [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" [modules]="modules"
+        [gridOptions]="gridOptions" [infiniteInitialRowCount]="infiniteInitialRowCount" [pagination]=true
+        (gridReady)="onGridReady($event)" (columnVisible)="onColumnVisible($event)"
+        (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)"
+        (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)"
+        (paginationChanged)="onPaginationChanged($event)" [sideBar]="sideBar" [defaultColDef]="defaultColDef"
+        [suppressRowClickSelection]="true" [rowSelection]="'multiple'" [frameworkComponents]="frameworkComponents"
+        [components]="components" (firstDataRendered)="headerHeightSetter($event)"
+        (columnResized)="headerHeightSetter($event)" [enableRangeSelection]="true">
+    </ag-grid-angular>
+</div>
+<!-- </div> -->
+<div #deleteAtCommandModal class="modal fade" id="deleteATCommandModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" [disabled]="!rolePCTUser" >&times;</button>
+                <h4 class="modal-title">Confirm Deletion</h4>
+            </div>
+            <div class="modal-body">
+                <div class="w-100" >
+                    Are you sure that you want to delete this ATCommand?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn primary_button" (click)="deleteATcommand()"
+                    data-dismiss="modal" [disabled]="!rolePCTUser">Yes</button>
+                <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="col-12">&nbsp;&nbsp; -->
+    <app-atcommand-summary (refreshEvent)="refresh()"></app-atcommand-summary>
+<!-- </div> -->

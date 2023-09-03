@@ -1,0 +1,1 @@
+export const EXCEL_TEMPLATE_HEADER_ROW_NUM = 3;

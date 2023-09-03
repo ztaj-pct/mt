@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <div class="row content_titlebar">
+    <div class="col-lg-12">
+      <div class="breadCrumb">
+        <span class="pageName">
+          <a href="javascript:void(0);">Manage Devices</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);" [routerLink]="['../gateway-list']">Device Provisioning</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);">Update Device Provisioning</a>
+        </span>
+      </div>
+      <div class="content_titlebar_wrapper">
+        <h2 class="pull-left col-lg-12 noPadding">Update Device Provisioning</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row"  style="padding-left: 30px;">
+    <div class="col-lg12">
+    <form class="ngFormsViews" [formGroup]="update_gateway_form" (ngSubmit)="onSubmit(update_gateway_form)">
+      <label for="deviceId" class="control-label" style="margin-right:15px;margin-bottom: 15px;font-weight: 400 !important;">The selected devices
+        will be updated with
+        the sensor configuration specified below.</label>
+      <div class="tabColLables">
+        <div style="position: relative;margin-bottom: 15px;">
+          <mat-radio-group class="sensorRadioGrp" aria-label="Select an option"
+            formControlName='is_standard_configuration'>
+            <mat-radio-button style="margin-bottom: 15px;" [value]="true">
+              <span class="sensLableForMain">Use a standard configuration</span>
+            </mat-radio-button>
+            <div class="form-group" style="margin-bottom: 0px !important;">
+              <div class="col-sm-8 col-lg-8 sensorGroupRow">
+                <select class="form-control ml-30 sensorInput" formControlName='section_id'>
+                  <option *ngFor="let section of sensorSectionList" value="{{section.section_id}}">{{section?.section_name}}</option>
+                </select>
+              </div>
+            </div>
+            <mat-radio-button class="ml-30" style="margin-bottom: 15px;" [value]="false">
+              <span class="sensLableForMain">Choose individual sensors</span>
+            </mat-radio-button>
+            <div *ngFor="let sensorGroup of update_gateway_form.get('sensors')['controls'];let i = index"
+              [formGroup]="sensorGroup">
+              <div class="form-group" style="margin-bottom: 0px !important;">
+                <div class="col-sm-8 col-lg-8 sensorGroupRow">
+                  <span class="fw400 sensorLable">Sensor</span>
+                  <select class="form-control ml-30 sensorInput" formControlName='sensor'
+                    (change)="onChangeForSensor($event, i)">
+                    <option value="" default selected disabled hidden>Select Sensor</option>
+                    <option *ngFor="let sensor of sensorList" value="{{sensor.sensor_uuid}}"
+                      [ngValue]="sensor.sensor_uuid">
+                      ({{sensor.product_code}}) {{sensor.product_name}} </option>
+                  </select>
+
+                  <button type="button" class="linkT link_button" (click)="deleteSensor(i)"><i class="fa fa-minus"
+                      aria-hidden="true"></i><span>Remove</span></button>
+                </div>
+              </div>
+            </div>
+            <div class="addSensorRow">
+              <button type="button" class="linkT link_button" (click)="addNewSensor(1)"><i class="fa fa-plus"
+                  aria-hidden="true"></i>
+                <span class="sensorAddTxt">Add Another Sensor</span></button>
+            </div>
+
+            <div class="tabColLables">
+              <label for="deviceId" class="control-label"
+                style="margin-right:15px;margin-bottom: 15px;margin-top: 15px;font-weight: 400 !important"> These
+                sensors should :</label>
+              <div style="position: relative;margin-bottom: 15px;">
+                <mat-radio-group class="sensorRadioGrp" aria-label="Select an option"
+                  formControlName='is_replace_existing_configuration'>
+                  <mat-radio-button [value]="true">
+                    <span class="sensLable">Replace existing configuration</span>
+                  </mat-radio-button>
+                  <mat-radio-button class="ml-30" [value]="false">
+                    <span class="sensLable">Add to existing configuration</span>
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+          </mat-radio-group>
+        </div>
+      </div>
+
+
+      <div class="col-lg-12 btnSectionRow">
+        <div class="form-group">
+          <div class="w-100 text-left">
+            <button type="submit" class="btn primary_button save_btn" [disabled]="buttonDisabled" >Update</button>
+            &nbsp;&nbsp;
+            <button class="btn cancel-btn" (click)="cancel()" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  </div>
+
+  <div #confirmConfigurationChange class="modal fade" id="confirmConfigurationChange" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm Configuration Change</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            Are you sure you want to update the configuration of these gateways?
+
+            <br><b>Note:</b> It will take few moments for the sensor list to be updated.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button save_btn" (click)="updateGatewayDetails()"
+            data-dismiss="modal">Yes</button>
+          <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

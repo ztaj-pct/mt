@@ -1,0 +1,25 @@
+<div class="col-12 pl-0 pr-0">
+  <h4 class="content_titlebar_wrapper">Send AT Command to Device</h4>
+  <div class="col-12 pl-0 pr-0">
+    <form [formGroup]="atcommadform" (ngSubmit)="onSubmit(atcommadform)">
+      <div class="form-group col-md-1 cmndEle">
+        <mat-label>Command</mat-label>
+      </div>
+      <div class="form-group col-md-3">
+        <mat-form-field>
+          <input required matInput #atcommand maxlength="800" formControlName='at_command' id="at_command">
+          <span matPrefix>at+</span>
+        </mat-form-field>
+      </div>
+     
+      <div class="form-group col-md-1">
+        <!-- <mat-form-field>
+          <input required matInput #priority maxlength="20" formControlName='priority' id="priority">
+        </mat-form-field> -->
+      </div> 
+      <div>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </div>
+    </form>
+  </div>
+</div>

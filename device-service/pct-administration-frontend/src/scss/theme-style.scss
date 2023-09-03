@@ -1,0 +1,1086 @@
+/*---------------------------------------------------------------------------
+----------------------------------------------------------------------------
+@Auth: Ankit Sharma 
+Date: 06/30/2020
+Desc: 'Via This file we are able to manage diff-2 theme styling'.
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------*/
+
+@import 'variables.scss';
+/*--------------------------------------------------------------------------- 
+----------------------Start All Varibale Goes Here---------------------------
+----------------------------------------------------------------------------*/
+/*pre variables for dark them*/
+$white        : #FFF;
+$d_white      : #f5f5f5;
+$xx_light_grey: #ededed;
+$x_light_grey : #d9d9d9;
+$x_dark       : #666;
+$xx_dark      : #484848;
+$xxx_dark     : #333;
+$black        : #000;
+$boxShadow    : 0 0 10px rgba(55, 55, 55, 0.9);
+$darkBlue     : #080918;
+$darkOrange   : #b13335;
+$XXDarkBule   : #050619;
+$lightBorder  : #252525;
+
+$app_grey_bg : #303030;
+/*pre variables for dark them*/
+
+
+
+/*--------------------------------------------------------------------------- 
+------------------------End All Varibale Goes Here---------------------------
+----------------------------------------------------------------------------*/
+
+
+
+/*--------------------------------------------------------------------------- 
+--------------------Start Dark Theme Styling Goes Here-----------------------
+----------------------------------------------------------------------------*/
+body.dark-theme {
+    background: $app_grey_bg;
+
+    .body_wrapper {
+        background: $app_grey_bg;
+    }
+
+    /*----------------------------------------------------------------
+    ---------------------Start From Material Style--------------------
+    /*----------------------------------------------------------------*/
+
+    .mat-card {
+        background: $darkBlue;
+        color     : $white;
+        box-shadow: $boxShadow;
+    }
+
+    #lightThemeLogo {
+        display: none;
+    }
+
+    #darkThemeLogo {
+        display: block;
+    }
+
+    .mat-tab-group.mat-primary .mat-ink-bar,
+    .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+        background-color: $darkBlue;
+    }
+
+    /*-----------------------
+        mat calender 
+    ------------------------*/
+    .mat-calendar-body-selected,
+    .mat-datepicker-content {
+        background-color: $darkBlue;
+        color: $white;
+        box-shadow: $boxShadow;
+    }
+    .mat-calendar-controls{
+        .mat-button, .mat-icon-button{
+            color: $white;
+        }
+    }
+    .mat-calendar-body-label{
+        color: $white;
+    }
+    .mat-calendar-body-cell-content {
+        color       : $white;
+        border-color: transparent;
+    }
+    .mat-calendar-arrow{
+        border-top-color: $white;
+    }
+    .mat-calendar-table-header{
+        color: rgba(255,255,255,.5);
+    }
+    .mat-calendar-table-header-divider::after{
+        background: rgba(255,255,255,.12);
+    }
+    .mat-datepicker-toggle .mat-icon-button {
+        color: $white;
+    }
+
+    .cdk-keyboard-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected),
+    .cdk-program-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected),
+    .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected){
+        background-color: rgba(255,255,255,.04);
+    }
+
+    .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+        border-color: rgba(255, 255, 255, .5);
+    }
+
+
+
+    .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+        color: rgba(0, 0, 0, .87);
+    }
+
+    .mat-form-field-label-wrapper .mat-form-field-label.mat-form-field-empty {
+        color: $white;
+    }
+
+    .mat-accordion {
+        box-shadow: $boxShadow;
+    }
+
+    .mat-form-field-appearance-legacy {
+        .mat-form-field-underline {
+            background-color: $white !important;
+        }
+    }
+
+    .mat-form-field-label-wrapper .mat-form-field-label {
+        color: $white;
+    }
+
+    .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+        color: $darkOrange;
+    }
+
+    .mat-form-field {
+        &.mat-focused {
+            .mat-form-field-ripple {
+                background-color: $white;
+            }
+
+            .mat-form-field-label {
+                color: $white;
+            }
+        }
+    }
+
+    .mat-input-element,
+    .mat-select-value-text {
+        color: $white;
+    }
+
+    /*-----------------------
+        Select Drop Down
+    ------------------------*/
+    .mat-option {
+        background: $XXDarkBule;
+        color     : $white;
+
+        &.mat-active {
+            background: #121321;
+        }
+
+        &:hover:not(.mat-option-disabled) {
+            background: #121321;
+            color     : $white;
+        }
+    }
+
+    .mat-option.mat-selected:not(.mat-option-disabled) {
+        color     : $white;
+        background: $darkBlue;
+    }
+
+    .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled),
+    .mat-option:focus:not(.mat-option-disabled),
+    .mat-option:hover:not(.mat-option-disabled) {
+        background: #121321;
+        color     : $white;
+    }
+
+    #change-password .password-hint {
+        background-color: $darkBlue !important;
+    }
+
+    /*-----------------------
+        radio button
+    ------------------------*/
+    .mat-radio-group {
+        .mat-radio-button {
+            .mat-radio-label {
+                .mat-radio-container {
+                    .mat-radio-outer-circle {
+                        border-color: $white;
+                    }
+
+                    .mat-radio-inner-circle {
+                        background-color: $darkBlue;
+                    }
+                }
+            }
+        }
+    }
+
+    /*-----------------------
+    checkbox styling
+  ------------------------*/
+    .mat-checkbox {
+        .mat-checkbox-layout {
+            .mat-checkbox-inner-container {
+                .mat-checkbox-frame {
+                    border-color: $white;
+                }
+
+                .mat-checkbox-background {
+                    background-color: transparent;
+                }
+            }
+        }
+
+        &.mat-checkbox-checked.mat-accent {
+            .mat-checkbox-background {
+                background-color: $darkOrange;
+            }
+        }
+    }
+
+    /*-----------------------
+    Dropdown Styling
+  ------------------------*/
+    .mat-menu-panel {
+        .mat-menu-content {
+            border: 1px solid #959595;
+
+            .mat-menu-item {
+                border-bottom: 1px solid #959595;
+                background   : $darkBlue;
+                color        : $white;
+
+                &:hover {
+                    background: #ffeded;
+                }
+
+            }
+        }
+    }
+
+    /*-----------------------
+        Date-Picker Styling
+     ------------------------*/
+    .mat-calendar-body-selected {
+        background-color: $XXDarkBule;
+    }
+
+    .mat-datepicker-toggle-active {
+        color: $white;
+    }
+
+    .cdk-keyboard-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected),
+    .cdk-program-focused .mat-calendar-body-active>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected),
+    .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover>.mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+        background-color: $darkBlue;
+    }
+
+    /*Wrapper for fixed header and scroll*/
+    .mat-table {
+        background: $darkBlue;
+        box-shadow: $boxShadow;
+    }
+
+    .mat-elevation-z8 {
+        box-shadow: $boxShadow;
+    }
+
+    .table_container.multi_table,
+    .table_container {
+        box-shadow: $boxShadow;
+
+        .pos_relative {
+            .attachTableFilter {
+                span {
+                    input {
+                        border    : 1px solid #454545;
+                        background: #080918;
+                        color     : #fff;
+
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+
+                    .material-icons {
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+    }
+
+    mat-footer-row,
+    mat-header-row,
+    mat-row,
+    td.mat-cell,
+    td.mat-footer-cell,
+    th.mat-header-cell {
+        border-bottom-color: #262734;
+    }
+
+    table.data-table {
+        border: none;
+
+        tr {
+            th {
+                color: $white !important;
+            }
+
+            td {
+                color: $white !important;
+            }
+        }
+    }
+
+    /*--------------------------------
+        Exp table
+    ----------------------------------*/
+    table.tblOfExpand {
+        tr.detailTblRow {
+            background: $darkBlue;
+
+            &:hover {
+                background: $XXDarkBule;
+            }
+        }
+
+        tbody {
+            tr.expandedEleRow {
+                cursor: pointer;
+
+                td {
+                    .mat-icon {
+                        color           : $d_white;
+                        background-color: $darkBlue;
+                    }
+                }
+            }
+        }
+    }
+
+    .action-mat-menu {
+        .mat-menu-content {
+            border: 1px solid #959595;
+
+            .mat-menu-item {
+                border-bottom: 1px solid #959595;
+                background   : $darkBlue;
+                color        : $white;
+
+                &:hover {
+                    background: #ffeded;
+                }
+
+                .mat-icon {
+                    color: $white;
+                }
+            }
+        }
+    }
+
+    /*--------------------------------
+        Exp table
+    ----------------------------------*/
+
+    /*--------------------------------
+        Action table
+    ----------------------------------*/
+    table.actionTable {
+        tbody {
+            tr {
+                td {
+                    .button-table-Section {
+                        .btnSpan {
+                            .tableRowBtn {
+
+                                .material-icons {
+                                    // background-color: $darkBlue;
+                                    // color           : $white;
+                                }
+
+                                &.cancelBtn {
+                                    .material-icons {
+                                        // background-color: $darkBlue;
+                                        // color           : $white;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*-----------------------
+        Expansion Styling
+    ------------------------*/
+    .mat-expansion-panel {
+        background: $darkBlue;
+        color     : $white;
+    }
+    .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+        background: $darkBlue;
+        color     : $white;
+    }
+    .mat-expansion-panel-header {
+        .mat-expansion-panel-header-title {
+            color     : $white !important;
+        }
+    }
+    .mat-expansion-indicator::after, .mat-expansion-panel-header-description{
+        color: #FFF;
+    }
+    /*-----------------------
+        Tree Styling
+    ------------------------*/
+    .mat-tree {
+        .mat-tree-node {
+            color: $white !important;
+
+            .mat-icon-button {
+                color: $white !important;
+            }
+        }
+    }
+
+    /*-----------------------
+        Tab Styling
+    ------------------------*/
+    .mat-tab-label,
+    .mat-tab-link {
+        color: $white;
+    }
+
+    /*-----------------------
+       Dialogue Styling
+    ------------------------*/
+    .dialogue_box {
+        background: $darkBlue;
+
+        &#paymentReciept {
+            background: $white;
+        }
+
+        .mat-dialog-title {
+            background: $darkOrange;
+            color     : $white;
+
+            .dialog-close {
+                a {
+                    &:hover {
+                        color: $xx_light_grey;
+                    }
+                }
+            }
+        }
+
+        .mat-dialog-content {
+            .tblOfExpand {
+                tbody {
+                    tr.expandedEleRow {
+                        td {
+                            &:first-child {
+                                .button-table-Section {
+                                    .btnSpan {
+                                        .mat-icon {
+                                            background-color: $darkOrange;
+                                            color           : $white;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    #subscription .selected-packages-for-unsub {
+        background: #363636 !important;
+    }
+
+    /*-----------------------
+       Sidebar Styling
+    ------------------------*/
+
+    .sideBarNav {
+        background: $darkBlue;
+
+        .hamburger-sub-menu {
+            li {
+                border-bottom: 1px solid #252525 !important;
+
+                a {
+                    color: $white !important;
+                }
+
+                &.active-sidemenu {
+                    background: $darkOrange !important;
+
+                    a {
+                        color: $white !important;
+                    }
+                }
+            }
+        }
+    }
+
+    /*----------------------------------------------------------------
+    ---------------------End From Material Style----------------------
+    /*----------------------------------------------------------------*/
+
+
+
+    /*----------------------------------------------------------------
+    ---------------------Start From Style.scss Style------------------
+    /*----------------------------------------------------------------*/
+
+    /*erros*/
+    .toast-warning {
+        background-color: $warning;
+    }
+
+    .toast-error {
+        background-color: $error;
+    }
+
+    .toast-success {
+        background-color: $success;
+    }
+
+    .confirm_box {
+        .mat-dialog-title {
+            background: $primary_color;
+            color     : #FFF;
+
+            .dialog-close {
+                a {
+                    &:hover {
+                        color: #ededed;
+                    }
+                }
+            }
+        }
+
+        h2 {
+            background: $primary_color;
+            color     : #fff;
+
+            .close_btn {
+                a {
+                    color: #FFF;
+                }
+            }
+        }
+        .mat-dialog-content{
+            background: $XXDarkBule;
+        }
+        .confirm_box_text {
+            color: $white;
+        }
+    }
+
+    /* --------------------------------------------------------------------------
+        Header Styling
+    -----------------------------------------------------------------------------*/
+
+    #header {
+        .top-row1 {
+            background   : $darkBlue;
+            border-bottom: 1px solid $darkBlue;
+
+            .top-right-usernav {
+                color: #FFF;
+
+                .dropdown-nav {
+                    .drop-nav {
+                        margin-right: 5px;
+
+                        ul {
+                            li {
+                                &.sub-menu-parent {
+
+                                    &:focus,
+                                    &:focus-within,
+                                    &:hover {
+                                        .sub-menu {
+                                            background: #FFF;
+                                            border    : 2px solid #e7e7e7;
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+
+                        .sub-menu-parent {
+                            a.userName {
+                                color: $white;
+
+                                &:hover {
+                                    color     : $darkOrange;
+                                    background: transparent;
+                                }
+                            }
+                        }
+
+                        .sub-menu {
+                            border-bottom: 1px solid #e7e7e7;
+
+                            li {
+                                border-bottom: 1px solid #e7e7e7;
+
+                                a {
+                                    color: $nav_txt_color;
+
+                                    &:hover {
+                                        color     : $nav_txt_color;
+                                        background: #fff7f7;
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+                .user-initials {
+                    color     : $white;
+                    background: $primary_color;
+                }
+
+                #hamburgerIco {
+                    a {
+                        color: $white;
+                    }
+                }
+
+            }
+        }
+
+        .top-row2 {
+            background: $primary_color;
+        }
+    }
+
+    /*--------------------------
+        Main Navigation Styling
+    ---------------------------*/
+
+    .mat-main-nav {
+        .mat-nav {
+            .mat-icons-nav {
+                .material-icons {
+                    color: $mat_nav_color;
+                }
+            }
+
+            .mat-nav-txt {
+                color: $mat_nav_color;
+            }
+
+            &.mat-nav-active {
+                .mat-icons-nav {
+                    .material-icons {
+                        color: $txt_highligter_color;
+                    }
+                }
+
+                .mat-nav-txt {
+                    color: $txt_highligter_color;
+                }
+            }
+
+            &.mat-button:hover {
+                .mat-icons-nav {
+                    .material-icons {
+                        color: $txt_highligter_color;
+                    }
+                }
+
+                .mat-nav-txt {
+                    color: $txt_highligter_color;
+                }
+            }
+        }
+    }
+
+    /* --------------------------------------------------------------------------
+        Header Styling
+    -----------------------------------------------------------------------------*/
+
+    /* --------------------------------------------------------------------------
+        Main Changeable Container Styling
+    -----------------------------------------------------------------------------*/
+
+    #main {
+        #container-changeable {
+            background: $app_grey_bg;
+
+            .container {
+                background: $darkBlue;
+
+                .container-section {
+                    .title-of-section {
+                        color     : $white;
+                        background: $darkOrange;
+                    }
+
+                    .subtitles-of-section {
+                        color: $white;
+
+                        span {
+                            background: $darkBlue;
+                        }
+                    }
+
+                    .subtitlesTP1 {
+                        border: 2px dashed $primary_color;
+
+                        .subtitles-of-section {
+                            outline: 2px dashed $primary_color;
+                        }
+                    }
+
+
+                    .subtitlesTP3 {
+                        .subtitles-of-section {
+                            border-bottom: 3px solid $off_orange;
+                        }
+                    }
+
+                    .subtitlesTP4 {
+                        border-bottom: 1px solid $off_orange;
+
+                        .subtitles-of-section {
+                            background: $white;
+                        }
+                    }
+
+                    .readOnlyModeInfo {
+                        .data-col {
+                            label {
+                                color: $white;
+                            }
+
+                            .ro-value {
+                                color: $white;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /*-----------------
+        Button Styling
+    -------------------*/
+    .btn {
+        color: $btn_color !important;
+    }
+
+    .btnXs {
+        color: $btn_color !important;
+    }
+
+    .primary_button {
+        background-color: $primary_btn_bg;
+
+        &:hover {
+            background-color: $primary_btn_bg_hover;
+        }
+    }
+
+    .primary_blue_button {
+        background-color: $xs_b_btn_color;
+
+        &:hover {
+            background-color: $xs_b_btn_color_hover;
+        }
+    }
+
+    .secondary_button {
+        background-color: $secondary_btn_bg;
+
+        &:hover {
+            background-color: $secondary_btn_bg_hover;
+        }
+    }
+
+    .primary_xsbtn {
+        background-color: $primary_btn_bg;
+
+        &:hover {
+            background-color: $primary_btn_bg_hover;
+        }
+    }
+
+    .primary_b_xsbtn {
+        background-color: $xs_b_btn_color;
+
+        &:hover {
+            background-color: $xs_b_btn_color_hover;
+        }
+    }
+
+    .secondary_xsbtn {
+        background-color: $secondary_btn_bg;
+
+        &:hover {
+            background-color: $secondary_btn_bg_hover;
+        }
+    }
+
+    .absolute_btn_section {
+        background: $darkBlue;
+        right     : -1px;
+
+        .mat-raised-button span {
+            background: none !important;
+        }
+    }
+
+    .roundBtnExportAction {
+        .mat-button-wrapper {
+            background: transparent !important;
+        }
+
+        background : $primary_color !important;
+
+        .fa {
+            color: #fff;
+        }
+
+        &:hover {
+            background: #d9d9d9 !important;
+
+            .fa {
+                color: $primary_color !important;
+            }
+        }
+
+        &.htmlIcons{
+            background-image: url('../assets/images/icons/html.png') !important;
+            background-position: 0% 0% !important;
+          }
+          &.htmlIcons:hover{
+            background-image: url('../assets/images/icons/html-hover.png') !important;
+            background-position: 0% 0% !important;
+          }
+          &.pdfIcons{
+            background-image: url('../assets/images/icons/pdf.png') !important;
+            background-position: 0% 0% !important;
+          }
+          &.pdfIcons:hover{
+            background-image: url('../assets/images/icons/pdf-hover.png') !important;
+            background-position: 0% 0% !important;
+          }
+    }
+
+    /*----------------------------
+        Highlight Value
+    ------------------------------*/
+    .highlighting {
+        color: $white !important;
+
+        &.green {
+            border-left     : 5px solid #037f0f;
+            background-color: rgba(3, 127, 15, .5) !important;
+        }
+
+        &.red {
+            border-left     : 5px solid red;
+            background-color: rgba(255, 0, 0, .5) !important;
+        }
+
+        &.grey {
+            border-left     : 5px solid #595959;
+            background-color: rgba(89, 89, 89, .5) !important;
+        }
+    }
+
+    /* --------------------------------------------------------------------------
+        Main Changeable Container Styling
+    -----------------------------------------------------------------------------*/
+
+    /* --------------------------------------------------------------------------
+        Footer Styling
+    -----------------------------------------------------------------------------*/
+
+    #footer {
+        #footer-wrapper {
+            .container-fluid {
+                background: $low_black;
+
+                .footer-section {
+                    color: $white;
+
+                    .copyright-txt {
+                        color: $white;
+                    }
+
+                    .policy-txt {
+                        .fo-links {
+                            a {
+                                color: $white;
+
+                                &:hover {
+                                    color: $footer_links;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* --------------------------------------------------------------------------
+        Footer Styling
+    -----------------------------------------------------------------------------*/
+
+    /*--------------------------------------------------------
+        login component styling
+    ----------------------------------------------------------*/
+    .login_component {
+        #login-form {
+            background: $loginbox_bg;
+
+            .login-logo-strip {
+                background: $blue_bg;
+                border    : 1px solid $brdr_clr;
+            }
+
+
+            .login_opts {
+                .col-lg-12 {
+                    .forgot_password {
+                        a {
+                            color: $primary_color;
+                        }
+                    }
+
+                }
+            }
+
+            .otp_msg_show {
+                .otp_txtBox {
+                    input {
+                        border-right : 1px solid $primary_color;
+                        border-bottom: 1px solid $primary_color;
+                    }
+
+                    span {
+                        color: $black;
+                    }
+                }
+            }
+
+            .mat-radio-outer-circle {
+                border-color: #B13335 !important;
+            }
+
+            .mat-radio-inner-circle {
+                background-color: #B13335 !important;
+            }
+
+            .mat-form-field-label-wrapper .mat-form-field-label.mat-form-field-empty,
+            .mat-form-field-label-wrapper .mat-form-field-label {
+                color: #000 !important;
+            }
+
+            .mat-form-field-appearance-legacy .mat-form-field-underline {
+                background-color: #8e8e8e !important;
+            }
+        }
+    }
+
+    .login-fail-error-multiple-act {
+        color     : $primary_color;
+        background: #ececec;
+
+        .multiAccount_acno {
+            ul {
+                li {
+                    background: $primary_color;
+                }
+            }
+        }
+
+    }
+
+    /*Read only value for all comman */
+
+    .readOnlyModeInfo {
+        .data-col {
+            label {
+                color: $white;
+            }
+
+            .ro-value {
+                color: $white;
+            }
+        }
+    }
+
+
+    /***************************
+        Drop Navigation
+    ****************************/
+    #hamburgerIco {
+        .hamburger-sub-menu {
+            background: #fff;
+        }
+    }
+
+    #myaccount {
+        .password-hint {
+            color: $primary_color;
+        }
+
+        .custom-error {
+            color: #f44336;
+        }
+    }
+
+    #paymentReciept {
+        .billTableTitle {
+            background: $primary_color;
+            color     : #FFF;
+            border    : 2px solid $primary_color;
+        }
+
+        .billText {
+            color: $primary_color;
+        }
+
+        table {
+            border: 2px solid $primary_color;
+
+            thead {
+                background: #f3f3f3;
+            }
+        }
+    }
+
+    #subscription {
+        .grand-total {
+            color: $primary_color !important;
+        }
+
+        .amount-info-lbl {
+            color: $primary_color !important;
+        }
+    }
+
+    /*----------------------------------------------------------------
+    ---------------------End From Style.scss Style--------------------
+    /*----------------------------------------------------------------*/
+
+}
+
+
+/*--------------------------------------------------------------------------- 
+-----------------------nd Dark Theme Styling Goes Here-----------------------
+----------------------------------------------------------------------------*/

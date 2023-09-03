@@ -1,0 +1,107 @@
+.sensorGroupRow{
+    display: flex;
+    padding: 0px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.sensorGroupRow .sensorLable{
+    margin-right: 25px;
+}
+.sensorGroupRow .sensorInput{
+    max-width: 330px;
+    margin-right: 25px;
+}
+.addSensorRow .link_button{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.addSensorRow .link_button:hover {
+    text-decoration: none;
+  }
+.addSensorRow .link_button .fa{
+    font-size: 18px;
+    font-weight: 400;
+    margin-right: 15px;
+}
+.addSensorRow .link_button .sensorAddTxt{
+    color: #4ba9d7;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.btnSectionRow{
+    margin: 20px 0px;
+    text-align: left;
+}
+.sensorRadioGrp .sensLable{
+    margin-left: 10px;
+    margin-right: 25px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.sensorRadioGrp .sensLableForMain{
+    margin-left: 10px;
+    margin-right: 25px;
+    font-weight: 900;
+    letter-spacing: 0.7px;
+}
+
+
+.fade.show{
+    opacity: 1;
+  }
+
+  .cancel-btn{
+    color: #007bff!important;
+    border: 2px solid #35a9d5 !important;
+    border-radius: 6px!important;
+    box-shadow: none;
+  }
+  
+  
+  .save_btn{
+    color: #FFF!important;
+    background: #35a9d5;
+    border: 2px solid #35a9d5 !important;
+    border-radius: 6px!important;
+    box-shadow: none;
+  }
+  
+  .cancel-btn:hover{
+    background: #f6f6f6;
+    color: #3C64B1 !important;
+  }
+
+  .addRowBtnSection
+    .addRowBtn{
+      border: 0px;
+      background: #FFF;
+      color: #4BA9D7;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 0;
+      
+    
+  }
+
+  .addRowBtnSection
+    .addRowBtn .fa{
+        color: #737b7d;
+        margin-right: 15px;
+      }
+
+      .removeRuleMoreLink {
+        color: #727b7d;
+        font-size: 20px;
+        line-height: 20px;
+        font-weight: 400;
+        text-decoration: none;
+      }
+      
+      .removeRuleMoreLink:hover {
+        text-decoration: none;
+      }

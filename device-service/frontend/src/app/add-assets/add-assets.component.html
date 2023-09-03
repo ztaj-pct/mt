@@ -1,0 +1,314 @@
+<div class="container">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <div class="row content_titlebar">
+    <div class="col-lg-12">
+      <div class="breadCrumb">
+        <span class="assetName" *ngIf="assetsService.routeflag == false">
+          <span class="pageName">
+            <a href="javascript:void(0);">Manage Assets</a>
+          </span>
+          <!-- <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);" [routerLink]="['../customerAssets']">Companies with Asset Lists </a>
+          </span> -->
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);">Create or Edit an Asset</a>
+          </span>
+        </span>
+      </div>
+
+      <div class="breadCrumb">
+        <span class="assetName" *ngIf="assetsService.routeflag == true">
+          <span class="pageName">
+            <a href="javascript:void(0);">Assets</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);" [routerLink]="['../installation-summary']">Installation Report </a>
+          </span>
+
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);" [routerLink]="['../installation-details']">Installation Details</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);">Create or Edit an Asset</a>
+          </span>
+        </span>
+      </div>
+
+      <div class="content_titlebar_wrapper">
+        <h2 class="pull-left col-lg-12 noPadding">Create or Edit An Asset</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="content_form">
+
+    <form class="ngFormsViews" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
+      <div class="col-lg-6 pl-0">
+        <div class="form-group w-100">
+          <label for="company" class="w-100 control-label required"
+            [ngClass]="registerForm.get('company').errors && (registerForm.get('company').dirty || registerForm.get('company').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Organization</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <mat-select id="company" formControlName='company'>
+                <!--   <mat-option value="" default selected disabled hidden>Select Company</mat-option>-->
+                <mat-option *ngFor='let company of companies  | orderBy: "organisationName"' [value]="company.accountNumber">
+                  {{company?.organisationName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="registerForm.get('company').errors && (registerForm.get('company').dirty || registerForm.get('company').touched)">
+              <span *ngIf="f.company.errors.required">organization is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100 ">
+          <label for="assetId" class="w-100 control-label required"
+            [ngClass]="(registerForm.get('assetId').hasError('required') && registerForm.get('assetId').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Asset
+            ID</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input required matInput formControlName='assetId' id="assetId" (input)="onChangeEvent($event)">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('assetId').hasError('required') && registerForm.get('assetId').touched)">
+              <span *ngIf="f.assetId.errors.required">Asset ID is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100 ">
+          <label for="assetNickName" class="w-100 control-label"
+            [ngClass]="(registerForm.get('assetNickName').hasError('required') && registerForm.get('assetNickName').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Asset Nickname</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='assetNickName' id="assetNickName" >
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('assetNickName').hasError('required') && registerForm.get('assetNickName').touched)">
+              <span *ngIf="f.assetNickName.errors.required">Asset Nick Name is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100 ">
+          <label for="Is Product Is Approved For Asset" class="w-100 control-label required"
+            [ngClass]="(registerForm.get('eligible_gateway').hasError('required') && registerForm.get('eligible_gateway').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Product
+            Approved for Asset</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+            <mat-select id="eligible_gateway" formControlName='eligible_gateway'>
+                <mat-option *ngFor="let product of approvedProducts" [value]="product">{{product?.display_label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('eligible_gateway').hasError('required') && registerForm.get('eligible_gateway').touched)">
+              <span *ngIf="f.eligible_gateway.errors.required">Approved Product is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="category" class="w-100 control-label required"
+            [ngClass]="(registerForm.get('category').hasError('required') && registerForm.get('category').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Category</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <mat-select id="category" formControlName='category' (selectionChange)="onTypeSelect($event)">
+                <mat-option *ngFor="let type of assetType1" [value]="type">{{type?.display_label | uppercase}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('category').hasError('required') && registerForm.get('category').touched)">
+              <span *ngIf="f.category.errors.required">Category is required.</span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group w-100 ">
+          <label for="noOfTires" class="w-100 control-label"
+            [ngClass]="(registerForm.get('noOfTires').hasError('required') && registerForm.get('noOfTires').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' "># Tires on Asset</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='noOfTires' id="noOfTires" >
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('noOfTires').hasError('required') && registerForm.get('noOfTires').touched)">
+              <span *ngIf="f.noOfTires.errors.required">No of asset tires is required.</span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group w-100 ">
+          <label for="noOfAxel" class="w-100 control-label"
+            [ngClass]="(registerForm.get('noOfAxel').hasError('required') && registerForm.get('noOfAxel').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' "># Axles</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='noOfAxel' id="noOfAxel" >
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('noOfAxel').hasError('required') && registerForm.get('noOfAxel').touched)">
+              <span *ngIf="f.noOfAxel.errors.required">No of Axcel is required.</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+
+        <div class="form-group w-100 ">
+          <label for="externalLength" class="w-100 control-label">External Lenght</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='externalLength' id="externalLength" >
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('externalLength').hasError('required') && registerForm.get('externalLength').touched)">
+              <span *ngIf="f.externalLength.errors.required">External Length is required.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="doorType" class="w-100 control-label"
+            [ngClass]="(registerForm.get('doorType').hasError('required') && registerForm.get('doorType').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Door Type</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <mat-select id="doorType" formControlName='doorType'>
+                <mat-option *ngFor="let type of doorType" [value]="type.value">{{type?.data}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('doorType').hasError('required') && registerForm.get('doorType').touched)">
+              <span *ngIf="f.doorType.errors.required">Door Type is required.</span>
+            </span>
+          </div>
+        </div>
+        
+
+        <div class="form-group w-100 ">
+          <label *ngIf="isContainerType1" for="vin" class="w-100 control-label" [ngClass]="(registerForm.get('vin').hasError('minlength') &&
+          registerForm.get('vin').touched) || (registerForm.get('vin').hasError('maxlength') &&
+          registerForm.get('vin').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">VIN</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='vin' id="vin" maxlength="17">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding" *ngIf="(registerForm.get('vin').hasError('minlength') &&
+              registerForm.get('vin').touched) || (registerForm.get('vin').hasError('maxlength') &&
+              registerForm.get('vin').touched)">
+              <span *ngIf="f.vin.errors.minlength || f.vin.errors.maxlength">The VIN provided is the incorrect
+                length</span>
+                <span *ngIf="f.vin.errors.required">Vin is required.</span>
+            </span>
+
+            <div *ngIf="vinValidation==true">
+              <i class="fa fa-check-circle" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="vinValidation==false">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            </div>
+          </div>
+
+        </div>
+
+ 
+        <div class="form-group w-100 ">
+          <label for="manufacturer" class="w-100 control-label">Manufacturer</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='manufacturer' id="manufacturer">
+            </mat-form-field>
+            <!-- <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(registerForm.get('manufacturer').hasError('required') && registerForm.get('manufacturer').touched)">
+              <span *ngIf="f.manufacturer.errors.required">Manufacturer is required.</span>
+            </span> -->
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="year" class="w-100 control-label" [ngClass]="(registerForm.get('year').hasError('minlength') &&
+          registerForm.get('year').touched)  ||  (registerForm.get('year').hasError('pattern') &&registerForm.get('year').touched) || (registerForm.get('year').hasError('maxlength') &&
+          registerForm.get('year').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Model Year</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='year' id="year">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding" *ngIf="(registerForm.get('year').hasError('pattern') && registerForm.get('year').touched) || (registerForm.get('year').hasError('maxlength') &&
+            registerForm.get('year').touched) || (registerForm.get('year').hasError('minlength') &&
+            registerForm.get('year').touched)">
+              <span
+                *ngIf="f.year.errors.minlength || f.year.errors.pattern || f.year.errors.maxlength">Model
+                Year must be four digits.</span>
+            </span>
+          </div>
+        </div>
+
+
+        <div class="form-group w-100">
+          <label for="comment" class="w-100 control-label">Comment</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input matInput formControlName='comment' id="comment">
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <div class="form-group w-100">
+          <label for="active" class="w-100 control-label mb-12">Active</label>
+          <div class="dflxRow">
+            <div class="w-100">
+              <mat-checkbox value="1" formControlName='isActive' id="isActive" name="isActive"
+                [checked]="f.isActive.value">
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+        <div class="form-group">
+          <div class="w-100 text-center">
+            <!-- <div *ngIf="!rolePCTUser"> -->
+              <button *ngIf="isRoleCustomerManagerInstaller != 'true'"
+                [disabled]="!registerForm.valid || buttonDisabled" type="submit" class="btn primary_button save_btn"
+                [disabled]="!rolePCTUser || buttonDisabled ">Save</button>
+            <!-- </div> -->
+            &nbsp;&nbsp;
+            <button class="btn secondary_button cancel-btn" (click)="cancel()"
+              >Cancel</button>
+            &nbsp;&nbsp;
+            <button *ngIf="assetsData && isRoleCustomerManagerInstaller != 'true'" class="btn delete_button delete_btn"
+              (click)="delete()" data-toggle="modal" data-target="#deleteAsset"
+              [disabled]="buttonDisabled ">Delete</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+<div #deleteAsset class="modal fade" id="deleteAsset" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Delete Asset?</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="w-100">
+          Are you sure you want to permanently delete this asset?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn primary_button save_btn" (click)="deleteAssetById()"
+          data-dismiss="modal">Yes</button>
+        <button type="button" class="btn secondary_button cancel-btn" data-dismiss="modal"
+          (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

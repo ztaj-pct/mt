@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <div class="row content_titlebar">
+    <div class="col-lg-12">
+      <div class="breadCrumb">
+        <span class="pageName">
+          <a href="javascript:void(0);">Manage Asset Lists</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);" [routerLink]="['../customerAssets']">Organizations with Asset Lists</a>
+        </span>
+      </div>
+      <div class="content_titlebar_wrapper">
+        <h2 class="pull-left col-lg-6 noPadding">Organizations with Asset Lists</h2>
+        <div class="pull-right col-lg-6 noPadding text-right">
+          <button *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'" class="linkT link_button"
+          (click)="addAssets()"><i class="fa fa-plus" aria-hidden="true"></i><span>Create New
+            Asset</span></button> &nbsp; &nbsp; 
+          <button *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'" class="linkT link_button" (click)="uploadAssets()"><i class="fa fa-cloud-upload"
+              aria-hidden="true"></i><span>Upload
+              Assets</span></button>
+          <button class="linkT link_button" (click)="onBtNormalCols()"><i class="fa fa-repeat"
+            aria-hidden="true"></i><span>REFRESH</span></button>    
+             
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ag-grid-angular #agGrid  id="myGrid" class="ag-theme-alpine" style="width: 100%;  height: calc(100vh - 260px);" [rowData]="rowData"
+    [columnDefs]="columnDefs" [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" [modules]="modules"
+    [gridOptions]="gridOptions" [infiniteInitialRowCount]="infiniteInitialRowCount" 
+    (gridReady)="onGridReady($event)"  (firstDataRendered)="onFirstDataRendered($event)"(columnVisible)="onColumnVisible($event)" (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)" (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)" (paginationChanged)="onPaginationChanged($event)" (columnResized)="onColumnResized($event)" [sideBar]="sideBar"
+    [defaultColDef]="defaultColDef" [frameworkComponents]="frameworkComponents" [components]="components">
+</ag-grid-angular>
+
+<div class="pageSizeNumbers">
+  Page Size:
+  <select [(ngModel)]="selected" id="page-size" name="pageSizeObjArr" (ngModelChange)="onPageSizeChange()">
+      <option *ngFor="let value of pageSizeObjArr" [ngValue]="value.idValue">{{value.id}}</option>
+  </select>
+</div>
+
+</div>
+<div class="col-lg-12" style="font-weight: bold; text-align: end;padding: 20px; width: 97% !important;">
+  Total Elements : {{ this.totalNumberOfElements}}
+</div>

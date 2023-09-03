@@ -1,0 +1,203 @@
+.containerData {
+  width: 462px;
+  height: 200px;
+  padding: 2rem;
+  text-align: center;
+  border: dashed 2px #d7d7d7;
+  position: relative;
+  margin: 19px 0px 0 0;
+  border-radius: 5px;
+  display: flex;
+}
+
+.containerData input {
+  opacity: 0;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.containerData label {
+  color: white;
+  width: 183px;
+  height: 44px;
+  border-radius: 21.5px;
+  background-color: #db202f;
+  padding: 8px 16px;
+}
+
+.containerData h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #38424c;
+}
+
+
+.containerData .fileover {
+  animation: shake 1s;
+  animation-iteration-count: infinite;
+}
+
+.files-list {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-grow: 1;
+}
+
+.single-file {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  border: dashed 1px #979797;
+  margin-bottom: 1rem;
+}
+
+.single-file img.delete {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+
+
+
+.single-file .name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #353f4a;
+  margin: 0;
+}
+
+.single-file .size {
+  font-size: 12px;
+  font-weight: 500;
+  color: #a4a4a4;
+  margin: 0;
+  margin-bottom: 0.25rem;
+}
+
+.single-file .info {
+  width: 100%
+}
+
+.fileName {
+  color: #383838;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dragBoxTxt {
+  text-align: center;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  cursor: grabbing;
+}
+
+.dragBoxTxt .cloudIcons {
+  margin-bottom: 20px;
+}
+
+.dragBoxTxt .cloudIcons .fa {
+  color: #999999;
+  font-size: 46px;
+}
+
+.dragBoxTxt .dragDataHere {
+  color: #4f4f4f;
+  font-size: 16px;
+}
+
+.dragBoxTxt .dragDataHere a {
+  color: #218ead;
+  text-decoration: none;
+  cursor: pointer;
+  margin-right: 0px;
+}
+
+/* Shake animation */
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+.cancel-btn {
+  color: #35a9d5 !important;
+  border: 2px solid #35a9d5 !important;
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+}
+
+.save_btn {
+  color: #FFF !important;
+  border: 2px solid #35a9d5;
+  background-color: #35a9d5;
+  border-radius: 6px !important;
+  box-shadow: none;
+}
+
+.cancel-btn:hover {
+  background: #f6f6f6;
+  color: #35a9d5 !important;
+}
+
+.form-style {
+  margin: 20px 0px -5px 0px;
+  padding-left: 0px;
+}
+.form-style h3{
+  font-family    : 'Helvetica', 'Arial', sans-serif!important;
+}

@@ -1,0 +1,10 @@
+package com.pct.device.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import com.pct.common.model.LatestDeviceReportCount;
+
+public interface ILatestDeviceReportRepository extends JpaRepository<LatestDeviceReportCount, String>, JpaSpecificationExecutor<LatestDeviceReportCount>  {
+
+}

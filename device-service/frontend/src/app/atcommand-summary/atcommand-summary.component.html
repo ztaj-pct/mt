@@ -1,0 +1,29 @@
+&nbsp; &nbsp;
+<div class="col-12 pl-0 pr-0">
+  <div class="col-lg-6 noPadding">
+    <h4 class="content_titlebar_wrapper">AT Command History</h4>
+  </div>
+  <div class="col-lg-6 noPadding text-right">
+    <!-- <span>The auto refresh happens only every 10 seconds </span>&nbsp;&nbsp; -->
+    <button class="linkT link_button" (click)="exportData()"><i class="fa fa-download" aria-hidden="true"></i><span>EXPORT LIST</span></button>
+    &nbsp; &nbsp;
+    <button class="linkT link_button" (click)="refresh()"><i class="fa fa-repeat" aria-hidden="true"></i><span>REFRESH</span></button>
+    &nbsp; &nbsp;
+    <button class="btnClear primary_buttonClear" (click)="clearFilter()">Clear Filters</button>
+    &nbsp; &nbsp;
+  </div>
+</div>
+<div class="col-lg-12 noPadding">
+  <ag-grid-angular #agGrid id="ATCommand" class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs"
+    [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" [modules]="modules" [gridOptions]="gridOptions"
+    [infiniteInitialRowCount]="infiniteInitialRowCount" [pagination]=true (gridReady)="onGridReady($event)"
+    (columnVisible)="onColumnVisible($event)" (columnPinned)="onColumnPinned($event)"
+    (sortChanged)="onSortChanged($event)" (dragStopped)="onDragStopped($event)"
+    (filterChanged)="onFilterChanged($event)" (paginationChanged)="onPaginationChanged($event)" [sideBar]="sideBar"
+    [defaultColDef]="defaultColDef" [suppressRowClickSelection]="true" [rowSelection]="'multiple'"
+    [frameworkComponents]="frameworkComponents" [components]="components"
+    (firstDataRendered)="headerHeightSetter($event)" (columnResized)="headerHeightSetter($event)"
+    [enableRangeSelection]="true">
+  </ag-grid-angular>
+</div>

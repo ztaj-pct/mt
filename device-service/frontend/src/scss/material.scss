@@ -1,0 +1,174 @@
+/* -----------------------------------------
+@Auth: Ankit Sharma 
+Date: 04/26/2019
+Desc: material design and configuration
+--------------------------------------------*/
+@import "variables.scss";
+
+/*-----------------------
+  Genric Classes 
+------------------------*/
+.wh15 {
+  height: 15px;
+  width: 15px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-tab-body {
+  min-height: 100px;
+  padding: 0px 0px;
+}
+
+.mat-tab-group{
+  padding: 0 10px !important;
+}
+
+/*-----------------------
+  Input field 
+------------------------*/
+
+/*-----------------------
+  radio button
+------------------------*/
+
+/*-----------------------
+  checkbox styling
+------------------------*/
+
+/*-----------------------
+  Dropdown Styling
+------------------------*/
+
+/*-----------------------
+  Date-Picker Styling
+------------------------*/
+
+/*-----------------------
+  Table Styling
+------------------------*/
+.table{
+  border: 1px solid #babfc7;
+  thead{
+    th{
+        background-color: #f8f8f8;
+        font-weight: 700;
+        font-size: 12px;
+        color: #000;
+        border-bottom: 1px solid #babfc7;
+        :nth-child(1){
+          width: 35%;
+        }
+    }
+  }
+  
+  
+  tbody{
+    tr{
+      border-bottom: 2px solid #f2f2f2;
+      &:last-child{
+        border-bottom: 2px solid #cccccc;
+        td{
+          border-bottom: none;
+        }
+      }
+      &:nth-child(even){
+        background-color: #f9f9f9;;
+      }
+      td{
+        font-size: 12px;
+        border-bottom: 1px solid #babfc7;
+        color: #000;
+        font-weight: 500;
+        letter-spacing: 0px;
+        a.btnIcon{
+          .fa-pencil{
+            color: #7b8385;
+          }
+        }
+      }
+    }
+  }
+}
+//Sonu sahu: To convert sensor status into uppercase in history page  
+.table td.sensor_status {
+  text-transform: uppercase !important;
+}
+
+
+
+/*--------------------------------
+ Exp table
+----------------------------------*/
+
+/*--------------------------------
+ Exp table
+----------------------------------*/
+
+/*--------------------------------
+ Action table
+----------------------------------*/
+
+/*-----------------------
+  Expansion Styling
+------------------------*/
+
+/*-----------------------
+  Tree Styling
+------------------------*/
+
+/*-----------------------
+  Tab Styling
+------------------------*/
+
+.mat-tab-label {
+  height: 30px !important;
+  padding: 0 2px !important;
+  min-width: 10px !important;
+  border-bottom: 2px solid #a7a7a7;
+  color: #373f41 !important;
+  font-weight: 500 !important;
+  font-size: 14px;
+  letter-spacing: 0.75px;
+  opacity: 1 !important;
+  margin: 0 10px;
+  &.mat-tab-label-active{
+    border-bottom: 2px solid #4bbaf0;
+  }
+}
+.mat-tab-body{
+  padding: 0px 0px !important;
+}
+.lead {
+  font-size: 12px !important;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+/*-----------------------
+ Dialogue Styling
+------------------------*/
+.mat-form-field-appearance-legacy{
+  .mat-form-field-wrapper{
+    padding-bottom: 0.25em;
+  }
+}
+.content_form{
+  .form-horizontal{
+    span.error{
+      margin-left: 0px;
+      span{
+        margin-left: 0px;
+      }
+      .col-lg-10.nopadding{
+        padding-left: 0px;
+      }
+    }
+  } 
+} 
+.uploadDeviceListClass{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}

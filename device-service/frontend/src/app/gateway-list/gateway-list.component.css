@@ -1,0 +1,299 @@
+::-ms-clear {
+  display: none;
+}
+
+.form-control-clear {
+  top: 14px;
+  z-index: 10;
+  right: 25px;
+  pointer-events: auto;
+  cursor: pointer;
+  position: absolute;
+}
+
+.btnClear {
+  font-size: 12px;
+  text-transform: capitalize;
+  padding: 6px 11px;
+  border-radius: 5px;
+  border: none;
+  line-height: 14px;
+  font-weight: bold;
+}
+
+.primary_buttonClear {
+  color: #FFF;
+  background: #4ba9d7;
+  border: 0px solid #0679d8;
+  border-radius: 6px;
+}
+
+.page-size-ag-grid-header {
+  font-family: inherit;
+  font-size: 13px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+
+.pageSizeNumbers {
+  text-align: right;
+  margin-top: 14px;
+  color: #444;
+  font-size: 12px;
+}
+
+.pageSizeNumbers #page-size {
+  color: #767676;
+  padding: 2px 1px;
+}
+
+.deleteAllSection {
+  text-align: left;
+  margin-top: -5px;
+  margin-bottom: 15px;
+}
+
+.deleteAllSection .mat-checkbox {
+  margin-left: 8px;
+}
+
+.hr_line {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.margin-top {
+  margin-top: 15px;
+}
+
+.margin_bottom {
+  margin-bottom: 0px !important;
+}
+
+.filter-lable {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.save_btn {
+  color: #FFF !important;
+  border: 2px solid #4ba9d7;
+  border-radius: 6px !important;
+  box-shadow: none;
+  background-color: #4ba9d7 !important;
+  border-color: #4ba9d7 !important;
+}
+.export_cancel_btn {
+  margin-bottom: 0;
+  background: none;
+  color: #007bff !important;
+  border-block-color: #007bff !important;
+  margin-top: 0px;
+}
+
+.filter-hr {
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.fade.show{
+  opacity: 1;
+}
+
+
+.filter-menu,
+.filter-menu * {
+  margin    : 0;
+  padding   : 0;
+  list-style: none;
+}
+
+.filter-menu ul {
+  position: absolute;
+  display : block;
+  top     : 100%;
+  left    : 0;
+  z-index : 99;
+  border-color: black;
+}
+
+.filter-menu li {
+  position   : relative;
+  white-space: nowrap;
+}
+
+.filter-menu>li {
+  float: left;
+}
+
+.filter-menu li:hover>ul,
+.filter-menu li.sfHover>ul {
+  display: block;
+}
+
+.filter-menu ul ul {
+  top : 0;
+  left: 100%;
+}
+
+.filter-menu ul li {
+  min-width: 140px;
+}
+
+/* Nav Menu Arrows */
+
+.sf-arrows .sf-with-ul {
+  padding-right: 22px;
+}
+
+.sf-arrows .sf-with-ul:after {
+  content    : "\f107";
+  position   : absolute;
+  right      : 8px;
+  font-family: FontAwesome;
+  font-style : normal;
+  font-weight: normal;
+}
+
+.sf-arrows ul .sf-with-ul:after {
+  content: "\f105";
+}
+
+/* Nav Meu Container */
+
+#filter-menu-container-1,
+#filter-menu-container-2 {
+  float : right;
+  margin: 0;
+}
+
+#filter-menu-container-2 {
+  margin-left: 30px;
+  margin-top : 13px;
+}
+
+/* Nav Meu Styling */
+
+.filter-menu a {
+  padding        : 8px 8px;
+  text-decoration: none;
+  display        : flex;
+  color          : black;
+  font-family    : 'Helvetica', 'Arial', sans-serif;
+  font-weight    : 500;
+  font-size      : 16px;
+  outline        : none;
+  letter-spacing : 0.50px;
+  text-transform : capitalize;
+}
+
+.filter-menu a span .fa {
+  margin-left: 8px;
+  font-size  : 20px !important;
+  margin-top : 1px;
+  font-weight: 400;
+}
+
+/* .filter-menu li:hover>a,
+.filter-menu .menu-active>a {
+  color: #ededed;
+} */
+
+.filter-menu>li {
+  margin-left: 10px;
+}
+
+.filter-menu ul {
+  margin       : -7px 0 0 0;
+  padding      : 10px 15px;
+  background   : #fff;
+  border-radius: 5px;
+}
+
+.filter-menu ul li {
+  transition: 0.3s;
+  background: #FFF;
+}
+
+.filter-menu ul li a {
+  padding       : 5px 10px;
+  color         : #999 !important;
+  transition    : 0.3s;
+  display       : block;
+  font-size     : 12px;
+  text-transform: capitalize;
+  cursor        : pointer;
+}
+
+.filter-menu ul li:hover>a {
+  color: #50d8af;
+}
+
+.filter-menu ul ul {
+  margin: 0;
+}
+
+.nav-right1 .filter-menu li ul {
+  left : 4px;
+  right: unset;
+}
+
+.nav-right1 .filter-menu li .fa {
+  margin-right: 6px;
+  font-size   : 18px;
+}
+
+.megaMenu .titleOrder {
+  padding       : 4px 10px;
+  font-size     : 12px;
+  text-transform: uppercase;
+  color         : #676767;
+  font-weight   : 600;
+}
+
+.megaMenu .titleOrder.pt20 {
+  padding-top: 20px !important;
+}
+
+.megaMenu .orderList a {
+  font-size  : 14px !important;
+  color      : #367cb8 !important;
+  font-weight: 500;
+}
+
+.megaMenu .orderList a .fa {
+  font-size   : 14px !important;
+  margin-right: 10px;
+  color       : #747c7d;
+}
+
+.customer-filter-scroll
+{
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+.cut-text { 
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  width: 60px; 
+  height: 1.2em; 
+  white-space: nowrap;
+}
+
+.date-time-picker{
+  background: #f5f5f5;
+  border: none;
+  height: 40px;
+  padding: 10px!important;
+  color: rgba(0,0,0,.87);
+  border-radius: 1px;
+  font-weight: 500;
+}
+
+.deleteAllSection{
+  text-align: left; 
+  margin-top: 20px;
+  margin-bottom: 15px;
+  }
+  

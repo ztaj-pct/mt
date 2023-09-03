@@ -1,0 +1,71 @@
+<div class="col-12 pl-0 pr-0"  *ngIf="atcommandService.isAddATCommand == true">
+    <form   class="ngFormsViews" [formGroup]="atcommadform" (ngSubmit)="onSubmit(atcommadform)">
+        <div class="boxTitle" width ="50%">Add ATCommand</div>
+        <div class="form-group w-100 ">
+          <label for="at_command" class="h_label" [ngClass]="(submitted && f.at_command.errors)||(atcommadform.get('at_command').hasError('required') &&atcommadform.get('at_command').touched)||(atcommadform.get('at_command').hasError('pattern') &&atcommadform.get('atcommadform').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' " >
+            ATCommand
+          </label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input required matInput #atcommand maxlength="20" formControlName='at_command'  id="at_command" >
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(submitted && f.gateway_id.errors)||(atcommadform.get('at_command').hasError('required') &&atcommadform.get('at_command').touched)||(atcommadform.get('at_command').hasError('pattern') &&atcommadform.get('at_command').touched)">
+              <span *ngIf="f.at_command.errors.maxlength">ATCommand is Too Long</span>
+              <span *ngIf="f.at_command.errors.required">ATCommand is required.</span>
+              <span *ngIf="f.at_command.errors.pattern"> ATCommand Invalid</span>
+            </span>
+          </div>
+        </div>
+        <div class="form-group w-100 ">
+          <label for="priority" class="h_label" [ngClass]="(submitted && f.priority.errors)||(atcommadform.get('priority').hasError('required') &&atcommadform.get('priority').touched)||(atcommadform.get('priority').hasError('pattern') &&atcommadform.get('priority').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' " >
+            Priority
+          </label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-5 nopadding">
+              <input required matInput #priority maxlength="20" formControlName='priority'  id="priority" >
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(submitted && f.priority.errors)||(atcommadform.get('priority').hasError('required') &&atcommadform.get('priority').touched)||(atcommadform.get('priority').hasError('pattern') &&atcommadform.get('priority').touched)">
+              <span *ngIf="f.priority.errors.maxlength">Priority is Too Long</span>
+              <span *ngIf="f.priority.errors.required">Priority is required.</span>
+              <span *ngIf="f.priority.errors.pattern"> Priority Invalid</span>
+            </span>
+          </div>
+        </div>
+          <div class="form-group">
+            <button class="primary_button" >Submit</button>
+          </div>
+      </form>
+</div>
+<div class="col-12 pl-0 pr-0" *ngIf="atcommandService.isAddATCommand != true">
+  <div class="content_titlebar_wrapper">
+    <h2 class="pull-left col-lg-4 noPadding">ATCommand List</h2>
+      <div class="pull-right col-lg-12 noPadding text-right">
+        <!-- <button *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'"
+              class="linkT link_button" (click)="addATCommand()"><i
+                  class="fa fa-download" aria-hidden="true"></i><span>Add ATCommand</span></button> &nbsp; &nbsp; -->
+           <button class="linkT link_button" (click)="addATCommand($event)">
+             <i class="fa fa-plus" aria-hidden="true"></i>
+             <span>Add ATCommand</span>
+            </button> &nbsp; &nbsp;
+      </div>
+  </div>
+<div class="col-lg-12 noPadding">
+  <ag-grid-angular #agGrid id="ATCommand" class="ag-theme-alpine" [rowData]="rowData"
+      [columnDefs]="columnDefs" [cacheOverflowSize]="cacheOverflowSize"
+      (cellClicked)="onCellClicked($event)"
+      [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+      [modules]="modules" [gridOptions]="gridOptions"
+      [infiniteInitialRowCount]="infiniteInitialRowCount" [pagination]=true
+      (gridReady)="onGridReady($event)" (columnVisible)="onColumnVisible($event)"
+      (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)"
+      (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)"
+      (paginationChanged)="onPaginationChanged($event)" [sideBar]="sideBar"
+      [defaultColDef]="defaultColDef" [suppressRowClickSelection]="true"
+      [rowSelection]="'multiple'" [frameworkComponents]="frameworkComponents"
+      [components]="components" (firstDataRendered)="headerHeightSetter($event)"
+      (columnResized)="headerHeightSetter($event)" [enableRangeSelection]="true">
+  </ag-grid-angular>
+</div>
+</div>

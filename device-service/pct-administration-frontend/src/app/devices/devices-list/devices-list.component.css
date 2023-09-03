@@ -1,0 +1,217 @@
+::-ms-clear {
+    display: none;
+  }
+  
+  .form-control-clear {
+    top: 14px;
+    z-index: 10;
+    right: 25px;
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+  }
+  
+  .btnClear {
+    font-size: 12px;
+    text-transform: capitalize;
+    padding: 6px 11px;
+    border-radius: 5px;
+    border: none;
+    line-height: 14px;
+    font-weight: bold;
+  }
+  
+  .primary_buttonClear {
+  color: #FFF;
+  background: #4ba9d7;
+  border: 0px solid #0679d8;
+  border-radius: 6px;
+  }
+  
+  .page-size-ag-grid-header {
+  font-family: inherit;
+  font-size: 13px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+  }
+  .pageSizeNumbers{
+  text-align: right;
+  margin-top: 14px;
+  color: #444;
+  font-size: 12px;
+  }
+  .pageSizeNumbers #page-size{
+  color: #767676;
+  padding: 2px 1px;
+  }
+  .deleteAllSection{
+  text-align: left;
+  margin-top: -5px;
+  margin-bottom: 15px;
+  }
+  .deleteAllSection .mat-checkbox{
+  margin-left: 8px;
+  }
+  .content_titlebar_wrapper{
+    padding-bottom: 15px;
+    margin-bottom: 0px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .content_titlebar {
+    margin-top: 8px;
+  }
+
+  .content_titlebar .content_titlebar_wrapper {
+    border-bottom  : 2px solid #edeeef;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+  }
+  
+  .content_titlebar h2 {
+    font-size    : 32px;
+    color        : #000;
+    font-weight  : bold;
+    font-family  : 'Helvetica', 'Arial', sans-serif;
+    margin       : 0px;
+    padding      : 0px;
+    margin-bottom: 10px;
+  }
+  
+  .content_titlebar h5 {
+    margin-top: 30px;
+  }
+
+  .linkT {
+    font-size     : 12px;
+    text-transform: capitalize;
+    padding       : 5px;
+    letter-spacing: 0.4px;
+    border        : none;
+    line-height   : 14px;
+    font-weight   : 500;
+    display       : inline-block;
+    text-transform: uppercase;
+  }
+  
+  .linkT .fa {
+    margin-right: 6px;
+    font-size   : 14px;
+    font-weight : 400;
+  }
+  
+  .link_button {
+    color     : #525252;
+    background: #FFF;
+  }
+  
+  .link_button.backBtn {
+    color         : #66a5d1;
+    font-size     : 12px;
+    letter-spacing: 0px;
+    text-transform: capitalize;
+    font-weight   : bold;
+  }
+  
+  .link_button:hover,
+  .link_button:focus,
+  .link_button:active {
+    background: #e7e7e7;
+  }
+
+  .breadCrumb {
+    font-size     : 13px;
+    margin        : 10px 0px;
+    font-weight   : 400;
+    margin-bottom : 30px;
+    letter-spacing: 0.5px;
+  }
+  
+  .breadCrumb .pageName a {
+    color      : #808789;
+    font-weight: 400;
+  }
+  
+  .breadCrumb .seprator {
+    margin: 0px 7px;
+  }
+  
+  .breadCrumb .seprator .fa {
+    color    : #808789;
+    font-size: 12px !important;
+  }
+  
+  .section-header {
+    margin-bottom: 30px;
+  }
+  .fa-angle-right:before {
+    content: "\f105";
+  }
+
+  .pageSizeNumbers{
+    text-align: right;
+    margin-top: 14px;
+    color: #444;
+    font-size: 12px;
+    }
+    .pageSizeNumbers #page-size{
+    color: #767676;
+    padding: 2px 1px;
+    min-width: 50px;
+    }
+    @import "~@ag-grid-community/all-modules/dist/styles/ag-grid.css";
+    @import "~@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css";
+    
+    body {
+        /* padding-top: 80px; */
+    }
+    
+    .pl-10p{
+      padding-left: 10%;
+    }
+    
+    .example-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      
+      #myGrid {
+        flex: 1 1 auto;
+        width: 100%;
+      }
+      
+      .button-group {
+        padding-bottom: 4px;
+        display: inline-block;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 13px;
+      }
+    
+      .mat-radio-button.mat-accent .mat-radio-inner-circle {
+        background-color: rgb(66, 134, 244) !important;
+      }
+      
+      .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+        border-color: rgb(66, 134, 244) !important;
+      }
+      
+      .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+        background-color:rgba(66, 134, 244,.26) !important;
+      }
+      .pointer {
+        cursor: pointer !important;
+      }
+
+      .form-control-clear {
+        top: 14px;
+        z-index: 10;
+        right: 25px;
+        pointer-events: auto;
+        cursor: pointer;
+        position: absolute;
+      }
+  
+  
+  

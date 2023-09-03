@@ -1,0 +1,45 @@
+.marlr010{
+    margin-left: -2px;
+    margin-top: 8px;
+}
+.otherEleSpan{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.errDiv{
+    margin-left: 0px;
+}
+.errDiv span.error span, .errDiv span.error{
+    margin-left: 0px;
+}
+.crcTxtBox{
+    max-width: 125px !important;
+    min-width: 125px !important;
+}
+
+.displayNameNode {
+    display: none;
+}
+
+.dropDownSize {
+    max-width: 100px !important;
+    min-width: 100px !important;
+}
+  /*JIRA ID#  QUickFix : Date 22/01/23 need to remove further for CSS cleanup*/
+.secondary_button{
+    color: #007bff !important;
+    border: 2px solid #007bff !important;
+}
+.secondary_button:hover{
+    background: #f6f6f6;
+    color: #3C64B1 !important;
+}
+
+.modal.fade.show {
+    opacity: 1;
+}
+
+#clickModel .modal-header {
+    display: block !important;
+}
+  /*JIRA ID#  QUickFix : Date 22/01/23 need to remove further for CSS cleanup*/

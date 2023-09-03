@@ -1,0 +1,107 @@
+<div class="container">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="breadCrumb">
+                <span class="pageName">
+                  <a href="javascript:void(0);">Manage</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                  <a href="javascript:void(0);">Reset Test Data</a>
+                </span>
+              </div>
+            <div class="content_titlebar_wrapper">
+                <h2 class="pull-left col-lg-12 noPadding">Reset Test Data</h2>
+            </div>
+        </div>
+    </div>
+    <p>Enter the Device ID or VIN for the installation you are testing to reset both to New Installation status.</p>
+
+    <div class="row content_form">
+        
+            <form class="ngFormsViews" [formGroup]="resetInstallationForm"
+                (ngSubmit)="onSubmit(resetInstallationForm)">
+                <div class="col-lg-6 pl-0">
+                <div class="form-group w-100 ">
+                    <label for="deviceID"class="w-100 control-label">Device ID</label>
+                    <div class="dflxRow">
+                        <mat-form-field class="col-lg-5 nopadding">
+                            <input matInput formControlName='deviceID' id="deviceID">
+                                </mat-form-field>
+                        </div>
+                    </div>
+                   
+                <div class="form-group w-100 ">
+                    <label for="vin" class="w-100 control-label">VIN</label>
+                    <div class="dflxRow">
+                        <mat-form-field class="col-lg-5 nopadding">
+                            <input matInput formControlName='vin' id="vin">
+                       </mat-form-field>
+                        </div>
+                    </div>
+                
+
+                <div class="form-group w-100 ">
+                    <label for="companies" class="w-100 control-label">Customer</label>
+                    <div class="dflxRow">
+                        <mat-form-field class="col-lg-5 nopadding">
+                         <mat-select id="company" formControlName='accountNumber'>
+                            <mat-option value="" default selected disabled hidden>Please Choose</mat-option>
+                            <mat-option *ngFor="let company of companiesList" [value]="company.customer.account_number">{{company?.customer.company_name}}
+                            </mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                     </div>
+                 </div>
+                </div>
+                <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="w-100 text-center">
+                        <button type="submit" class="btn primary_button">Reset</button>&nbsp;&nbsp;
+                        <button class="btn secondary_button" type="reset" (click)="cancel()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            </form>
+       
+    </div>
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="content_titlebar_wrapper">
+                <h2 class="pull-left col-lg-12 noPadding">Reset Customer Test Data</h2>
+            </div>
+        </div>
+    </div>
+    <p>To reset all test data for a customer, please choose the customer name below and click Reset.</p>
+
+    <div class="row content_form">
+       
+            <form class="ngFormsViews" [formGroup]="resetCustomerForm"
+                (ngSubmit)="onResetCustomer(resetCustomerForm)">
+                <div class="col-lg-6 pl-0">
+                <div class="form-group">
+                    <label for="companies" class="w-100 control-label">Customer</label>
+                    <div class="dflxRow">
+                        <mat-form-field class="col-lg-5 nopadding">
+                        <mat-select id="company" formControlName='uuid'>
+                            <mat-option value="" default selected disabled hidden>Please Choose</mat-option>
+                            <mat-option *ngFor="let company of companiesList" [value]="company.customer.uuid">{{company?.customer.company_name}}
+                            </mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div> 
+                </div>
+                <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="w-100 text-center">
+                        <button type="submit" class="btn primary_button">Reset</button>&nbsp;&nbsp;
+                        <button class="btn secondary_button" type="reset" (click)="resetForm()">Cancel</button>
+                    </div>
+                    </div>
+                </div>
+            </form>
+      
+    </div>
+</div>

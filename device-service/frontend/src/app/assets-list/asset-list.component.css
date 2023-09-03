@@ -1,0 +1,81 @@
+::-ms-clear {
+  display: none;
+}
+
+.form-control-clear {
+  top: 14px;
+  z-index: 10;
+  right: 25px;
+  pointer-events: auto;
+  cursor: pointer;
+  position: absolute;
+}
+
+.btnClear {
+  font-size: 12px;
+  text-transform: capitalize;
+  padding: 6px 11px;
+  border-radius: 5px;
+  border: none;
+  line-height: 14px;
+  font-weight: bold;
+}
+
+.primary_buttonClear {
+color: #FFF;
+background: #4ba9d7;
+border: 0px solid #0679d8;
+border-radius: 6px;
+}
+
+.page-size-ag-grid-header {
+font-family: inherit;
+font-size: 13px;
+margin-bottom: 6px;
+margin-top: 6px;
+}
+.pageSizeNumbers{
+text-align: right;
+margin-top: 14px;
+color: #444;
+font-size: 12px;
+}
+.pageSizeNumbers #page-size{
+color: #767676;
+padding: 2px 1px;
+}
+.deleteAllSection{
+text-align: left;
+margin-top: -5px;
+margin-left: 25px;
+margin-bottom: 15px;
+}
+.deleteAllSection .mat-checkbox{
+margin-left: 8px;
+}
+
+
+.fade.show{
+  opacity: 1;
+}
+
+.cancel-btn {
+  color: #007bff !important;
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+}
+
+.save_btn {
+  color: #FFF !important;
+  background: #3C64B1;
+  border: 2px solid #3C64B1;
+  border-radius: 6px !important;
+  box-shadow: none;
+}
+
+.cancel-btn:hover {
+  background: #f6f6f6;
+  color: #3C64B1 !important;
+}

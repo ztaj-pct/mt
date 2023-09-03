@@ -1,0 +1,474 @@
+<div class="container-fluid">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <!-- <div class="col-12 content_titlebar"> -->
+    <div class="col-lg-12 content_titlebar">
+        <div class="breadCrumb">
+            <span class="pageName">
+                <a href="javascript:void(0);">Manage Devices</a>
+            </span>
+            <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+            <span class="pageName">
+                <a href="javascript:void(0);">Upload Device List</a>
+            </span>
+        </div>
+        <div class="content_titlebar_wrapper">
+            <h2 class="pull-left col-lg-12 noPadding">
+                <span class="pull-left">
+                    Upload Devices List
+                </span>
+            </h2>
+        </div>
+        <div>
+            <!-- Use This <a href="assets/static/Gateway Upload File.xlsx">Upload Gateway Template</a> to collect a list of approved Assets -->
+            <!-- <h5 class="pull-left col-lg-12 noPadding">Upload a CSV file with a single column containing Device IDs.
+                    This can be IMEIs for gateway devices, or MAC addresses for beacons.</h5> -->
+        </div>
+        <!-- <div>
+                Upload a CSV file with a single column containing Device IDs. This can be IMEIs for gateway devices, or MAC address for beacons. 
+             </div> -->
+    </div>
+    <!-- </div> -->
+
+
+    <!-- <div class="col-12 content_form"> -->
+    <div class="col-lg-12 content_form">
+
+        <form class="form-horizontal uploadDeviceListClass" [formGroup]="uploadDevicesForm" (ngSubmit)="selectFile($event)">
+            <div class="col-6">
+                <div class="form-group col-lg-12">
+                    <div class="col-sm-5 col-lg-5">
+                        All fields are required.
+                    </div>
+                </div>
+                <h4 class="title">Order Details</h4>
+                
+                <div class="form-group col-lg-12">
+                    <label for="assetId" class="col-lg-4 control-label form-lable">Epicor Packing List ID</label>
+                    <div class="col-lg-8">
+                        <mat-form-field class="col-lg-10 nopadding">
+                            <input required matInput formControlName='salesforceOrderId'>
+                        </mat-form-field>
+                        <span class="error col-lg-10 nopadding"
+                            *ngIf="(uploadDevicesForm.get('salesforceOrderId').hasError('required') && uploadDevicesForm.get('salesforceOrderId').touched)">
+                            <span *ngIf="g.salesforceOrderId.errors.required">Epicor Packing List
+                                ID is required.</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="form-group col-lg-12">
+                    <label for="assetId" class="col-lg-4 control-label form-lable">Purchased By</label>
+                    <div class="col-lg-8">
+                        <mat-form-field class="col-lg-10 nopadding">
+                            <mat-select id="purchasedBy" formControlName='purchased_by' (selectionChange)="onSelectionPurchasedBy($event)">
+                                <mat-option *ngFor="let company of perchaseByList" [value]="company">
+                                    {{company?.organisationName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <span class="error col-lg-10 nopadding"
+                            *ngIf="uploadDevicesForm.get('purchased_by').errors && (uploadDevicesForm.get('purchased_by').dirty || uploadDevicesForm.get('purchased_by').touched)">
+                            <span *ngIf="g.purchased_by.errors.required">Purchased By is required.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-12">
+                    <label for="company" class="col-lg-4 control-label form-lable"
+                        [ngClass]="uploadDevicesForm.get('company').errors && (uploadDevicesForm.get('company').dirty || uploadDevicesForm.get('company').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">End Customer</label>
+                    <div class="col-lg-8">
+                        <mat-form-field class="col-lg-10 nopadding">
+                            <mat-select id="company" formControlName='company' (selectionChange)="onSelectionOrg($event)">
+                                <!--   <mat-option value="" default selected disabled hidden>Select Company</mat-option>-->
+                                <mat-option *ngFor="let company of companies" [value]="company">
+                                    {{company?.organisationName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <span class="error col-lg-10 nopadding"
+                            *ngIf="uploadDevicesForm.get('company').errors && (uploadDevicesForm.get('company').dirty || uploadDevicesForm.get('company').touched)">
+                            <span *ngIf="g.company.errors.required">End Customer is required.</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- <div class="heading">Other Relationships</div>
+                <div class="form-group col-lg-12">
+                    <div formArrayName="other_relationships">
+                        <div class="form-row" *ngFor="let forwarding of other_relationships.controls; let i=index">
+                            <div [formGroupName]="i">
+                                <div class="col-lg-4">
+                                    <mat-form-field appearance="fill" class="col-lg-12 nopadding">
+                                        <mat-label>Type</mat-label>
+                                        <mat-select id="otherRelationshipType" formControlName='other_relationship_type' (selectionChange)="onSelectionOtherRelationshipType($event)">
+                                            <mat-option *ngFor="let otherRelationshipType of otherRelationshipTypes" [value]="otherRelationshipType.id">
+                                                {{otherRelationshipType?.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-8">
+                                    <mat-form-field appearance="fill" class="col-lg-10 nopadding">
+                                        <mat-label>Please Choose</mat-label>
+                                        <mat-select id="otherRelationshipValue" formControlName='other_relationship_value' (selectionChange)="onSelectionOtherRelationshipValue($event)">
+                                            <mat-option *ngFor="let otherRelationshipValue of otherRelationshipValues" [value]="otherRelationshipValue.id">
+                                                {{otherRelationshipValue?.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <a href="javascript:void(0)" *ngIf="other_relationships.controls.length > 1" class="removeMoreLink" (click)="deleteRelationship(i)">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="addRowBtnSection">
+                            <a class="addRowBtn" (click)="addAnotherRelationships()">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Add Relationships
+                            </a>
+                        </div>
+                    </div>
+                </div> -->
+
+                <h4 class="title">Product Details</h4>
+                <div class="form-group col-lg-12">
+                    <label for="Is Product Is Approved For Asset"
+                        class="col-lg-4 control-label form-lable"
+                        [ngClass]="(uploadDevicesForm.get('isProductIsApprovedForAsset').hasError('required') && uploadDevicesForm.get('isProductIsApprovedForAsset').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Product
+                        Type</label>
+                    <div class="col-lg-8">
+                        <mat-form-field class="col-lg-10 nopadding">
+                            <mat-select id="isProductIsApprovedForAsset" formControlName='isProductIsApprovedForAsset'
+                                (selectionChange)="onChangeEventForProductApproved($event)">
+                                <!-- <mat-option value="" default selected disabled hidden>Approved Product</mat-option>-->
+                                <mat-option *ngFor="let product of approvedProducts" [value]="product">
+                                    {{product?.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <span class="error col-lg-10 nopadding"
+                            *ngIf="(uploadDevicesForm.get('isProductIsApprovedForAsset').hasError('required') && uploadDevicesForm.get('isProductIsApprovedForAsset').touched)">
+                            <span *ngIf="g.isProductIsApprovedForAsset.errors.required">Product Type is required.</span>
+                        </span>
+                    </div>
+                </div>
+                <!-- <div class="form-group col-lg-12">
+                    <label for="telecomProvider" class="col-sm-2 col-lg-2 control-label form-lable"
+                        [ngClass]="uploadDevicesForm.get('telecomProvider').errors && (uploadDevicesForm.get('telecomProvider').dirty || uploadDevicesForm.get('telecomProvider').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Telecom Provider</label>
+                    <div class="col-sm-5 col-lg-5">
+                        <mat-form-field class="col-lg-5 nopadding">
+                            <mat-select id="telecomProvider" formControlName='telecomProvider'>
+                                <mat-option *ngFor="let data of serviceNetwork" [value]="data.value">
+                                    {{data?.data}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <span class="error col-lg-5 mgtp nopadding"
+                            *ngIf="uploadDevicesForm.get('telecomProvider').errors && (uploadDevicesForm.get('telecomProvider').dirty || uploadDevicesForm.get('telecomProvider').touched)">
+                            <span *ngIf="g.telecomProvider.errors.required">Service Network is required.</span>
+                        </span>
+                    </div>
+                </div> -->
+                <div class="form-group col-lg-12">
+                    <label for="assetId" class="col-lg-4 control-label form-lable">Product
+                        Code</label>
+                    <div class="col-lg-8">
+                        <mat-form-field class="col-lg-10 nopadding">
+                            <input required matInput formControlName='product_code'>
+                        </mat-form-field>
+                        <span class="error col-lg-10 nopadding"
+                            *ngIf="(uploadDevicesForm.get('product_code').hasError('required') && uploadDevicesForm.get('product_code').touched)">
+                            <span *ngIf="g.product_code.errors.required">Product Code
+                                is required.</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12">
+                    <label for="usage" class="col-lg-4 control-label form-lable"
+                        [ngClass]="uploadDevicesForm.get('usage').errors && (uploadDevicesForm.get('usage').dirty || uploadDevicesForm.get('usage').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Usage</label>
+                    <div class="col-lg-8">
+                        <mat-form-field class="col-lg-10 nopadding">
+                            <mat-select id="usage" formControlName='usage'>
+                                <!--   <mat-option value="" default selected disabled hidden>Select Company</mat-option>-->
+                                <mat-option *ngFor="let data of usage" [value]="data.value">
+                                    {{data?.data}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <span class="error col-lg-10 nopadding"
+                            *ngIf="uploadDevicesForm.get('usage').errors && (uploadDevicesForm.get('usage').dirty || uploadDevicesForm.get('usage').touched)">
+                            <span *ngIf="g.usage.errors.required">Usage is required.</span>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-6 rightBlockDeviceUpload">
+                <h4 class="title">Device List</h4>
+                <div class="secttionDesc">
+                    Choose a file to upload. Your file should include three columns for the device IMEI, serial # and SIM #, and should follow  
+                    <a href="assets/static/Upload Devices.csv">this template</a>.
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 mt-3">
+                        <div class="draggableDiv">
+                            <div class="containerData" appDnd (fileDropped)="onFileDropped($event)">
+                                <input type="file" class="form-control" id="file" formControlName='file' (change)="onFileChangeBrower($event)" />
+                                <div class="dragBoxTxt">
+                                    <div class="cloudIcons">
+                                        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="dragDataHere"><a href="javascript:void(0)">Choose a file</a> or drag it
+                                        here.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 mt-3 mb-3" *ngIf="selectedFileName != null">
+                        <b>Selected File: </b>{{selectedFileName}} <button class="btn btn-primary mt-0" (click)="clearFile()">Clear</button>
+                    </div>
+                </div>
+                <h4 class="title mt-3">Default Data Forwarding Rules</h4>
+                <div class="secttionDesc">Device reports for the selected organization(s) are forwarded to the following endpoints by default. If the current batch devices need to be excluded from any of those rules, check the box to ignore it.</div>
+                <div class="tblData">
+                    <div class="col-lg-12 p-0 dataHeading">
+                        <label class="col-lg-3 tblRowHeader">
+                           <b class="m1">Organization</b> 
+                        </label>
+                        <label class="col-lg-2 tblRowHeader">
+                            <b class="m1">Rule</b>
+                        </label>
+                        <label class="col-lg-5 tblRowHeader">
+                            <b class="m1">Description</b>
+                        </label>
+                        <label class="col-lg-2 tblRowHeader">
+                            <b class="m1">Ignore</b>
+                        </label>
+                    </div>
+                    <div formArrayName="ignore_forwarding_rules">
+                        <div class="col-lg-12 p-0 dataRow" *ngFor="let rule of ignore_forwarding_rules.controls; let i=index">
+                            <div [formGroupName]="i">
+                                <label class="col-lg-3 tblRowData">
+                                    {{rule.value.organisationName}}
+                                </label>
+                                <label class="col-lg-2 tblRowData">
+                                    {{rule.value.ruleName}}
+                                </label>
+                                <label class="col-lg-5 tblRowData">
+                                    {{rule.value.description}}
+                                </label>
+                                <label class="col-lg-2 tblRowData">
+                                    <span class="col-lg-2 ignoreBoxAlign">
+                                        <mat-checkbox id="ignore_{{i}}" formControlName='ignore' [checked]="ignore" ></mat-checkbox>
+                                    </span>    
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Second Section Title-->
+
+                <h4 class="title mt-3">Add Device Data Forwarding Rules</h4>
+                <div class="secttionDesc">Specify additional device-level forwarding rules for these IMEIs if required.</div>
+
+                
+                <div class="deviceRules col-lg-12 mt-3">
+   
+                    <div formArrayName="forwarding_list">
+                      <div class="form-row" *ngFor="let forwarding of forwarding_list.controls; let i=index">
+                        <div class="col-lg-12" [formGroupName]="i">
+                          <!-- <div class="form-group col-md-4">
+                            <mat-form-field appearance="fill" class="w-100 nopadding">
+                              <mat-label>Type</mat-label>
+                              <mat-select id="type1" formControlName='type' (selectionChange)="selectChangeHandler($event,i)">
+                                <mat-option *ngFor='let group of deviceForwordingRuleData' [value]="group.value">{{group.data}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div> -->
+                          <div class="col-md-5">
+                            <mat-form-field appearance="fill" class="w-100 nopadding">
+                              <mat-label>Endpoint URL</mat-label>
+                              <mat-select id="urlId" formControlName='forwarding_rule_url_uuid' (selectionChange)="selectChangeHandler($event,i)">
+                                <mat-option *ngFor='let urlObj of customerForwardingRuleUrls' [value]="urlObj.uuid">
+                                    {{urlObj.ruleName}} ({{urlObj.format}})
+                                </mat-option>
+                              </mat-select>
+                              <!-- <input required matInput formControlName="url"> -->
+                            </mat-form-field>
+                            <span class="error col-lg-12 pl-25 nopadding"
+                                *ngIf="forwarding.get('forwarding_rule_url_uuid').errors 
+                                && (forwarding.get('forwarding_rule_url_uuid').dirty 
+                                || forwarding.get('forwarding_rule_url_uuid').touched)">
+                                <span *ngIf="forwarding.get('forwarding_rule_url_uuid').errors.required">
+                                    Endpoint url is required.
+                                </span>
+                            </span>
+                          </div>
+                          <div class="col-md-5">
+                            {{forwarding.value.description}}
+                          </div>
+                          <a href="javascript:void(0)" class="removeMoreLink" (click)="deleteForwardingRule(i)">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                          </a>
+                            <span class="error col-md-8 nopadding"
+                            *ngIf="(forwarding.get('url').errors && (forwarding.get('url').dirty || forwarding.get('url').touched)) || (forwarding.get('type').errors && (forwarding.get('type').dirty || forwarding.get('type').touched))">
+                                <span *ngIf="forwarding.get('url').errors.required || forwarding.get('type').errors.required">Endpoint url and type is required.</span>
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="addRowBtnSection" *ngIf="forwarding_list.controls.length <=4 && isReadonly">
+                      
+                        <a class="addRowBtn" (click)="addAnotherRule('','',null,0)"> <i class="fa fa-plus" aria-hidden="true"></i> Add Another Rule </a>
+                      
+                    </div>
+              
+                </div>
+            </div>
+
+            <div  #imeiUploadFile class="modal fade" id="imeiUploadFile" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Upload IMEI List</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+							<div>
+                        <h5 class="pull-left col-lg-12 noPadding">Upload file should be in Excel format and will include a single column with the device IMEI.</h5>
+                    </div>
+                            <div class="draggableDiv">
+                        <div class="containerData" appDnd (fileDropped)="onFileDropped($event)">
+                            <input type="file" class="form-control" id="file"
+                                formControlName='file' (change)="onFileChangeBrower($event)" />
+                            <div class="dragBoxTxt">
+                                <div class="cloudIcons"><i class="fa fa-cloud-upload" aria-hidden="true"></i></div>
+                                <div class="dragDataHere"><a href="javascript:void(0)">Choose a file</a> or drag it
+                                    here.</div>
+                            </div>
+                        </div>
+
+                        <div class="formDiv">
+                            <div class="form-group col-lg-12">
+                                <label for="companies" class="col-lg-4 control-label form-lable">Selected
+                                    File</label>
+                                <div class="col-lg-10 txtValue" style="margin-top: 4px;">
+                                    <span class="fileName">{{selectedFileName}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary save_btn"
+                                data-dismiss="modal">Update</button>
+                            <button type="button" class="btn btn-outline-primary cancel-btn" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </form>
+    </div>
+    <!-- </div> -->
+
+
+    <div class="form-group">
+        <div class="col-lg-12 text-center padl0 btnOrgSection">
+            <div class="btnRow">
+                <button type="submit" class="primaryBtn" (click)="checkListOfDeviceHaveImeiOrMacAddress()" [disabled]="buttonDisabled">Finish</button>
+                <button type="button" class="secondaryBtn" (click)="cancel()">Cancel</button>
+            </div>    
+        </div>
+    </div>
+</div>
+
+
+
+<div #AssociationMessageModel class="modal fade" id="AssociationMessageModel" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="width: 80%;">
+            <div style="border: 1px solid black; padding:5px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{errorHeading}}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        #closeExpenseModalForAssociationMessage>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-11 " style="padding-left:0px;">
+                            <label for="last_name" style="margin-top: 0px; margin-bottom: 13px;"
+                                class="w-100 control-label">{{errorMessage}}</label>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-8" style="text-align: center;">
+                            <button type="button" class="btn save_btn" data-dismiss="modal"
+                                aria-label="Close">OK</button>
+                        </div>
+                        <div class="col-2"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #alreadyExistSimSerialNo class="modal fade" id="alreadyExistSimSerialNo" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content" style="width: 80%;">
+            <div style="border: 1px solid black; padding:5px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{errorHeading}}</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        #closeExpenseModalForAssociationMessage>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-11 " style="padding-left:0px;">
+                            <label for="last_name" style="margin-top: 0px; margin-bottom: 13px;"
+                                class="w-100 control-label">{{errorMessage}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12" style="margin-top: 0px; margin-bottom: 13px;" *ngIf="deviceIdList != null && deviceIdList.length > 0">
+                            <div style="margin-left: 18px;" *ngFor="let deviceId of deviceIdList" >
+                                {{deviceId}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2"></div>
+                        <div class="col-8" style="text-align: center;">
+                            <button type="button" class="btn save_btn" data-dismiss="modal"
+                                aria-label="Close" (click)="processTosave()">OK</button>
+                            <button type="button" style="margin-left: 15px;" class="btn btn-secondary export_cancel_btn" data-dismiss="modal"
+                                aria-label="Close">Cancel</button>    
+                        </div>
+                        <div class="col-2"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

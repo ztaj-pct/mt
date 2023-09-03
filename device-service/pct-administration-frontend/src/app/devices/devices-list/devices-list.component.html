@@ -1,0 +1,142 @@
+<div class="container-fluid">
+   <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <div class="row content_titlebar">
+    <div class="col-lg-12">
+      <div class="breadCrumb">
+        <span class="pageName">
+          <a href="javascript:void(0);">Manage Devices</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);">Devices</a>
+        </span>
+      </div>
+      <div class="content_titlebar_wrapper">
+        <h2 class="pull-left col-lg-4 noPadding">Devices</h2>
+        <div class="pull-right col-lg-8 noPadding text-right">
+          <button
+            *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'"
+            class="linkT link_button" (click)="uploadgateways()"><i class="fa fa-map-marker"
+              aria-hidden="true"></i><span>MAP VIEW</span></button> &nbsp; &nbsp;
+          <button
+            *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'"
+            class="linkT link_button" (click)="uploadgateways()"><i class="fa fa-plus"
+              aria-hidden="true"></i><span>REGISTER DEVICES</span></button> &nbsp; &nbsp;
+          <button
+            *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'"
+            class="linkT link_button" (click)="uploadgateways()"><i class="fa fa-cloud-upload"
+              aria-hidden="true"></i><span>UPLOAD DEVICES</span></button> &nbsp; &nbsp;
+          <button
+            *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager ==='true'"
+            class="linkT link_button" (click)="exportDeviceList()"><i class="fa fa-download"
+              aria-hidden="true"></i><span>EXPORT LIST</span></button> &nbsp; &nbsp;
+          <button class="linkT link_button" (click)="onBtNormalCols()"><i class="fa fa-repeat"
+            aria-hidden="true"></i><span>REFRESH</span></button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs"
+    [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" [modules]="modules" [gridOptions]="gridOptions"
+    [infiniteInitialRowCount]="infiniteInitialRowCount" [pagination]=true (gridReady)="onGridReady($event)" (columnVisible)="onColumnVisible($event)"
+    (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)" (dragStopped)="onDragStopped($event)"
+    (filterChanged)="onFilterChanged($event)" (paginationChanged)="onPaginationChanged($event)" [sideBar]="sideBar" [defaultColDef]="defaultColDef" [suppressRowClickSelection]="true" [rowSelection]="'multiple'"
+    [frameworkComponents]="frameworkComponents" [components]="components" (firstDataRendered)="headerHeightSetter($event)"
+    (columnResized)="headerHeightSetter($event)" [enableRangeSelection]="true">
+  </ag-grid-angular>
+
+  <div class="pageSizeNumbers">
+    Page Size:
+    <select [(ngModel)]="selected" id="page-size" name="pageSizeObjArr" (ngModelChange)="onPageSizeChange()">
+      <option *ngFor="let value of pageSizeObjArr" [ngValue]="value.idValue">{{value.id}}</option>
+    </select>
+  </div>
+
+  <!-- <div class="deleteAllSection">
+    <span>
+      <mat-checkbox [(ngModel)]="isChecked" (change)="deleteAll($event)">Select All</mat-checkbox>
+    </span>
+    &nbsp;&nbsp;
+    <span class="iconBtn icoBtn_edit">
+      <button *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager === 'true'"
+        class="btn secondary_button" (click)="getSelctedRow('update')"><i class="fa fa-edit" aria-hidden="true"></i><span>Batch
+          Edit
+        </span></button>
+    </span>
+    &nbsp;&nbsp;
+    <span class="iconBtn icoBtn_delete">
+      <button *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true' || isRoleCustomerManager === 'true'"
+        class="btn secondary_button" (click)="getSelctedRow('delete')"><i class="fa fa-trash"
+          aria-hidden="true"></i><span>Delete
+          Devices</span></button>
+    </span>
+  </div> -->
+<!-- 
+   <div #deleteGatewayModal class="modal fade" id="deleteGatewayModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Confirm Deletion</h4>
+            </div>
+            <div class="modal-body">
+                <div class="w-100">
+                        Are you sure that you want to delete this device?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn primary_button" (click)="deleteAllDevices()"
+                    data-dismiss="modal">Yes</button>
+                <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div #deleteGatewaysModal class="modal fade" id="deleteGatewaysModal" role="dialog">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Confirm Deletion</h4>
+          </div>
+          <div class="modal-body">
+              <div class="w-100">
+                      Are you sure that you want to delete these devices?
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn primary_button" (click)="deleteAllDevices()"
+                  data-dismiss="modal">Yes</button>
+              <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div #resetGatewayModal class="modal fade" id="resetGatewayModal" role="dialog">
+  <div class="modal-dialog modal-md">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Confirm Reset</h4>
+          </div>
+          <div class="modal-body">
+              <div class="w-100">
+                      Are you sure that you want to reset this device?
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn primary_button" (click)="resetGateway()"
+                  data-dismiss="modal">Yes</button>
+              <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>  -->
+
+
+</div>

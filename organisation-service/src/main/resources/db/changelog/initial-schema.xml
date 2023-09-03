@@ -1,0 +1,283 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="00001" author="PCT">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="organisation"/>
+            </not>
+        </preConditions>
+        <createTable tableName="organisation"
+                     schemaName="pct_device"
+                     remarks="A table to contain all the comapnies">
+            <column name="id" autoIncrement="true" type="BIGINT(20)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="organisation_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="short_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="organisation_status" type="TINYINT(1)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="role"
+                     remarks="A table to contain all the roles">
+            <column name="role_id" autoIncrement="true" type="BIGINT(20)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="role_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+
+        <createTable tableName="asset"
+                     remarks="A table to contain all the asset">
+            <column name="id" type="BIGINT(20)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="asset_id" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_productI_approve_for_asset"
+                    type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="vin" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="asset_type1" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="model_year" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="manufacturer" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="user_role"
+                     remarks="A table to contain Relation of  the user and roles">
+            <column name="user_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="user"
+                     remarks="A table to contain all the users">
+            <column name="id" autoIncrement="true" type="BIGINT(20)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <!-- <column name="role_id" type="BIGINT(20)">
+                <constraints nullable="true" />
+            </column> -->
+            <column name="is_deleted" defaultValue="0" type="TINYINT(1)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_active" type="TINYINT(1)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="phone" type="VARCHAR(45)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="organisation_id" type="BIGINT(20)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="notify" type="VARCHAR(45)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <insert tableName="role">
+            <column name="role_id" valueNumeric="1"/>
+            <column name="description" value="It's admin user"/>
+            <column name="role_name" value="ROLE_SUPERADMIN"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_id" valueNumeric="2"/>
+            <column name="description" value="It's normal user"/>
+            <column name="role_name" value="ROLE_INSTALLER"/>
+        </insert>
+        <insert tableName="role">
+            <column name="role_id" valueNumeric="3"/>
+            <column name="description" value="It's normal user"/>
+            <column name="role_name" value="ROLE_CUSTOMER_MANAGER"/>
+        </insert>
+
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="1"/>
+            <column name="role_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="2"/>
+            <column name="role_id" valueNumeric="3"/>
+        </insert>
+
+        <insert tableName="user_role">
+            <column name="user_id" valueNumeric="3"/>
+            <column name="role_id" valueNumeric="2"/>
+        </insert>
+
+        <insert tableName="organisation" schemaName="pct_device">
+            <column name="id" valueNumeric="1"/>
+            <column name="organisation_name" value="Connected Holdings"/>
+            <column name="short_name" value="CH"/>
+            <column name="organisation_status" valueNumeric="1"/>
+            <column name="type" value="Manufacturer"/>
+        </insert>
+
+        <insert tableName="user">
+            <column name="id" valueNumeric="1"/>
+            <column name="email" value="bwhitney@phillipsind.com"/>
+            <column name="first_name" value="brent"/>
+            <column name="last_name" value="admin"/>
+            <column name="password"
+                    value="$2a$08$Xd7E8Yo1BI3xpP6pXKLVZ.zlpZoP9J1vYx8lNYtcoNqAgEovY5Gny"/>
+            <column name="user_name" value="bwhitney@phillipsind.com"/>
+            <!-- <column name="role_id" valueNumeric="1" /> -->
+            <column name="is_deleted" valueNumeric="0"/>
+            <column name="is_active" valueNumeric="1"/>
+            <column name="organisaton_id" valueNumeric="1"/>
+            <column name="notify" value="Email"/>
+
+        </insert>
+        <insert tableName="user">
+            <column name="id" valueNumeric="2"/>
+            <column name="email" value="manager@gmail.com"/>
+            <column name="first_name" value="brent"/>
+            <column name="last_name" value="admin"/>
+            <column name="password"
+                    value="$2a$08$Xd7E8Yo1BI3xpP6pXKLVZ.zlpZoP9J1vYx8lNYtcoNqAgEovY5Gny"/>
+            <column name="user_name" value="manager@gmail.com"/>
+            <!-- 			<column name="role_id" valueNumeric="3" />
+             -->
+            <column name="is_deleted" valueNumeric="0"/>
+            <column name="is_active" valueNumeric="1"/>
+            <column name="organisation_id" valueNumeric="1"/>
+            <column name="notify" value="Email"/>
+
+        </insert>
+        <insert tableName="user">
+            <column name="id" valueNumeric="3"/>
+            <column name="email" value="installer@gmail.com"/>
+            <column name="first_name" value="brent"/>
+            <column name="last_name" value="admin"/>
+            <column name="password"
+                    value="$2a$08$Xd7E8Yo1BI3xpP6pXKLVZ.zlpZoP9J1vYx8lNYtcoNqAgEovY5Gny"/>
+            <column name="user_name" value="manager@gmail.com"/>
+            <!-- 			<column name="role_id" valueNumeric="2" />
+             -->
+            <column name="is_deleted" valueNumeric="0"/>
+            <column name="is_active" valueNumeric="1"/>
+            <column name="organisation_id" valueNumeric="1"/>
+            <column name="notify" value="Email"/>
+
+        </insert>
+    </changeSet>
+
+    <changeSet id="00002" author="PCT">
+        <addColumn tableName="role">
+            <column name="display_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <update tableName="role">
+            <column name="display_name" value="Superadmin"/>
+            <where>role_name = 'ROLE_SUPERADMIN'</where>
+        </update>
+        <update tableName="role">
+            <column name="display_name" value="Installer"/>
+            <where>role_name = 'ROLE_INSTALLER'</where>
+        </update>
+        <update tableName="role">
+            <column name="display_name" value="Customer Admin"/>
+            <where>role_name = 'ROLE_CUSTOMER_MANAGER'</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="00003" author="PCT">
+        <addColumn tableName="asset">
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="asset">
+            <column name="updated_by" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="asset">
+            <column name="organisation_id" type="BIGINT(20)">
+            </column>
+        </addColumn>
+        <addColumn tableName="asset">
+            <column name="created_at" type="TIMESTAMP">
+            </column>
+        </addColumn>
+        <addColumn tableName="asset">
+            <column name="updated_at" type="TIMESTAMP">
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <!--  <changeSet id="00004" author="PCT">
+        <createView replaceIfExists="true" viewName="asset_record">
+            SELECT
+    COUNT(ast.id) count,
+    com.company_name company_name, com.id company_id ,
+    usr.first_name created_first_name,
+    usr.last_name created_last_name,
+    (select user3.first_name from asset, user user3 where asset.updated_by = user3.email and asset.company_id = com.id order by asset.updated_at desc limit 1)
+    updated_first_name,
+     (select use4r.last_name from asset, user use4r where asset.updated_by = use4r.email  and asset.company_id = com.id order by asset.updated_at desc limit 1)
+     updated_last_name,
+    ast.created_at created_at,
+    (select updated_at from asset where company_id = ast.company_id order by updated_at desc limit 1) updated_at
+FROM
+    company com,
+    asset ast,
+    user usr
+WHERE
+    com.id = ast.company_id
+        AND (usr.email = ast.created_by or usr.email = ast.updated_by)
+GROUP BY com.company_name
+        </createView>
+    </changeSet>
+    -->
+
+
+</databaseChangeLog>

@@ -1,0 +1,52 @@
+/* ---------------------
+@Auth: Ankit Sharma 
+Date: 11/12/2021
+Desc: Media Query for responsive configuration
+-----------------------*/
+@import 'variables.scss';
+/*---------------------------------
+Min Width is above then value
+-----------------------------------*/
+.mlr_9 {
+  margin: 0 -10px;
+}
+
+.mt_0 {
+  margin-top: 0px !important;
+}
+
+@media only screen and (min-width: 1200px) {
+  
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {
+
+ 
+}
+
+@media only screen and (min-width: 991px) {
+  
+}
+
+@media only screen and (max-width: 768px) {
+  
+}
+
+@media only screen and (max-width: 768px) {
+ 
+}
+
+
+@media only screen and (max-width: 550px) {
+  
+}
+
+@media only screen and (max-width: 450px) {
+  
+}
+
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
+ 
+}

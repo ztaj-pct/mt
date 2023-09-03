@@ -1,0 +1,90 @@
+@import "https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css";
+@import 'https://unpkg.com/ag-grid-community/core/dist/styles/ag-theme-alpine.css';
+
+.form-control-clear {
+  top: 14px;
+  z-index: 10;
+  right: 25px;
+  pointer-events: auto;
+  cursor: pointer;
+  position: absolute;
+}
+
+.breakdownChartDataTbl{
+  border-bottom: 2px solid #d3d3d3;
+}
+.breakdownChartDataTbl tr th{
+  background-color: #e4e4e4;
+  font-size: 12px;
+}
+.breakdownChartDataTbl tr td{
+  font-size: 12px;
+}
+.assetName {
+  font-weight: 600;
+}
+
+ .statusOfCampaign {
+  margin-right: 15px;
+}
+
+.installDetails{
+  margin-top: 2em;
+}
+
+.approved_assets_txt{
+  margin-top: 50px;
+}
+.installDetails{
+  display: block;
+  width: 105%;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  line-height: 1.5em;
+}
+.content_titlebar_wrapper{
+  padding-bottom: 15px;
+  margin-bottom: 0px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.readOnlyModeInfo {
+  .data-col {
+    margin-bottom: 8px;
+    width: 100%;
+    padding-right: 2%;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1.2em;
+    align-items: center;
+    display: inline-flex;
+    .label {
+      color: #000;
+      font-weight: 600;
+      font-size: 12px;
+      margin-right: 10px;
+      float: left;
+      width: 40%;
+      text-align: left;
+      text-transform: capitalize;
+      word-break: break-word;
+    }
+
+    .ro-value {
+      color: #000;
+      font-weight: 600;
+      word-break: break-word;
+      float: left;
+      width: 55%;
+      font-size: 12px;
+      text-transform: unset;
+      a {
+        color: #4aaafe;
+        text-decoration: none;
+        letter-spacing: 1px;
+        font-weight: 900;
+      }
+    }
+  }
+}

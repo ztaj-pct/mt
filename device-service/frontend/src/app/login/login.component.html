@@ -1,0 +1,69 @@
+<div class="container" id="loginPage">
+    <!-- <a href="javascript:void(0);"><img class="center-logo" src="../assets/image/connect1_logo.png" alt=""
+            title="" /></a> -->
+    <div class="row signin_box">
+        <div class="col-lg-6 centerDiv">
+            <div class="signin_box_wrapper">
+                <h2>Sign In</h2>
+                <div class="signin_form">
+                    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" formControlName="username" class="form-control" id="email">
+                            <span class="error"
+                                *ngIf="(loginForm.get('username').hasError('required') && (loginForm.get('username').touched||loginForm.get('username').dirty)) ||
+                                 (loginForm.get('username').hasError('email') && (loginForm.get('username').touched||loginForm.get('username').dirty))">
+                                <span *ngIf="getLoginForm.username.errors.required">Email is required</span>
+                                <span *ngIf="getLoginForm.username.errors.email">Invalid Email Format</span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password</label>
+                            <input type="password" class="form-control" id="pwd" formControlName="password"
+                                autocomplete="new-password">
+                            <span class="error"
+                                *ngIf="(loginForm.get('password').hasError('required') && (loginForm.get('password').touched||loginForm.get('password').dirty ))||
+                                (loginForm.get('password').hasError('minlength') && (loginForm.get('password').touched||loginForm.get('password').dirty ))">
+                                <span *ngIf="getLoginForm.password.errors.required">Password is required</span>
+                                <span *ngIf="getLoginForm.password.errors.minlength">Passwords must have at least
+                                    5 letter</span>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="landing">Select Login Home Page</label>
+                            <select class="form-select form-control" id="landing" formControlName="landing">
+                                <!-- <option value="">Select Landing Page</option> -->
+                                <option [value]="page?.value" *ngFor="let page of landingPageList">{{page?.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="loginError">
+                            <span class="error">
+                                <span>{{errorMessage}}</span>
+                            </span>
+                        </div>
+                        <div class="form-group remembermeDiv">
+                            <input type="checkbox" formControlName="rememberme" id="rememberme">
+                            <label for="rememberme">Remember me.</label>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="primary_button" value="Submit"
+                                [disabled]="!loginForm.valid">Sign in</button>
+                        </div>
+                        <div class="form-group">
+                            <div class="forget_password">
+                                <a [routerLink]="[ '/forgot-password']">Did you forget your password?</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row content_form">
+        <div class="col-lg-12">
+
+        </div>
+    </div>
+</div>

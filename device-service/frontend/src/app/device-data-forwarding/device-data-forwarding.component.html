@@ -1,0 +1,124 @@
+<div class="col-12">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <form class="form-horizontal" [formGroup]="devicesDataForm" (ngSubmit)="onSubmit($event)">
+        <div id="orgDetails">
+            <div class="pl-0">
+                <div class="col-lg-12 pl-0">
+                    <div class="col-lg-6 pl-0">
+                        <h4 class="title"><b>Organization-Level Forwarding Rules</b></h4>
+                        <div class="secttionDesc">Device reports for the selected organization(s) are forwarded to the
+                            following
+                            endpoints by default.</div>
+                        <ul>
+                            <li>Click <i class="igonreText">Ignore</i> to exclude this from a default rule.</li>
+                            <li>Click on the organization name if you need to modify a default rule.</li>
+                        </ul>
+                        <div class="tblData">
+                            <div class="col-lg-12 dataHeading">
+                                <label class="col-lg-3 tblRowHeader">
+                                    <b>Organization</b>
+                                </label>
+                                <label class="col-lg-2 tblRowHeader">
+                                    <b>Rule</b>
+                                </label>
+                                <label class="col-lg-5 tblRowHeader">
+                                    <b>Description/Url</b>
+                                </label>
+                                <label class="col-lg-2 tblRowHeader ignoreBoxAlign">
+                                    <b>Ignore</b>
+                                </label>
+                            </div>
+                            <div formArrayName="ignore_forwarding_rules">
+                                <div class="col-lg-12 p-0 dataRow"
+                                    *ngFor="let rule of ignore_forwarding_rules.controls; let i=index">
+                                    <div [formGroupName]="i">
+                                        <label class="col-lg-3 tblRowData" style="padding-left: 6px;">
+                                            <a class="pointer" style="color:#4BA9D7;" href="javascript:void(0)" (click)="viewOrgDetails(rule.value.organisationId)">{{rule?.value?.organisationName}}</a>
+                                        </label>
+                                        <label class="col-lg-2 tblRowData" style="padding-left: 1px;">
+                                            {{rule?.value?.ruleName}}
+                                        </label>
+                                        <label class="col-lg-6 tblRowData" style="padding-left: 1px;">
+
+                                           <div> {{rule.value.description}}</div><div class="url">({{url}})</div>
+
+
+                                        </label>
+                                        <label class="col-lg-1 tblRowData" style="padding-left: 0px;padding-top: 5px;">
+                                            <span class="col-lg-2 ignoreBoxAlign">
+                                                <mat-checkbox id="ignore_{{i}}" formControlName='ignore'
+                                                    [checked]="ignore">
+                                                </mat-checkbox>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 pr-0">
+                        <h4 class="title"><b>Device-Level Forwarding Rules</b></h4>
+                        <div class="secttionDesc pb-15">Specify additional device-level forwarding rules for this IMEI if
+                            required.
+                        </div>
+                        <div formArrayName="forwarding_list">
+                            <div class="form-row" *ngFor="let forwarding of forwarding_list.controls; let i=index">
+                                <div class="col-lg-12" [formGroupName]="i">
+                                    <div class="col-lg-5 pl-0">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Endpoint URL</mat-label>
+                                            <mat-select id="urlId" formControlName='forwarding_rule_url_uuid'
+                                                (selectionChange)="selectChangeHandler($event,i)">
+                                                <mat-option *ngFor='let urlObj of customerForwardingRuleUrls'
+                                                    [value]="urlObj.uuid">
+                                                    {{urlObj.ruleName}} ({{urlObj.format}})
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <span class="error col-lg-12 pl-25 nopadding" *ngIf="forwarding.get('forwarding_rule_url_uuid').errors 
+                          && (forwarding.get('forwarding_rule_url_uuid').dirty 
+                          || forwarding.get('forwarding_rule_url_uuid').touched)">
+                                            <span *ngIf="forwarding.get('forwarding_rule_url_uuid').errors.required">
+                                                Endpoint url is required.
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="ruleDesc align-middle">
+                                            {{forwarding.value.description}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <a href="javascript:void(0)" class="removeMoreLink"
+                                            (click)="onDeleteForwardingRule(i)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                    <span class="error col-md-8 nopadding"
+                                        *ngIf="(forwarding.get('url').errors && (forwarding.get('url').dirty || forwarding.get('url').touched)) || (forwarding.get('type').errors && (forwarding.get('type').dirty || forwarding.get('type').touched))">
+                                        <span
+                                            *ngIf="forwarding.get('url').errors.required || forwarding.get('type').errors.required">Endpoint
+                                            url and type is required.</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="addRowBtnSection" *ngIf="isAddAnotherRule && forwarding_list.controls.length < 5">
+                            <a class="addRowBtn" (click)="addAnotherRule()"> <i class="fa fa-plus"
+                                    aria-hidden="true"></i>
+                                Add
+                                Another Rule </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btnOrgSection col-lg-12">
+                <div class="btnRow">
+                    <button type="submit" class="primaryBtn">Save</button>
+                    <button type="button" class="secondaryBtn" (click)="cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+</div>

@@ -1,0 +1,69 @@
+.close.mat-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+  }
+
+  .outer-div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .button-bar {
+    margin-bottom: 1rem;
+  }
+  
+  .grid-wrapper {
+    flex: 1 1 auto;
+  }
+  .tablePopup{
+  border:1px solid #dddddd;
+  }
+
+  .container {
+    width: 1170px;
+  
+    white-space: nowrap;
+    padding:10px;
+  }
+  
+    table, th, td {
+      border: 1px solid #dddddd;
+    }
+    
+    #babfc7
+    th, td {
+      padding: .5em 1em;
+    }
+
+    .mainTableContainer{
+      overflow-x: auto;
+    }
+
+    .high-light-changes {
+      font-weight: 700 !important;
+      color: red;
+    }
+
+    .statusOfCampaign {
+      margin-right: 15px;
+    }
+    
+    .statusOfCampaign a {
+      font-size    : 12px;
+      padding      : 4px 17px;
+      color: #002e6d !important;
+      border-radius: 14px;
+      text-transform: uppercase;
+    }
+    
+    .statusOfCampaign a.installed {
+      background: #cde49d !important;
+    }
+    .statusOfCampaign a.pending {
+      background: #b6bdc2 !important;
+    }

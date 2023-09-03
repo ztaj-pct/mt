@@ -1,0 +1,389 @@
+<div class="tabWrapper" id="installationDetails">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <!-- Mat Tab Group -->
+  <div class="content_form">
+    <h4 class="firmwaretitle">
+      <div class="">
+        <div class="installAssetDetails">
+          <div class="col-lg-3 pl-0" style="padding-left: 0px; padding-right: 10px;">
+            <h4 class="content_titlebar_wrapper" style="width: 100%;">Device History</h4>
+            <div id="historyViewAggrid">
+            <!-- <ag-grid-angular #agGrid id="myGrid"  style="width: 100%; height: 300px;"
+              class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs"    
+              (gridReady)="onGridReady($event)" [gridOptions]="gridOptions" [rowModelType]="rowModelType" 
+              [defaultColDef]="defaultColDef"  [rowSelection]="rowSelection"
+              (rowClicked)="getSelectedNodes($event)" (cellClicked)="onCellClicked($event)">        
+            </ag-grid-angular> -->
+            <div class="chartDataTbl">
+              <table id="" class="table table-hover">
+                <thead>
+                  <tr>
+                    <th width="40%">Event</th>
+                    <th width="25%">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let sensor of deviceHistoryData;">
+                    <td style="font-size: 14px; color: #4ba9d7;"> <a
+                        (click)="onDeviceHistoryClick(sensor)">{{sensor?.event_name}}</a> </td>
+                    <td style="font-size: 14px;"> <a (click)="onDeviceHistoryClick(sensor)">{{sensor?.event_date}}</a>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            </div>
+          </div>
+          <div class="col-lg-9" style="padding-right: 0px;">
+            <div class="w100" style="width: 100%;display:block;" *ngIf="isDeviceDetails">
+              <div class="col-lg-8" style="padding-left: 0px;margin-top: 32px;">
+                <div class="noPadding assetDetailsBox" *ngIf="!showCustomUI">
+                  <h5 class="assetTitle">Installation Details</h5>
+                  <div class="assetTitle"></div>
+                  <div class="assetInfo"></div>
+                  <div class="assetLableRows">
+                    <div class="rowData">
+                      <div class="col" style="font-weight : bold;">
+                        Started :
+                      </div>
+                      <div class="col" style="font-weight : bold;">
+                        Last Sync :
+                      </div>
+                    </div>
+                    <div class="rowData">
+                      <div class="col">
+                        {{installationdetails?.date_started}}
+                      </div>
+                      <div class="col">
+                        {{installationdetails?.last_updated}}
+                      </div>
+                    </div>
+                    <div class="rowData">
+                      <div class="col" style="font-weight : bold;" >
+                        Finished :
+                      </div>
+                      <div class="col" style="font-weight : bold;">
+                        Installer: 
+                      </div>
+                    </div>
+
+                    <div class="rowData">
+                      <div class="col">
+                        {{installationdetails?.installed_date}}
+                      </div>
+                      <div class="col">
+                        {{installationdetails?.installer_name}} 
+                      </div>
+                    </div>
+                    <!-- <div class="rowData">
+                      <div class="col" style="font-weight : bold;">
+                        UUID : 
+                      </div>
+                      <div class="col" style="font-weight : bold;">
+                        InstallerAssist Version : 
+                      </div>
+                    </div>
+                    <div class="rowData">
+                      <div class="col">
+                        {{installationdetails?.asset_uuid}}
+                      </div>
+                      <div class="col">
+                        {{installationdetails?.app_version}}
+                      </div>
+                    </div> -->
+                    <div class="rowData">
+                      <div class="col" style="font-weight : bold;">
+                        UUID : 
+                      </div>
+                      <div class="col" style="font-weight : bold;">
+                        Work Order : 
+                      </div>
+                      
+                      
+                    </div>
+                    <div class="rowData">
+                      <div class="col">
+                        {{installationdetails?.asset_uuid}}
+                      </div>
+                      <div class="col">
+                        <!-- {{installationdetails?.work_order}} -->
+                      <!-- {{isMaintenanceDetails?.workOrder}} -->
+                      <!-- {{maintenanceEventDetails?.workOrder}} -->
+                      <div *ngIf="maintenanceEventDetails?.workOrder!=null; else Else">
+                        {{maintenanceEventDetails?.workOrder}}
+                      </div>
+                      
+                      <ng-template #Else>
+                       N/A
+                      </ng-template>
+                     </div>  
+                      </div>
+
+                    <div class="rowData">
+                      <div class="col">&nbsp;</div>
+                      <div class="col" style="font-weight:bold;margin-top: -20px;" >
+                        InstallerAssist Version : 
+                      </div>
+                    </div>
+                    <div class="rowData">
+                      <div class="col">&nbsp;</div>
+                      <div class="col" style="font-weight:bold;margin-top: -15px;" >
+                        {{installationdetails?.app_version}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="noPadding assetDetailsBox" *ngIf="showCustomUI" style="height:fit-content">
+                  <h5 class="assetTitle">QA Details</h5>
+                  <div class="assetTitle"></div>
+                  <div class="assetInfo"></div>
+                  <div class="assetLableRows">
+                    <div class="rowData">
+                      <div class="col" style="font-weight : bold;">
+                        QA Status : <span style="font-weight : 400;">{{installationdetails?.qa_status}}</span> 
+                      </div>
+                      <div class="col" style="font-weight : bold;">
+                        Time : <span style="font-weight : 400;"> {{installationdetails?.qa_date_and_time}}</span>
+                      </div>
+                      
+                    </div>
+                    
+                    
+                    
+                    
+                    <div class="rowData">
+                      <div class="col" style="font-weight : bold;" >
+                        configName : <span style="font-weight : 400;"> {{installationdetails?.config_name}}</span>
+                      </div>
+                      <!-- <div class="col" style="font-weight : bold;">
+                        Installer: 
+                      </div> -->
+                    </div>
+
+                   
+                    </div>
+                </div>
+              </div>
+              <div class="col-lg-4" style="padding-right: 0px;margin-top: 32px;">
+                <div class="">
+                  <h4 class="content_titlebar_wrapper" style="width: 100%;">Gateway Inspection Status</h4>
+                  <div class="chartDataTbl">
+                    <table id="" class="table table-hover breakdownChartDataTbl">
+                      <thead>
+                        <tr>
+                          <th width="50%">Power Source</th>
+                          <th width="25%">Status</th>
+                          <th width="25%">Voltage</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let power of batteryList;">
+                          <td>{{power.power_source}}</td>
+                          <td>{{power.status}}</td>
+                          <td>{{power.voltage}}</td>
+                        </tr>
+                        <tr *ngIf="batteryList == null || batteryList == undefined || batteryList.length == 0">
+                          <td>Primary</td>
+                          <td>Pending</td>
+                          <td>--</td>
+                        </tr>
+                        <tr *ngIf="batteryList == null || batteryList == undefined ||  batteryList.length == 0">
+                          <td>Battery</td>
+                          <td>Pending</td>
+                          <td>--</td>
+                        </tr>
+                        <tr *ngIf="batteryList == null || batteryList == undefined || batteryList.length == 0">
+                          <td>Secondary</td>
+                          <td>Pending</td>
+                          <td>--</td>
+                        </tr>
+                        <tr *ngIf="batteryList != null && batteryList != undefined && batteryList.length == 1">
+                          <td>Battery</td>
+                          <td>Pending</td>
+                          <td>--</td>
+                        </tr>
+                        <tr *ngIf="batteryList != null && batteryList != undefined && batteryList.length == 1">
+                          <td>Secondary</td>
+                          <td>Pending</td>
+                          <td>--</td>
+                        </tr>
+                        <tr *ngIf="batteryList != null && batteryList != undefined && batteryList.length == 2">
+                          <td>Secondary</td>
+                          <td>Pending</td>
+                          <td>--</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="w100" style="width: 100%;display:block;" *ngIf="isMaintenanceDetails">
+              <div class="col-lg-12" style="padding-left: 0px;margin-top: 32px;">
+                <div class="noPadding assetDetailsBox" style="height:100%!important">
+                  <h5 class="assetTitle">Maintenance Event Details</h5>
+                  <div class="assetLableRows">
+                    <div class="rowData">
+                      <div class="col" >
+                       <b> Service Date :</b>  {{maintenanceEventDetails?.pstServiceTime}}
+                      </div>
+                      <div class="col" >
+                        <b> Tech :</b> {{maintenanceEventDetails?.technician}}
+                      </div>
+                      <div class="col" >
+                        <b> Validation Time :</b>  {{maintenanceEventDetails?.validationTime}} <span *ngIf="maintenanceEventDetails?.validationTime">PST</span>
+                      </div>
+                    </div>
+                   
+                    <div class="rowData">
+                      <div class="col"  >
+                        <b> Service Time :</b>  {{maintenanceEventDetails?.pstServiceTime}}
+                      </div>
+                      <div class="col" >
+                        <b> Work Order:</b>  {{maintenanceEventDetails?.workOrder}}
+                      </div>
+                      <div class="col" >
+                        <b>  Resolution Type:</b>  {{maintenanceEventDetails?.resolutionType}}
+                      </div>
+                    </div>
+                    <div class="rowData">
+                      <div class="col" >
+                        <b>  Service Vendor :</b> {{maintenanceEventDetails?.serviceVendorName}}
+                      </div>
+                      <div class="col" >
+                      </div>
+                      <div class="col" >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             
+            </div>
+
+            <div class="w100" style="width: 100%;display:block;">
+              <div class="approved_assets_txt">
+                <div class="col-lg-12" style="padding-left: 10px;margin-top: 32px; padding-right:0px;">
+                  <div class="icon-group">
+                    <h4 class="content_titlebar_wrapper">Sensor Inspection Status</h4>
+                    <div class=" icons-button" *ngIf="isDeviceDetails">
+                      <div class="assetButtonStatus" style="">
+                        <a class="resetLink" href="javascript:void(0)" (click)='resetGateway()'>
+                          <span class="resetIcon"><i aria-hidden="true" class="fa fa-repeat"></i></span>
+                          <span class="resetLinkTxt">Reset Installation</span>
+                        </a>
+                      </div>
+                      <div class="assetButtonStatus" style=" ">
+                        <a class="resetLink" href="javascript:void(0)" data-toggle="modal"
+                          (click)='markInstallationForRework() '>
+                          <span class="resetIcon"><i aria-hidden="true" class="fa fa-wrench"></i></span>
+                          <span class="resetLinkTxt">Mark for Rework</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="isMaintenanceDetails">
+                    <ag-grid-angular #agGrid id="myGrid" style="width: 100%; height: 300px;" class="ag-theme-alpine"
+                      [rowData]="rowData" [columnDefs]="columnDefs" (gridReady)="onGridReady($event)"
+                      (cellClicked)="onCellClicked($event)" [gridOptions]="gridOptions" [rowModelType]="rowModelType"
+                      [defaultColDef]="defaultColDef" [rowSelection]="rowSelection">
+                    </ag-grid-angular>
+                  </div>
+                  <div class="chartDataTbl">
+                    <table id="" class="table table-hover breakdownChartDataTbl">
+                      <thead>
+                        <tr *ngIf="isDeviceDetails">
+                          <th width="40%">Sensor</th>
+                          <th width="25%">Product Code</th>
+                          <th width="25%">MAC Address</th>
+                          <th width="25%">Position</th>
+                          <th width="20%">Notes</th>
+                          <th width="25%">Status</th>
+                          <th width="25%">Temp/Pressure</th>
+                        </tr>
+                        <!-- <tr *ngIf="isMaintenanceDetails">
+                          <th width="40%">Sensor</th>
+                          <th width="25%">Old Sensor ID/MAC</th>
+                          <th width="25%">New Sensor ID/MAC</th>
+                          <th width="25%">Position</th>
+                          <th width="25%">Status</th>
+                          <th width="25%">Reading</th>
+                          <th width="25%">Notes</th>
+                        </tr> -->
+                      </thead>
+                      <tbody *ngIf="isDeviceDetails">
+                        <tr *ngFor="let sensor of sensorList;">
+                          <td>{{sensor.sensor_name}}</td>
+                          <td>{{sensor.product_code}}</td>
+                          <td>{{sensor.mac_address != null && sensor.mac_address != '' ? sensor.mac_address :
+                            sensor.sensor_id}}
+                          </td>
+                          <td>{{sensor.position}}</td>
+                          <td>{{sensor.type}}</td>
+                          <td >{{sensor.status | uppercase}}</td>
+                          <td>{{sensor.sensor_temperature}} / {{ sensor.sensor_pressure }} </td>
+                        </tr>
+                        </tbody>
+                        <!-- <tbody *ngIf="isMaintenanceDetails">
+                        <tr  *ngFor="let sensor of maintenaceList;">
+                          <td>{{sensor?.sensorName}}</td>
+                          <td>{{sensor?.oldSensorId}}</td>
+                          <td>{{sensor?.newSensorId}}
+                          </td>
+                          <td>{{sensor?.position}}</td>
+                          <td >{{sensor?.status | uppercase}}</td>
+                          <td>{{sensor?.reading }} </td>
+                          <td>{{sensor?.notes }} </td>
+                        </tr>
+      
+                      </tbody> -->
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="w100" style="width: 100%;display:block;"  *ngIf="isDeviceDetails">
+              <div class="approved_assets_txt">
+                <div class="col-lg-12" style="padding-left: 10px;margin-top: 32px; padding-right:0px; margin-bottom:30px;">
+                  <h4 class="content_titlebar_wrapper">Logged Issues</h4>
+                  <div class="chartDataTbl">
+                    <table id="" class="table table-hover breakdownChartDataTbl">
+                      <thead>
+                        <tr>
+                          <th width="150">Date</th>
+                          <th width="150">Status</th>
+                          <th width="150">Sensor</th>
+                          <th width="150">Reason Code</th>
+                          <th width="150">Comment</th>
+                          <th width="150">User</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let log of loogedIssueList;">
+                          <td>{{log.date}}</td>
+                          <td>{{log.status}}</td>
+                          <td>{{log.sensor}}</td>
+                          <td>{{log.reason_code}}</td>
+                          <td>
+                            <div style="display: inline; width: 150px; word-break: break-all; word-wrap: break-word;">
+                              {{log.comment}}</div>
+                          </td>
+                          <td>{{log.user}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+       
+      </div>
+    </h4>
+  </div>
+</div>

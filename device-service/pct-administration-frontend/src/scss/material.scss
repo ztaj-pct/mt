@@ -1,0 +1,92 @@
+/* -----------------------------------------
+@Auth: Ankit Sharma 
+Date: 04/26/2019
+Desc: material design and configuration
+--------------------------------------------*/
+@import "variables.scss";
+
+/*-----------------------
+  Genric Classes 
+------------------------*/
+.wh15 {
+  height: 15px;
+  width: 15px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-tab-body {
+  min-height: 100px;
+  padding: 20px;
+}
+
+/*-----------------------
+  Input field 
+------------------------*/
+
+/*-----------------------
+  radio button
+------------------------*/
+
+/*-----------------------
+  checkbox styling
+------------------------*/
+
+/*-----------------------
+  Dropdown Styling
+------------------------*/
+
+/*-----------------------
+  Date-Picker Styling
+------------------------*/
+
+/*-----------------------
+  Table Styling
+------------------------*/
+
+/*--------------------------------
+ Exp table
+----------------------------------*/
+
+/*--------------------------------
+ Exp table
+----------------------------------*/
+
+/*--------------------------------
+ Action table
+----------------------------------*/
+
+/*-----------------------
+  Expansion Styling
+------------------------*/
+
+/*-----------------------
+  Tree Styling
+------------------------*/
+
+/*-----------------------
+  Tab Styling
+------------------------*/
+
+.mat-tab-label {
+  height: 30px !important;
+  padding: 0 5px !important;
+  min-width: 120px !important;
+  border-bottom: 2px solid #a7a7a7;
+  color: #000 !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0 10px;
+  &.mat-tab-label-active{
+    border-bottom: 2px solid #4bbaf0;
+  }
+}
+.mat-tab-body{
+  padding: 20px 15px !important;
+}
+
+/*-----------------------
+ Dialogue Styling
+------------------------*/

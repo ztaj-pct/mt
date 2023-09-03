@@ -1,0 +1,63 @@
+/* body { background-color: white;}
+.error-template {padding: 40px 15px;text-align: center;}
+.error-actions {margin-top:15px;margin-bottom:15px;}
+.error-actions .btn { margin-right:10px; } */
+.error-template {
+    padding   : 50px 5px 0px 0px;
+    text-align: left;
+}
+
+.error-details {
+    padding: 0px 5px 40px 0px;
+    color  : #848484;
+}
+
+.nav-options {
+    padding     : 0px 0px 0px 0px;
+    display     : table;
+    width       : 100%;
+    table-layout: fixed;
+    text-align  : center;
+}
+.categoeryErrorBlock{
+    text-align: left;
+    padding-left: 0px;
+}
+.categoeryErrorBlock h3{
+    margin-bottom: 40px;
+}
+.subCategoeryList{
+    margin-bottom: 25px;
+}
+.subCategoeryList h4{
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #484f51;
+    font-weight: 600;
+}
+.subCategoeryList ul{
+    margin: 0px;
+    padding: 0px;
+}
+.subCategoeryList ul li{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    margin-bottom: 20px;
+}
+.subCategoeryList ul li a{
+    color: #4686be;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5em;
+}
+.subCategoeryList ul li a i.fa{
+    margin-right: 15px;
+}
+.error-template h2 {
+    color         : #666666;
+    padding-bottom: 10px;
+    border-bottom : 2px solid #f2f2f2;
+    font-size     : 28px;
+    font-weight   : 500;
+}

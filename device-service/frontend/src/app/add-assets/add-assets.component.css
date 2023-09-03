@@ -1,0 +1,43 @@
+i.fa-exclamation-triangle {
+
+    color: darkred;
+    font-size: 16px;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+
+i.fa-check-circle {
+    color: green;
+    font-size: 16px;
+    margin-left: 12px;
+    margin-top: 10px;
+}
+
+
+.cancel-btn {
+    color: #007bff !important;
+    border: 2px solid #007bff !important;
+}
+
+.btn-outline-primary:hover {
+    color: #fff !important;
+}
+
+.save_btn {
+    color: #FFF !important;
+    background: #3C64B1;
+    border: 2px solid #3C64B1;
+    border-radius: 6px !important;
+    box-shadow: none;
+}
+
+.cancel-btn:hover {
+    background: #f6f6f6;
+    color: #3C64B1 !important;
+}
+
+.delete_btn{
+    color: #dc3545 !important;
+    background: #FFF !important;
+    border: 2px solid #dc3545 !important;
+}

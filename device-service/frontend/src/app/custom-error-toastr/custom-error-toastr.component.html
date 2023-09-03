@@ -1,0 +1,21 @@
+<div class="notification">
+  <div class="notificationWrapper">
+      <div class="notifySign errRed">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+      </div>
+      <div class="notifyError">
+          <h2>{{title}}</h2>
+          <div class="errorNotfiyTxt">
+              {{message}}
+          </div>
+      </div>
+
+      <div class="notifyClose">
+        <div class="closeBtn">
+          <a (click)="remove()" class="btn btn-pink btn-sm" style="right: -20px;top:249px;">
+            X
+          </a>
+        </div>
+      </div>
+  </div>
+</div>

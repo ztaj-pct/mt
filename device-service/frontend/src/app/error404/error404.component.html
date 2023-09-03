@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h2>
+                    The page you are looking for could not be found.
+                </h2>
+                <div class="error-details">
+                    Please choose the application you would like to use.
+                </div>
+            </div>
+            <div class="nav-options">
+
+                <div class="col-md-3 categoeryErrorBlock">
+                    <h3>Devices and Campaigns</h3>
+                    <div class="subCategoeryList">
+                        <h4>Packages</h4>
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);" (click)="gotoDesForRefresh('packages')">
+                                    <i class="fa fa-list-ul" aria-hidden="true"></i> All Packages </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" (click)="gotoDesForRefresh('package')"><i
+                                        class="fa fa-plus" aria-hidden="true"></i>Create Package</a>
+                            </li>
+                            <li><a href="javascript:void(0);" (click)="gotoDesForRefresh('upload-packages')"><i
+                                        class="fa fa-cloud-upload" aria-hidden="true"></i>Upload Packages</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="subCategoeryList">
+                        <h4>Campaigns</h4>
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);" (click)="gotoDesForRefresh('campaigns')"><i
+                                        class="fa fa-list-ul" aria-hidden="true"></i>All Campaigns</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" (click)="gotoDesForRefresh('add-campaign')"><i
+                                        class="fa fa-plus" aria-hidden="true"></i>Create Campaign</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 categoeryErrorBlock">
+                    <h3>Assets</h3>
+                    <div class="subCategoeryList">
+                        <h4>&nbsp;</h4>
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);" (click)="gotoDesForRefresh('customerAssets')"><i
+                                        class="fa fa-list-ul" aria-hidden="true"></i>All Assets</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" (click)="gotoDesForRefresh('add-assets')"><i
+                                        class="fa fa-plus" aria-hidden="true"></i>Create Asset</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" (click)="gotoDesForRefresh('upload-assets')"><i
+                                        class="fa fa-cloud-upload" aria-hidden="true"></i>Upload Assets</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 categoeryErrorBlock">
+                    <h3>Other Apps</h3>
+                    <div class="subCategoeryList">
+                        <h4>Shipped Devices</h4>
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0);" (click)="shippedDevices()"><i class="fa fa-cloud-upload"
+                                        aria-hidden="true"></i>Upload Shipped Devices</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 categoeryErrorBlock"> &nbsp; </div>
+            </div>
+        </div>
+    </div>
+</div>

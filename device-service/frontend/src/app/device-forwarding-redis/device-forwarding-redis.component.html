@@ -1,0 +1,162 @@
+<div class="container">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="breadCrumb">
+                <span class="pageName">
+                    <a href="javascript:void(0);">Admin</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                    <a href="javascript:void(0);">Device Forwarding Details From Redis</a>
+                </span>
+            </div>
+            <div class="content_titlebar_wrapper">
+                <h2 class="col-lg-12 noPadding">
+                    <span class="pull-left sectionTitleName">Device Forwarding Details From Redis</span>
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="content_form">
+        <form class="ngFormsViews" [formGroup]="deviceForwardingform" (ngSubmit)="onSubmit()">
+            <div class="section">
+                <div class="form-group col-md-4">
+                    <mat-form-field class="nopadding">
+                        <input formControlName='imei' required matInput placeholder="Device Imei">
+                    </mat-form-field>
+                    <span class="error col-lg-12 pl-25 nopadding" 
+                        *ngIf="deviceForwardingform.get('imei').errors &&
+                        (deviceForwardingform.get('imei').hasError('required') 
+                        && (deviceForwardingform.get('imei').touched || deviceForwardingform.get('imei').dirty))">
+                        <span *ngIf="deviceForwardingform.get('imei').errors.required">
+                            Device imei is required.
+                        </span>
+                    </span>
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="submit" class="btn btn-primary save_btn">Find</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="pl-0">
+        <div class="col-lg-12 pl-0">
+            <div class="col-lg-6 pl-0 rightBlockDeviceUpload">
+                <div class="heading">Device Forwarding Rules</div>
+                <div class="tblData">
+                    <div class="col-lg-12 p-0 dataHeading">
+                        <label class="col-lg-2 tblRowHeader">
+                            <b>Type</b>
+                        </label>
+                        <label class="col-lg-10 tblRowHeader">
+                            <b>Endpoint Url</b>
+                        </label>
+                    </div>
+                    <div class="col-lg-12 p-0 dataRow" *ngFor="let rule of deviceForwarding.deviceForwardingRules" >
+                        <label class="col-lg-2 tblRowHeader">
+                            {{rule.type}}
+                        </label>
+                        <label class="col-lg-10 tblRowData">
+                            {{rule.url}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 pl-0 rightBlockDeviceUpload">
+                <div class="heading">Customer ({{deviceForwarding.deviceCustomerId}}) Forwarding Rules</div>
+                <div class="tblData">
+                    <div class="col-lg-12 p-0 dataHeading">
+                        <label class="col-lg-2 tblRowHeader">
+                            <b>Type</b>
+                        </label>
+                        <label class="col-lg-10 tblRowHeader">
+                            <b>Endpoint Url</b>
+                        </label>
+                    </div>
+                    <div class="col-lg-12 p-0 dataRow" *ngFor="let rule of deviceForwarding.customerForwardingRules" >
+                        <label class="col-lg-2 tblRowHeader">
+                            {{rule.type}}
+                        </label>
+                        <label class="col-lg-10 tblRowData">
+                            {{rule.url}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 pl-0">
+            <div class="col-lg-6 pl-0 rightBlockDeviceUpload">
+                <div class="heading">Device Ignore Forwarding Rules</div>
+                <div class="tblData">
+                    <div class="col-lg-12 p-0 dataHeading">
+                        <label class="col-lg-2 tblRowHeader">
+                            <b>Type</b>
+                        </label>
+                        <label class="col-lg-10 tblRowHeader">
+                            <b>Endpoint Url</b>
+                        </label>
+                    </div>
+                    <div class="col-lg-12 p-0 dataRow" *ngFor="let rule of deviceForwarding.customerIgnoreForwardingRules" >
+                        <label class="col-lg-2 tblRowHeader">
+                            {{rule.type}}
+                        </label>
+                        <label class="col-lg-10 tblRowData">
+                            {{rule.url}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 pl-0 rightBlockDeviceUpload">
+                <div class="heading">Purchased By ({{deviceForwarding.devicePurchasedById}}) forwarding Rules</div>
+                <div class="tblData">
+                    <div class="col-lg-12 p-0 dataHeading">
+                        <label class="col-lg-2 tblRowHeader">
+                            <b>Type</b>
+                        </label>
+                        <label class="col-lg-10 tblRowHeader">
+                            <b>Endpoint Url</b>
+                        </label>
+                    </div>
+                    <div class="col-lg-12 p-0 dataRow" *ngFor="let rule of deviceForwarding.purchasedByForwardingRules" >
+                        <label class="col-lg-2 tblRowHeader">
+                            {{rule.type}}
+                        </label>
+                        <label class="col-lg-10 tblRowData">
+                            {{rule.url}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 pl-0">
+            <div class="col-lg-12 pl-0 rightBlockDeviceUpload">
+                <div class="heading">Device Forwarding Appling Rules</div>
+                <div class="tblData">
+                    <div class="col-lg-12 p-0 dataHeading">
+                        <label class="col-lg-2 tblRowHeader">
+                            <b>From</b>
+                        </label>
+                        <label class="col-lg-2 tblRowHeader">
+                            <b>Type</b>
+                        </label>
+                        <label class="col-lg-8 tblRowHeader">
+                            <b>Endpoint Url</b>
+                        </label>
+                    </div>
+                    <div class="col-lg-12 p-0 dataRow" *ngFor="let rule of deviceForwarding.deviceForwardingApplingRules" >
+                        <label class="col-lg-2 tblRowHeader">
+                            {{rule.from}}
+                        </label>
+                        <label class="col-lg-2 tblRowHeader">
+                            {{rule.type}}
+                        </label>
+                        <label class="col-lg-8 tblRowData">
+                            {{rule.url}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

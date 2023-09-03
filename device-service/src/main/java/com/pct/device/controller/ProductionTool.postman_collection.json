@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "b21c29eb-a418-42b8-9300-12917c56158b",
+		"name": "ProductionTool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20537532"
+	},
+	"item": [
+		{
+			"name": "Save",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwY3doLWNvbXB1dGVyQHBoaWxsaXBzLWNvbm5lY3QuY29tIiwicm9sZUlkIjpbeyJyb2xlSWQiOjEsIm5hbWUiOiJTdXBlcmFkbWluIn1dLCJqd3RVc2VyIjp7InJvbGUiOlt7InJvbGVJZCI6MSwibmFtZSI6IlN1cGVyYWRtaW4ifV0sInVzZXJuYW1lIjoicGN3aC1jb21wdXRlckBwaGlsbGlwcy1jb25uZWN0LmNvbSIsInVzZXJJZCI6MTE1LCJwYXNzd29yZCI6IiQyYSQxMCRxLm9VaENKNWhqUGFlci5QNUFLLmZPQnFIUHFjVmhZMmNIOW5mT3RjL1lqYmVxY1JxbnluZSIsImVuYWJsZWQiOnRydWUsImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImF1dGhvcml0aWVzIjpudWxsLCJhY2NvdW50Tm9uTG9ja2VkIjp0cnVlfSwiaWF0IjoxNjYxNzc4OTY4fQ.NUy6BP2I14owco70eEXQBRLl3I3MqdtkpsPRai0PL5k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tool_name\": \"Spare-Tool\",\r\n    \"tool_revision\": \"1.0.8_B1\",\r\n    \"tool_ip_address\": \"10.10.20.209\",\r\n    \"tool_operator\": \"N/A\",\r\n    \"event_timestamp\": \"2022-08-19 15:52:00\",\r\n    \"event_type\": \"QA Pass\",\r\n    \"event_content\": {\r\n        \"imei\": \"861836058052833\",\r\n        \"spare_tool_sensor_list\": [\r\n            {\r\n                \"sensor_mac\": \"D5,A1,0A,67,5E,AA\",\r\n                \"sensor_type\": \"06\",\r\n                \"sensor_location\": \"0\",\r\n                \"sensor_type_description\": \"ATIS\"\r\n            },\r\n            {\r\n                \"sensor_mac\": \"D5,A1,0A,67,5E,A2\",\r\n                \"sensor_type\": \"OE\",\r\n                \"sensor_location\": \"0\",\r\n                \"sensor_type_description\": \"TankSaver\"\r\n            },\r\n            {\r\n                \"sensor_mac\": \"D5,A1,0A,67,5E,A3\",\r\n                \"sensor_type\": \"01\",\r\n                \"sensor_location\": \"0\",\r\n                \"sensor_type_description\": \"Swing-Door\"\r\n            },\r\n            {\r\n                \"sensor_mac\": \"D5,A1,0A,67,5E,A4\",\r\n                \"sensor_type\": \"02\",\r\n                \"sensor_location\": \"2\",\r\n                \"sensor_type_description\": \"Roll-Door\"\r\n            }\r\n        ]\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5555/production_tool/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5555",
+					"path": [
+						"production_tool",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwY3doLWNvbXB1dGVyQHBoaWxsaXBzLWNvbm5lY3QuY29tIiwicm9sZUlkIjpbeyJyb2xlSWQiOjEsIm5hbWUiOiJTdXBlcmFkbWluIn1dLCJqd3RVc2VyIjp7InJvbGUiOlt7InJvbGVJZCI6MSwibmFtZSI6IlN1cGVyYWRtaW4ifV0sInVzZXJuYW1lIjoicGN3aC1jb21wdXRlckBwaGlsbGlwcy1jb25uZWN0LmNvbSIsInVzZXJJZCI6MTIsInBhc3N3b3JkIjoiJDJhJDEwJHEub1VoQ0o1aGpQYWVyLlA1QUsuZk9CcUhQcWNWaFkyY0g5bmZPdGMvWWpiZXFjUnFueW5lIiwiZW5hYmxlZCI6dHJ1ZSwiY3JlZGVudGlhbHNOb25FeHBpcmVkIjp0cnVlLCJhY2NvdW50Tm9uRXhwaXJlZCI6dHJ1ZSwiYWNjb3VudE5vbkxvY2tlZCI6dHJ1ZSwiYXV0aG9yaXRpZXMiOm51bGx9LCJpYXQiOjE2NTU0NjUwOTJ9.jeTtuYsM16vYnt9C-Ve2dASVVnaeZVT2np_bB6_Z6Es",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5555/production_tool/find?startDate=2021-05-12T10:45:01-7&endDate=2023-05-12T10:45:01-7&toolName=Spare-Tool&_page=1&_limit=10&_sort=eventTimestamp&_order=ASC",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5555",
+					"path": [
+						"production_tool",
+						"find"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2021-05-12T10:45:01-7"
+						},
+						{
+							"key": "endDate",
+							"value": "2023-05-12T10:45:01-7"
+						},
+						{
+							"key": "toolName",
+							"value": "Spare-Tool"
+						},
+						{
+							"key": "_page",
+							"value": "1"
+						},
+						{
+							"key": "_limit",
+							"value": "10"
+						},
+						{
+							"key": "_sort",
+							"value": "eventTimestamp"
+						},
+						{
+							"key": "_order",
+							"value": "ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"username\": \"pcwh-computer@phillips-connect.com\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5555/user/token/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5555",
+					"path": [
+						"user",
+						"token",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ResetRoleCache",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYmhpc2hla0BsZWFmbm9kZS5pbyIsInJvbGVJZCI6W3sicm9sZUlkIjoxLCJuYW1lIjoiU3VwZXJhZG1pbiJ9XSwiand0VXNlciI6eyJyb2xlIjpbeyJyb2xlSWQiOjEsIm5hbWUiOiJTdXBlcmFkbWluIn1dLCJ1c2VybmFtZSI6ImFiaGlzaGVrQGxlYWZub2RlLmlvIiwidXNlcklkIjoxLCJwYXNzd29yZCI6IiQyYSQxMCRxLm9VaENKNWhqUGFlci5QNUFLLmZPQnFIUHFjVmhZMmNIOW5mT3RjL1lqYmVxY1JxbnluZSIsImFjY291bnROb25Mb2NrZWQiOnRydWUsImFjY291bnROb25FeHBpcmVkIjp0cnVlLCJjcmVkZW50aWFsc05vbkV4cGlyZWQiOnRydWUsImF1dGhvcml0aWVzIjpudWxsLCJlbmFibGVkIjp0cnVlfSwiaWF0IjoxNjU1MzczNDUyLCJleHAiOjE2NTU1NTM0NTJ9.HtI2l_ru7Qy9BSXmRyJxbGZt_zbYuIJAxtkEZRec_10",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5555/api/resetRoleCache",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5555",
+					"path": [
+						"api",
+						"resetRoleCache"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

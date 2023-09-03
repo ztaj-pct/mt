@@ -1,0 +1,168 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: gateway-service
+  profiles:
+    active:
+      default
+  cloud:
+    config:
+      enabled: false
+zuul:
+  ignored-services: "*"
+  sensitiveHeaders: Cookie,Set-Cookie
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+  prefix:
+  routes:
+    auth-service:
+      path: /user/**
+      serviceId: auth-service
+      stripPrefix: false
+    auth-service-role:
+      path: /api/**
+      serviceId: auth-service
+      stripPrefix: false
+    auth-app-service:
+      path: /app/**
+      serviceId: auth-service
+      stripPrefix: false
+    auth-azure-service:
+      path: /azure/**
+      serviceId: auth-service
+      stripPrefix: false    
+    device-service:
+      path: /device/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-asset:
+      path: /asset/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-campaign:
+      path: /campaign/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-asset-configuration:
+      path: /config-lookup/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-gateway:
+      path: /gateway/**
+      serviceId: device-service
+      stripPrefix: false  
+    device-service-deviceQA:
+      path: /deviceQA/**
+      serviceId: device-service
+      stripPrefix: false   
+    device-service-assetdevice:
+      path: /asset-device/**
+      serviceId: device-service
+      stripPrefix: false       
+    device-service-deviceforwarding:
+      path: /df/**
+      serviceId: device-service
+      stripPrefix: false    
+    device-service-event:
+      path: /event/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-sensor:
+      path: /sensor/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-shipment:
+      path: /shipment/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-beacon:
+      path: /beacon/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-product:
+      path: /product/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-attribute:
+      path: /attribute/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-attributevalue:
+      path: /attribute-value/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-atcommand:
+      path: /atcommand/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-productionTool:
+      path: /production_tool/**
+      serviceId: device-service
+      stripPrefix: false
+    device-service-maintenance:
+      path: /maintenance-report/**
+      serviceId: device-service
+      stripPrefix: false  
+    organisation-service:
+      path: /organisation/**
+      serviceId: organisation-service
+      stripPrefix: false
+    organisation-service-customer:
+      path: /customer/**
+      serviceId: organisation-service
+      stripPrefix: false
+    organisation-service-location:
+      path: /location/**
+      serviceId: organisation-service
+      stripPrefix: false  
+    device-command-service:
+      path: /gateway-command/**
+      serviceId: device-command-service
+      stripPrefix: false   
+    device-command-service-swagger:
+      path: /device-command/**
+      serviceId: device-command-service
+      stripPrefix: false
+    reportbuilder-service:
+      path: /reportbuilder/**
+      serviceId: device-service
+      stripPrefix: false  
+    installer-service:
+      path: /installation/**
+      serviceId: installer-service
+      stripPrefix: false
+    installer-service-assist:
+      path: /install-assist/**
+      serviceId: installer-service
+      stripPrefix: false  
+    installer-service_1:
+      path: /installer/**
+      serviceId: installer-service
+      stripPrefix: false    
+      
+   
+#    device-command-service-customer:
+#      path: /customer/**
+#      serviceId: device-command-service
+#      stripPrefix: false
+   
+    device-version-service:
+      path: /package/**
+      serviceId: device-version-service
+      stripPrefix: false
+    device-version-service-campaign:
+      path: /campaign/**
+      serviceId: device-version-service
+      stripPrefix: false
+   
+
+ribbon:
+  ReadTimeout: 3600000
+
+service:
+  organisation:
+    serviceId: organisation-service
+  installer-service:
+    serviceId: installer-service
+  installer:
+    serviceId: installer-service    

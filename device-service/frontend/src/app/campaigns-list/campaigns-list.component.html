@@ -1,0 +1,263 @@
+<div class="container-fluid">
+    <div class="loading" *ngIf="loading">Loading&#8230;</div>
+    <div class="row content_titlebar">
+        <div class="col-lg-12">
+            <div class="breadCrumb">
+                <span class="pageName">
+                    <a href="javascript:void(0);">Manage Devices</a>
+                </span>
+                <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                <span class="pageName">
+                    <a href="javascript:void(0);">Campaigns</a>
+                </span>
+            </div>
+            <div class="content_titlebar_wrapper">
+                <h2 class="pull-left col-lg-6 noPadding">Campaigns</h2>
+                <div  class="pull-right col-lg-6 noPadding text-right"
+                    *ngIf="userCompanyType === 'Manufacturer' || isSuperAdmin === 'true'">
+                    <b>CHECK DEVICE &nbsp;</b>
+                    <input (keyup.enter)="deviceSearch($event)">
+            
+                    <b>&nbsp;</b>
+                    <i class="fa fa-search"></i> &nbsp; &nbsp;
+
+                    <button *ngIf="isSuperAdmin === 'true' && !isEmergencyStopFlag" class="linkT link_button" data-toggle='modal'
+                        data-target='#emergencyStopModal'><i class="fa fa-stop-circle-o"
+                        aria-hidden="true"></i><span> Emergency Stop</span></button>
+
+                    <button *ngIf="isSuperAdmin === 'true' && isEmergencyStopFlag" class="linkT link_button" data-toggle='modal'
+                            data-target='#resumeCampaignActivityModal'><i class="fa fa fa-play"
+                            aria-hidden="true"></i><span> Resume Campaign Activity</span></button> &nbsp; &nbsp;
+            
+                    <button class="linkT link_button" (click)="createCampaign()"><i class="fa fa-plus"
+                            aria-hidden="true"></i><span>Create
+                            a
+                            Campaign</span></button> &nbsp; &nbsp;
+                </div>
+            </div>
+    </div>
+
+    <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine" [rowData]="rowData"
+        [columnDefs]="columnDefs" [cacheOverflowSize]="cacheOverflowSize" (cellClicked)="onCellClicked($event)"
+        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" [modules]="modules"
+        [gridOptions]="gridOptions" [infiniteInitialRowCount]="infiniteInitialRowCount" [pagination]=true
+        (gridReady)="onGridReady($event)"  (firstDataRendered)="onFirstDataRendered($event)" (columnVisible)="onColumnVisible($event)" (columnPinned)="onColumnPinned($event)" (sortChanged)="onSortChanged($event)" (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)" (paginationChanged)="onPaginationChanged($event)" (columnResized)="onColumnResized($event)" [sideBar]="sideBar"
+        [defaultColDef]="defaultColDef" [frameworkComponents]="frameworkComponents"  [components]="components"
+        [tooltipShowDelay]="tooltipShowDelay">
+    </ag-grid-angular>
+    
+    <div class="pageSizeNumbers">
+        Page Size:
+        <select [(ngModel)]="selected" id="page-size" name="pageSizeObjArr" (ngModelChange)="onPageSizeChange()">
+            <option *ngFor="let value of pageSizeObjArr" [ngValue]="value.idValue">{{value.id}}</option>
+        </select>
+    </div>
+
+    <!-- <div class="row content_table">
+        <div class="col-lg-12">
+            <div class="dataTables table-responsive">
+                <table class="table table-striped editInputTxt" [mfData]="packages" #mf="mfDataTable" [mfRowsOnPage]="5">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <mfDefaultSorter by="package_name" (click)='sortBy("package_name")'>Package Name
+                                </mfDefaultSorter>
+
+                            </th>
+                            <th scope="col">
+                                <mfDefaultSorter by="bin_version" (click)='sortBy("bin_version")'>BIN Version
+                                </mfDefaultSorter>
+                            </th>
+                            <th scope="col">
+                                <mfDefaultSorter by="app_version" (click)='sortBy("app_version")'>App Version
+                                </mfDefaultSorter>
+                            </th>
+                            <th scope="col">
+                                <mfDefaultSorter by="mcu_version" (click)='sortBy("mcu_version")'>MCU version
+                                </mfDefaultSorter>
+                            </th>
+                            <th scope="col">
+                                <mfDefaultSorter by="ble_version" (click)='sortBy("ble_version")'>BLE version
+                                </mfDefaultSorter>
+                            </th>
+                            <th scope="col">
+                                <mfDefaultSorter by="config1" (click)='sortBy("config1")'>Config1</mfDefaultSorter>
+                            </th> -->
+    <!-- <th scope="col">
+                                <mfDefaultSorter by="config2" (click)='sortBy("config2")'>Config2</mfDefaultSorter>
+                            </th>
+                            <th scope="col">
+                                <mfDefaultSorter by="config3" (click)='sortBy("config3")'>Config3</mfDefaultSorter>
+                            </th> -->
+    <!-- <th scope="col">
+                                <mfDefaultSorter by="config4" (click)='sortBy("config4")'>Config4</mfDefaultSorter>
+                            </th>
+
+                            <th style="width: 120px !important;" scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> <input class="form-field" style="width: 120px !important" [formControl]="package_name"> <span id="package_name" (click)="clickOnParticularFilter('package_name')" class="form-control-clear fa fa-times hidden"></span></td>
+                            <td> <input class="form-field" style="width: 120px !important" [formControl]="bin_version"> <span id="bin_version" (click)="clickOnParticularFilter('bin_version')" class="form-control-clear fa fa-times hidden"></span></td>
+                            <td> <input class="form-field" style="width: 120px !important" [formControl]="app_version"> <span id="app_version" (click)="clickOnParticularFilter('app_version')" class="form-control-clear fa fa-times hidden"></span></td>
+                            <td> <input class="form-field" style="width: 120px !important" [formControl]="mcu_version"> <span id="mcu_version" (click)="clickOnParticularFilter('mcu_version')" class="form-control-clear fa fa-times hidden"></span></td>
+                            <td> <input class="form-field" style="width: 120px !important" [formControl]="ble_version"><span id="ble_version" (click)="clickOnParticularFilter('ble_version')" class="form-control-clear fa fa-times hidden"></span></td>
+                            <td> <input class="form-field" style="width: 100px !important" [formControl]="config1"><span id="config1" (click)="clickOnParticularFilter('config1')" class="form-control-clear fa fa-times hidden"></span></td>
+                            <td> <input class="form-field" style="width: 100px !important" [formControl]="config4"><span id="config4" (click)="clickOnParticularFilter('config4')" class="form-control-clear fa fa-times hidden"></span></td>
+                            <td> <button class="btn-xs primary_button" *ngIf="isClearButtonVisible" (click)="clearFilter()"><span>Clear Filter</span></button></td>
+                        </tr>
+                        <tr *ngFor="let package of packages; let i=index;">
+                            <td>{{package.package_name || ''}}</td>
+                            <td>{{package.bin_version || ''}}</td>
+                            <td>{{package.app_version || ''}}</td>
+                            <td>{{package.mcu_version || ''}}</td>
+                            <td>{{package.ble_version || ''}}</td>
+                            <td>{{package.config1 || ''}}</td> -->
+    <!-- <td>{{package.config2 || ''}}</td>
+                            <td>{{package.config3 || ''}}</td> -->
+    <!-- <td>{{package.config4 || ''}}</td>
+                            <td>
+                                <div class="action_col">
+                                    <span class="iconBtn icoBtn_edit"  (click)="editPackage(package.uuid)"><i class="fa fa-pencil"
+                                            aria-hidden="true"></i></span>
+                                    <span class="iconBtn icoBtn_delete" data-toggle="modal" *ngIf="!package.is_deleted" data-target="#deletePackageModal"
+                                        (click)="deletePackage(package.uuid)"><i  class="fa fa-trash" aria-hidden="true"></i></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div class="row content_table_paging">
+        <div class="col-lg-3 text-left result_count_text">
+            Showing {{currentStartRecord}}-{{currentEndRecord}} of {{totalRecords}}
+        </div>
+        <div class="col-lg-6 noPadding text-center pagination_wrapper">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item pre" [ngClass]="{disabled:pager.currentPage === 1}">
+                        <a class="page-link" (click)="pager.currentPage === 1 || _getdata(pager.currentPage - 1)"><i
+                                class="fa fa-angle-double-left" aria-hidden="true"></i></a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}"
+                        class="page-item active"><a class="page-link" (click)="_getdata(page)">{{page}}</a></li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item next"><a
+                            class="page-link"
+                            (click)="pager.currentPage === pager.totalPages || _getdata(pager.currentPage + 1)"><i
+                                class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div> -->
+
+
+    <div #deleteCampaignModal class="modal fade" id="deleteCampaignModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm Deactivation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                            Are you sure you want to delete this campaign? 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button" (click)="deleteCampaignDb()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div #emergencyStopModal class="modal fade" id="emergencyStopModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Emergency Stop Action</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        Are you sure you want to stop all campaign activity?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button" (click)="callEmergencyStop()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div #resumeCampaignActivityModal class="modal fade" id="resumeCampaignActivityModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Resume Campaign Activity</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        Are you sure you want to resume campaign activity?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button" (click)="callResumeCampaignActivity()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div #pauseCampaignModal class="modal fade" id="pauseCampaignModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Stop</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        Are you sure you want to stop execution of this campaign?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button" (click)="pauseCampaignDb()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div #playCampaignModal class="modal fade" id="playCampaignModal" role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Restart</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="w-100">
+                        Are you sure you want to resume execution of this campaign? The campaign will proceed with the currently specified pause parameters.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn primary_button" (click)="playCampaignDb()"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

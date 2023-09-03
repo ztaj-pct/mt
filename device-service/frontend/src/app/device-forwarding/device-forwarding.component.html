@@ -1,0 +1,47 @@
+<div class="col-12">
+  <div class="heading">Device Forwarding</div>
+</div>
+<div class="col-6">
+  <div class="col-12">
+    <div>Specify additional endpoints to receive reports from this device</div>
+    <br>
+  </div>
+  <div class="col-12">
+    <form [formGroup]="deviceforwardingform" (ngSubmit)="onSubmit(deviceforwardingform)">
+      <div formArrayName="forwarding_list">
+        <div class="form-row" *ngFor="let forwarding of forwarding_list.controls; let i=index">
+          <div [formGroupName]="i">
+            <div class="form-group col-md-4">
+              <mat-form-field appearance="fill">
+                <mat-label>Type</mat-label>
+                <mat-select id="type1" formControlName='type' (selectionChange)="selectChangeHandler($event,i)">
+                  <mat-option *ngFor='let group of deviceForwordingRuleData' [value]="group.value">{{group.data}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-md-8">
+              <mat-form-field appearance="fill">
+                <mat-label>Endpoint URL</mat-label>
+                <input required matInput formControlName="url">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="forwarding_list.controls.length<=3&&isReadonly">
+        <div class="form-group">
+          <a (click)="addAnotherRule('','',null,0)"> <i class="fa fa-plus" aria-hidden="true"></i> Add Another Rule </a>
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <button type="submit" class="btn btn-primary save_btn" [disabled]="!rolePCTUser"  >Save</button>
+        &nbsp; &nbsp;
+        <button type="button" class="btn btn-outline-primary cancel-btn">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="col-6">
+
+</div>

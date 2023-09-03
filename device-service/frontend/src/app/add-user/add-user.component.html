@@ -1,0 +1,304 @@
+<div class="container">
+  <div class="row content_titlebar">
+    <div class="col-lg-12">
+      <div class="breadCrumb">
+        <span class="pageName">
+          <a href="javascript:void(0);">Admin</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);" [routerLink]="['../users']">Users</a>
+        </span>
+        <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+        <span class="pageName">
+          <a href="javascript:void(0);">Add a User</a>
+        </span>
+      </div>
+      <div class="content_titlebar_wrapper">
+        <h2 class="pull-left col-lg-12 noPadding">{{pageTitle}}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="content_form">
+    <form class="ngFormsViews" [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm)">
+      <div class="col-lg-4 pl-0">
+        
+           <!-- user name here -->
+
+           <div class="form-group w-100 ">
+            <label for="email" class="w-100 control-label required" [ngClass]="(submitted && f.email.errors)||(registerForm.get('email').hasError('required') &&registerForm.get('email').touched)||(registerForm.get('email').hasError('pattern') &&registerForm.get('email').touched)||(registerForm.get('email').hasError('duplicate') &&registerForm.get('email').touched) ? 'ifLabelHasError' : 'ifLabelHasErrorRemove' " >Email</label>
+            <div class="dflxRow">
+              <mat-form-field class="col-lg-8 nopadding">
+                <input required matInput formControlName='email' id="email" class="">
+              </mat-form-field>
+              <span class="error col-lg-4 pl-25 nopadding"
+                *ngIf="(submitted && f.email.errors)||(registerForm.get('email').hasError('required') &&registerForm.get('email').touched)||(registerForm.get('email').hasError('pattern') &&registerForm.get('email').touched)||(registerForm.get('email').hasError('duplicate') &&registerForm.get('email').touched)">
+                <span *ngIf="f.email.errors.duplicate">The email provided is already associated with a user account.
+                  Please
+                  check it and try again.</span>
+                <span *ngIf="f.email.errors.required">Email is required.</span>
+                <span *ngIf="f.email.errors.pattern">The email provided has an invalid format. Please check it and try
+                  again.</span>
+              </span>
+            </div>
+  
+          </div>
+        <!-- First Name here -->
+
+        <div class="form-group w-100 ">
+          <label for="first_name" class="w-100 control-label required" 
+          [ngClass]="((submitted && f.first_name.errors)||
+          (registerForm.get('first_name').hasError('required') &&registerForm.get('first_name').touched)||
+          (registerForm.get('first_name').hasError('pattern') &&registerForm.get('first_name').touched)||
+          (registerForm.get('first_name').hasError('minlength') &&registerForm.get('first_name').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove'">First Name</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input required matInput #fname maxlength="20" formControlName='first_name'  id="first_name" >
+              <mat-hint align="end">{{fname.value?.length || 0}}/20</mat-hint>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(submitted && f.first_name.errors)||
+              (registerForm.get('first_name').hasError('required') &&registerForm.get('first_name').touched)||
+              (registerForm.get('first_name').hasError('pattern') &&registerForm.get('first_name').touched)||
+              (registerForm.get('first_name').hasError('minlength') &&registerForm.get('first_name').touched)">
+              <span *ngIf="f.first_name.errors.maxlength">First Name is Too Long</span>
+              <span *ngIf="f.first_name.errors.required">First Name is required.</span>
+              <span *ngIf="f.first_name.errors.pattern"> First Name Invalid</span>
+            </span>
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group w-100 ">
+          <label for="last_name" class="w-100 control-label required"
+           [ngClass]="((submitted && f.last_name.errors)||
+           (registerForm.get('last_name').hasError('required') &&registerForm.get('last_name').touched)||
+           (registerForm.get('last_name').hasError('pattern') &&registerForm.get('last_name').touched)||
+           (registerForm.get('last_name').hasError('minlength') &&registerForm.get('last_name').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Last Name</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input required matInput  #lname maxlength="20" formControlName='last_name' id="last_name">
+              <mat-hint align="end">{{lname.value?.length || 0}}/20</mat-hint>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+            *ngIf="(submitted && f.last_name.errors)||
+            (registerForm.get('last_name').hasError('required') &&registerForm.get('last_name').touched)||
+            (registerForm.get('last_name').hasError('pattern') &&registerForm.get('last_name').touched)||
+            (registerForm.get('last_name').hasError('minlength') &&registerForm.get('last_name').touched)">
+            <span *ngIf="f.last_name.errors.maxlength">Last Name is Too Long</span>
+            <span *ngIf="f.last_name.errors.required">Last Name is required.</span>
+            <span *ngIf="f.last_name.errors.pattern"> Last Name Invalid</span>
+          </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="Roles" class="w-100 control-label required" [ngClass]="((submitted && registerForm.controls['roleId'].invalid) || 
+          (registerForm.controls['roleId'].invalid && registerForm.controls['roleId'].touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Role</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select required name="roles" formControlName='roleId' (selectionChange)="onSelectRoleChange($event.value)"  multiple>
+                <div class="select-all">
+                  
+                </div>
+                <mat-option  *ngFor="let role of Roles" [value]="role?.roleId" >
+                  {{role.name}}</mat-option>
+              </mat-select> 
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding" *ngIf="(submitted && registerForm.controls['roleId'].invalid) || 
+            (registerForm.controls['roleId'].invalid && registerForm.controls['roleId'].touched)">
+              <span *ngIf="registerForm.controls['roleId'].errors.required">You must specify a Role or Roles for the
+                User.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100">
+          <label for="organisationsId" class="w-100 control-label required" [ngClass]="((submitted && registerForm.controls['organisationsId'].invalid) || 
+          (registerForm.controls['organisationsId'].invalid && registerForm.controls['organisationsId'].touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Organization Name</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select required name="organisationsId" formControlName='organisationsId' (selectionChange)="onSelectChange($event.value)">
+                <mat-option  *ngFor='let organisations of companies  | orderBy: "organisationName"' [value]="organisations?.id">
+                  {{organisations?.organisationName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding" *ngIf="(submitted && registerForm.controls['organisationsId'].invalid) || 
+            (registerForm.controls['organisationsId'].invalid && registerForm.controls['organisationsId'].touched)">
+              <span *ngIf="registerForm.controls['organisationsId'].errors.required">
+                <span  *ngIf="message === ''">You must specify a Organization Name for The User.</span> 
+              </span>
+                </span>
+            
+          </div>
+        </div>
+      
+
+        
+
+
+      </div>
+
+      <div class="col-lg-4">
+        <div class="form-group w-100 " *ngIf="!userId">
+          <label for="password" class="w-100 control-label required"
+           [ngClass]="((submitted && f.password.errors)||
+           (registerForm.get('password').hasError('required') &&registerForm.get('password').touched)||
+           (registerForm.get('password').hasError('minlength') &&registerForm.get('password').touched)||
+           (registerForm.get('password').hasError('pattern') &&registerForm.get('password').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Password</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input matInput required type="password" autocomplete="new-password" formControlName='password'
+                id="password">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(submitted && f.password.errors)||(registerForm.get('password').hasError('required') &&registerForm.get('password').touched)||
+              (registerForm.get('password').hasError('minlength') &&registerForm.get('password').touched)||
+              (registerForm.get('password').hasError('pattern') &&registerForm.get('password').touched)">
+              <span *ngIf="f.password.errors.required">You must specify a Password.</span>
+              <span *ngIf="f.password.errors.minlength">Password must be at least 5 characters
+              </span>
+              <span *ngIf="f.password.errors.pattern">Please Don't user this ` : ; " ' / Special characters in password</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group w-100 " *ngIf="!userId">
+          <label for="confirmPassword" class="w-100 control-label required" 
+           [ngClass]="((submitted && f.confirmPassword.errors)||
+           (registerForm.get('confirmPassword').hasError('required') &&registerForm.get('confirmPassword').touched)||
+           (registerForm.get('confirmPassword').hasError('mustMatch') &&registerForm.get('confirmPassword').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Confirm Password</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <input required matInput type="password" autocomplete="new-password" formControlName='confirmPassword'
+                id="confirmPassword">
+            </mat-form-field>
+            <span class="error col-lg-4 pl-25 nopadding"
+              *ngIf="(submitted && f.confirmPassword.errors)||(registerForm.get('confirmPassword').hasError('required') &&registerForm.get('confirmPassword').touched)||(registerForm.get('confirmPassword').hasError('mustMatch') &&registerForm.get('confirmPassword').touched)">
+              <span *ngIf="f.confirmPassword.errors.required">You must confirm the Password.</span>
+              <span *ngIf="f.confirmPassword.errors.mustMatch">The passwords entered do not match. Please check them and
+                try again.</span>
+            </span>
+          </div>
+        </div>
+
+        
+        <div class="form-group w-100">
+          <label for="phone" class="w-100 control-label required mb-12">Notification Preferences</label>
+          <div class="col-lg-5 nopadding dflxRow">
+            <mat-radio-group class="tp-radio-group col-lg-12 nopadding"  formControlName='notify' id="notify"
+              placeholder="notify">
+              <mat-radio-button class="control-label" *ngFor="let notify of notification" [value]="notify.value">
+                {{notify?.name}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        
+
+        <div class="form-group w-100">
+          <label for="phone" class="w-100 control-label required mt-25" 
+           [ngClass]="((submitted && f.phone.errors)||
+           (registerForm.get('phone').hasError('required') &&registerForm.get('phone').touched)||
+           (registerForm.get('phone').hasError('mustMatch') &&registerForm.get('phone').touched)||
+           (registerForm.get('phone').hasError('minlength') &&registerForm.get('phone').touched)||
+           (registerForm.get('phone').hasError('maxlength') &&registerForm.get('phone').touched))? 'ifLabelHasError' : 'ifLabelHasErrorRemove' ">Mobile #</label>        
+          <div class="col-lg-11 nopadding dflxRow phoneNumberCountryFlag">
+            <input style="display: none;margin-left:-3em; margin-top:-9.5px;" formControlName='countryCode'
+            ng2TelInput (intlTelInputObject)="telInputObject($event)"  (countryChange)="onCountryChange($event)" id="countryCode" />
+            <mat-form-field class="col-lg-8 phoneNumberTxtFeild">
+              <input required matInput formControlName='phone'  id="phone" />
+            </mat-form-field>   
+            <span class="error col-lg-4 pl-25 nopadding"
+            *ngIf="(submitted && f.phone.errors)||
+            (registerForm.get('phone').hasError('required') &&registerForm.get('phone').touched)
+            ||(registerForm.get('phone').hasError('pattern') &&registerForm.get('phone').touched)||
+            (registerForm.get('phone').hasError('minlength') &&registerForm.get('phone').touched)||
+            (registerForm.get('phone').hasError('maxlength') &&registerForm.get('phone').touched)">
+            <span *ngIf="f.phone.errors.required">Phone Number is required.</span>
+            <span *ngIf="f.phone.errors.pattern"> Phone Number is Invalid</span>
+            <span *ngIf="f.phone.errors.minlength">Enter 10 digit phone number</span>
+            <span *ngIf="f.phone.errors.maxlength">Enter 10 digit phone number</span>
+          </span>        
+          </div>
+        </div>
+
+       
+        <div class="form-group w-100">
+          <label for="active" class="w-100 control-label mb-12">Active</label>
+          <div class="dflxRow">
+            <div class="col-lg-5 nopadding w-100">
+              <mat-checkbox value="1" formControlName='is_active' id="active" name="optradio" [checked]="f.is_active.value">
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="form-group w-100">
+          <label for="locationId" class="w-100 control-label">Home Location</label>
+          <div class="dflxRow">
+            <mat-form-field class="col-lg-8 nopadding">
+              <mat-select  name="locationId" formControlName='locationId' (selectionChange)="onSelectChangeHomeLocation($event)">
+                <mat-option  *ngFor='let location of dropDownHomeLocationsList  | orderBy: "location_name"' [value]="location.id">
+                  {{location?.location_name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="tblData">
+          <h6>Additional Work Location</h6>
+          <div class="col-lg-12 p-0 dataHeading">
+              &nbsp;
+          </div>
+          <div class="col-lg-12 p-0 dataRow" *ngFor="let seletedLocation of selectedAdditionalLocations; let i=index" >
+              <div class="col-lg-5 tblRowData">
+                  {{seletedLocation?.location_name}}
+              </div>
+              <div class="col-lg-5 tblRowData">
+                  {{seletedLocation?.city}}
+              </div>
+              <div class="col-lg-2 tblRowData">
+                  <a href="javascript:void(0)" class="removeRuleMoreLink" (click)="deleteSelectedAdditionalLocation(i)">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                  </a>
+              </div>
+          </div>
+      </div>
+
+      <div class="form-group deviceRules col-lg-12 mt-">
+          <div class="form-row" *ngIf="showAnotherLocation">
+              <div class="form-group col-md-10">
+              <mat-form-field appearance="fill" class="w-100 nopadding">
+                  <mat-select id="urlId" formControlName='additional_work_location' (selectionChange)="onSelectChangeAdditionalLocations($event)">
+                  <mat-option *ngFor='let location of dropDownLocationsList  | orderBy: "location_name"' [value]="location.id">
+                      {{location?.location_name}}
+                  </mat-option>
+                  </mat-select>
+              </mat-form-field>
+              </div>
+          </div>
+          <div class="addRowBtnSection" *ngIf="isHomeLocationSeleted && !showAnotherLocation">
+              <a class="addRowBtn" (click)="showAddAnotherLocation()"> <i class="fa fa-plus" aria-hidden="true"></i> Add Another Work Location </a>
+          </div>
+      </div>
+      </div>
+
+      <div class="col-lg-12">
+        <div class="form-group">
+          <div class="w-100 text-center">
+            <button type="submit"   class="btn primary_button save_btn" data-dismiss="modal" [disabled]="rolePCTUser" >Save</button>
+            &nbsp;&nbsp; 
+            <button class="btn secondary_button cancel-btn" (click)="cancel()" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

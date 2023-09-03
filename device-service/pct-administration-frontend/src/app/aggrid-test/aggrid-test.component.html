@@ -1,0 +1,7 @@
+<ag-grid-angular
+    style="width: 95%; height: 100%;" class="ag-theme-alpine"
+    #myGrid [gridOptions]="gridOptions"  
+    [rowData]="rowData"  [columnDefs]="columnDefs"
+    [pagination]=true (sortChanged)="onSortChanged($event)"
+>
+</ag-grid-angular>

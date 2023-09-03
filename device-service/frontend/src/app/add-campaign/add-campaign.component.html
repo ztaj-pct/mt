@@ -1,0 +1,985 @@
+<div class="container">
+  <div class="loading" *ngIf="loading">Loading&#8230;</div>
+  <form [formGroup]="addCampaign" (change)="print()">
+    <div class="row content_titlebar">
+      <div class="col-lg-12">
+        <div class="breadCrumb">
+          <span class="pageName">
+            <a href="javascript:void(0);">Manage Devices</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);" [routerLink]="['../campaigns']">Campaigns</a>
+          </span>
+          <span class="seprator"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+          <span class="pageName">
+            <a href="javascript:void(0);">{{title}}</a>
+          </span>
+        </div>
+        <div class="content_titlebar_wrapper">
+          <h2 class="col-lg-12 noPadding">
+            <span class="pull-left sectionTitleName">{{title}}</span>
+            <span class="pull-right titleBtnSection">
+              <nav id="nav-menu-container-2">
+                <ul class="nav-menu">
+                  <li *ngIf="updateFlag"><a style="margin-right: 18px !important;"><span>Other Actions</span><span
+                        style="margin-left: 0px !important;"><i class="fa fa-angle-down" style="margin-top: -2px;"
+                          aria-hidden="true"></i></span></a>
+                    <ul class="dropdown-menu header-dropdown megaMenu innerDropNav">
+                      <li class="titleOrder">Actions</li>
+                      <li class="orderList">
+                        <a href="javascript:void(0);"><i class="fa fa-clone" aria-hidden="true"></i>Copy Campaign</a>
+                      </li>
+                      <li class="orderList" *ngIf="campaignStatus == 'Finished'">
+                        <a href="javascript:void(0);" (click)="archiveCampaign()">
+                          <!-- <i class="fa fa-caret-square-o-down"
+                            aria-hidden="true"></i> --> <img style="margin-right: 10px;margin-left: -2px;height: 16px;"
+                            src="../assets/image/archive-24px.svg" alt="" title="" />Archive Campaign</a>
+                      </li>
+                      <li class="orderList"
+                        *ngIf="campaignStatus == 'Stopped' || campaignStatus == 'In progress' || campaignStatus == 'Paused'">
+                        <a href="javascript:void(0);" (click)="retireCampaign()">
+                          <!-- <i class="fa fa-archive"
+                            aria-hidden="true"></i> --> <img style="margin-right: 10px;margin-left: -2px;height: 16px;"
+                            src="../assets/image/inventory_2-24px.svg" alt="" title="" />Retire Campaign</a>
+                      </li>
+                      <li class="orderList">
+                        <a href="javascript:void(0);" (click)="deleteCampaign()"><i class="fa fa-trash"
+                            aria-hidden="true"></i>Delete Campaign</a>
+                      </li>
+
+                    </ul>
+                  </li>
+                  <button type="button" (click)="saveCampaign(addCampaign)"
+                    class="btn primary_button">Save</button>&nbsp;
+                  <button type="button" class="btn secondary_button" (click)="cancelForAddCampaign()">Cancel</button>
+                </ul>
+              </nav>
+
+              <!--<span><a href="javascript:void(0)"><i class="fa fa-clone" aria-hidden="true"></i> Copy Campaign</a></span> -->
+            </span>
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="content_form mt-25 campaignForm">
+      <div class="col-lg-12 pr-0">
+        <div class="form-horizontal">
+          <div class="col-lg-12 pr-0">
+            <!--Start UI code from Here-->
+            <div class="col-lg-12 noPadding">
+              <div class="col-lg-6 noPadding boxModel mr-2" *ngIf="updateFlag">
+                <div class="boxTitleCamp subTitle"  *ngIf="updateFlag">
+                  <span class="nameEle">Campaign Details</span>
+                  <span class="statusEleBtn statusOfCampaign">
+                      <a href="javascript:void(0);" class="statusBtn notStarted" *ngIf="campaignStatus == 'Not Started'">
+                        {{campaignStatus}}
+                      </a>
+    
+                      <a href="javascript:void(0);" class="statusBtn inProgress" *ngIf="campaignStatus == 'In progress'">
+                        {{campaignStatus}}
+                      </a>
+    
+                      <a href="javascript:void(0);" class="statusBtn paused" *ngIf="campaignStatus == 'Paused'">
+                        {{campaignStatus}}
+                      </a>
+    
+                      <a href="javascript:void(0);" class="statusBtn completed" *ngIf="campaignStatus == 'Finished'">
+                        Completed
+                      </a>
+    
+                      <a href="javascript:void(0);" class="statusBtn archived" *ngIf="campaignStatus == 'Retired'">
+                        {{campaignStatus}}
+                      </a>
+    
+                      <a href="javascript:void(0);" class="statusBtn retired" *ngIf="campaignStatus == 'Archived'">
+                        {{campaignStatus}}
+                      </a>
+    
+                      <a href="javascript:void(0);" class="statusBtn stopped" *ngIf="campaignStatus == 'Stopped'">
+                        {{campaignStatus}}
+                      </a>
+                  </span>
+                  <span class="editEle campaignNameEdit">
+                    <a href="javascript:void(0);" data-toggle="modal" data-target="#editModalForCampaignDetail"><i
+                      class="fa fa-pencil" aria-hidden="true"></i></a>
+                  </span>
+                </div>
+                <div class="campaignNameEx" *ngIf="updateFlag">
+                  {{ addCampaign.controls.campaign_name.value }}
+                </div>
+                <div class="campaignDesc" *ngIf="updateFlag">
+                  <span class="descTitle">Description: </span>
+                  <span class="descTxt">{{ addCampaign.controls.description.value }}</span>
+                </div>
+                
+                <div class="campStatus labelValueRow">
+                  <span class="lable" style="margin-right: 1px;">Status: </span>
+                  <span class="rvalue">Executing Campaign for {{campaign_summary.total_gateways - campaign_summary.not_eligible}} Gateways.</span>
+                </div>
+                <div class="campSteps">
+                  <div class="stepsEle"><span class="count">{{campaign_summary.not_started}}</span> Not Started</div>
+                  <div class="stepsEle" *ngFor="let step of data_view_for_steps;let indexOfelement=index;"><span class="count">{{step.in_progress}}</span> Step {{indexOfelement+1}}</div>
+                  <div class="stepsEle"><span class="count">{{campaign_summary.completed}}</span> Completed</div>
+                </div>
+               
+              </div>
+
+              <div class="col-lg-6 boxModel noPadding" *ngIf="updateFlag">
+                <div class="boxTitleCamp">
+                  <span class="nameEle">Execution Settings</span>
+                </div>
+                <div class="labelValueRow pauseLable">
+                  <span class="lable">Pause After: </span>
+                </div>
+                <div class="labelValueRow">
+                  <span class="rvalue">
+                    <div class="statOpts">
+                      <mat-radio-group aria-label="Select an option" formControlName='is_pause_execution' (change)="radioChangeForPauseAfter($event)">
+                        <mat-radio-button [value]="true" class="gatewayInterval"> <input type="number"
+                            formControlName='no_of_imeis' (change)="changeValueOfPauseAfter()"
+                            style="min-width: 60px; max-width: 60px;background-color: #f4f5f4;color: #808080;border: 0px;"
+                            class="form-control" placeholder="">
+                          <span style="color: #808080;font-weight: 400;font-size: 14px;">Gateways</span>
+                        </mat-radio-button>
+                        <mat-radio-button [value]="false">
+                          <span style="color: #808080;font-weight: 400;font-size: 14px;">Don't Pause</span>
+                        </mat-radio-button>
+                      </mat-radio-group>
+                      
+                    </div>
+                  </span>
+
+                  <div class="campaignExeBtns" *ngIf="campaignStatus != 'Complete'">
+                    <button class="btnSave primary_buttonSave" data-toggle='modal' data-target='#startCampaignModal'
+                      *ngIf="(campaignStatus == null || campaignStatus == 'Not Started')" (click)='startCampaign()'
+                      [disabled]="(!updateFlag || campaignStatus !== 'Not Started')">
+                      <i class="fa fa-play" aria-hidden="true"></i> Start Campaign
+                    </button>
+                    <button class="btnSave primary_buttonSave"
+                      *ngIf="(campaignStatus != null && (campaignStatus == 'Paused' || campaignStatus == 'Stopped' || campaignStatus == 'Retired'))"
+                      (click)='playCampaign()'>
+                      <i class="fa fa-play" aria-hidden="true"></i> Resume
+                    </button>
+                    <button class="btnSave stopCampagin" *ngIf="campaignStatus == 'In progress'"
+                      (click)='pauseCampaign()'>
+                      <i class="fa fa-stop-circle-o" aria-hidden="true"></i> Stop Campaign
+                    </button>
+                  </div>
+                  <div *ngIf="addCampaign.controls.init_status.value != null" class="campaignExeBtns">
+                    Campaign Initializing Status: {{ addCampaign.controls.init_status.value }}
+                  </div>
+                  <div *ngIf="addCampaign.controls.init_status.value == null" class="campaignExeBtns">
+                    Campaign Initializing Status: Completed
+                  </div>
+                </div>
+
+               
+
+
+              </div>
+            </div>
+            <!--End UI code from Here-->
+            <div class="col-lg-12 noPadding campSubTitle">Description</div>
+            <div class="col-lg-12 noPadding d-flex pr-0 campInputDetails">
+               <!-- <label class="subTitle" *ngIf="updateFlag">
+                <span class="campaignName">{{ addCampaign.controls.campaign_name.value }}</span>
+                <span class="campaignNameEdit">
+                  <a href="javascript:void(0);" data-toggle="modal" data-target="#editModalForCampaignDetail"><i
+                      class="fa fa-pencil" aria-hidden="true"></i></a>
+                </span>
+                <span class="statusOfCampaign">
+                  <a href="javascript:void(0);" class="statusBtn notStarted" *ngIf="campaignStatus == 'Not Started'">
+                    {{campaignStatus}}
+                  </a>
+
+                  <a href="javascript:void(0);" class="statusBtn inProgress" *ngIf="campaignStatus == 'In progress'">
+                    {{campaignStatus}}
+                  </a>
+
+                  <a href="javascript:void(0);" class="statusBtn paused" *ngIf="campaignStatus == 'Paused'">
+                    {{campaignStatus}}
+                  </a>
+
+                  <a href="javascript:void(0);" class="statusBtn completed" *ngIf="campaignStatus == 'Finished'">
+                    Completed
+                  </a>
+
+                  <a href="javascript:void(0);" class="statusBtn archived" *ngIf="campaignStatus == 'Retired'">
+                    {{campaignStatus}}
+                  </a>
+
+                  <a href="javascript:void(0);" class="statusBtn retired" *ngIf="campaignStatus == 'Archived'">
+                    {{campaignStatus}}
+                  </a>
+
+                  <a href="javascript:void(0);" class="statusBtn stopped" *ngIf="campaignStatus == 'Stopped'">
+                    {{campaignStatus}}
+                  </a>
+                </span>
+              </label> -->
+              <!-- <div class="campaignDesc" *ngIf="updateFlag">
+                <span class="descTitle">Description:</span>
+                <span class="descTxt">{{ addCampaign.controls.description.value }}</span>
+              </div> -->
+              <!-- <div class="mt-25 ExecutionSettingEle" *ngIf="updateFlag">
+                <div class="exeTitle">Execution Settings</div>
+                <div class="col-lg-6 noPadding">
+                  <div class="statTxt">Pause After</div>
+                  <div class="statOpts">
+                    <mat-radio-group aria-label="Select an option" formControlName='is_pause_execution' (change)="radioChangeForPauseAfter($event)">
+                      <mat-radio-button [value]="true" class="gatewayInterval"> <input type="number"
+                          formControlName='no_of_imeis' (change)="changeValueOfPauseAfter()"
+                          style="min-width: 60px; max-width: 60px;background-color: #f4f5f4;color: #808080;border: 0px;"
+                          class="form-control" placeholder="">
+                        <span style="color: #808080;font-weight: 400;font-size: 14px;">Gateways</span>
+                      </mat-radio-button>
+                      <mat-radio-button [value]="false">
+                        <span style="color: #808080;font-weight: 400;font-size: 14px;">Don't Pause</span>
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <span class="campaignExeBtns" *ngIf="campaignStatus != 'Complete'">
+                      <button class="btnSave primary_buttonSave" data-toggle='modal' data-target='#startCampaignModal'
+                        *ngIf="(campaignStatus == null || campaignStatus == 'Not Started')" (click)='startCampaign()'
+                        [disabled]="(!updateFlag || campaignStatus !== 'Not Started')">
+                        <i class="fa fa-play" aria-hidden="true"></i> Start Campaign
+                      </button>
+                      <button class="btnSave primary_buttonSave"
+                        *ngIf="(campaignStatus != null && (campaignStatus == 'Paused' || campaignStatus == 'Stopped' || campaignStatus == 'Retired'))"
+                        (click)='playCampaign()'>
+                        <i class="fa fa-play" aria-hidden="true"></i> Resume
+                      </button>
+                      <button class="btnSave stopCampagin" *ngIf="campaignStatus == 'In progress'"
+                        (click)='pauseCampaign()'>
+                        <i class="fa fa-stop-circle-o" aria-hidden="true"></i> Stop Campaign
+                      </button>
+                    </span>
+                  </div>
+                </div>
+                 <div class="col-lg-6 noPadding" *ngIf="updateFlag && campaignStatus != 'Not Started'">
+                  <div class="statTxt">Details</div>
+                  <div class="detailDesc">
+                    <div class="detailDesc w-100">
+                        Executing Campaign for {{campaign_summary.total_gateways - campaign_summary.not_eligible}} Gateways.
+                    </div>
+                    <div class="gatewayStats">
+                      <span class="statSection">
+                        <span class="gtyCount">{{campaign_summary.not_started}}</span>
+                        <span class="gtyStats">Not Started</span>
+                      </span>
+
+                      <span class="statSection" *ngFor="let step of data_view_for_steps;let indexOfelement=index;">
+                        <span class="gtyCount">{{step.in_progress}}</span>
+                        <span class="gtyStats">Step {{indexOfelement+1}}</span>
+                      </span>
+
+                      <span class="statSection">
+                        <span class="gtyCount">{{campaign_summary.completed}}</span>
+                        <span class="gtyStats">Completed</span>
+                      </span>
+                    </div>
+                  </div>
+                </div> 
+              </div> -->
+
+              <div class="form-group mlr0 pr-2" *ngIf="!updateFlag">
+                <label for="deviceId" class="col-sm-12 col-lg-12 control-label required">Campaign Name</label>
+                <div class="col-sm-12 col-lg-12">
+                  <input type="text" class="form-control campInputClass" formControlName='campaign_name' id="campaign_name"
+                    placeholder="Campaign Name">
+                  <span class="error"
+                    *ngIf="(addCampaign.get('campaign_name').hasError('required') && addCampaign.get('campaign_name').touched) || ((addCampaign.get('campaign_name').hasError('duplicate') && addCampaign.get('campaign_name').touched) || (addCampaign.get('campaign_name').hasError('duplicate') && addCampaign.get('campaign_name').dirty))">
+                    <span *ngIf="f.campaign_name.errors.duplicate">The campaign name should be unique</span>
+                    <span *ngIf="f.campaign_name.errors.required">Campaign Name is required</span>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group mlr0 pl-2" *ngIf="!updateFlag">
+                <label for="deviceId" class="col-sm-12 col-lg-12 control-label">Description</label>
+                <div class="col-sm-12 col-lg-12 pr-0 ">
+                  <input type="text" class="form-control campInputClass"
+                    formControlName='description' id="description" placeholder="Description">
+                  <span class="error"
+                    *ngIf="(addCampaign.get('description').hasError('required') && addCampaign.get('description').touched)">
+                    <span *ngIf="f.description.errors.required">Description is required</span>
+                  </span>
+                </div>
+              </div>
+
+
+            </div>
+            <!-- <div class="col-lg-6" *ngIf="updateFlag">
+              <label class="control-label"
+                style="font-size: 23px;margin-bottom: 10px;margin-left: -16px;">Execution</label>
+              <div class="form-group" style="margin-bottom: 0px;">
+                <label for="deviceId" class="control-label">Campaign Status :</label>
+              </div>
+              <div class="form-group">
+                <label for="deviceId" class="control-label"> {{campaignStatus}}</label>
+              </div>
+              <div class="form-group">
+                <label for="deviceId" class="control-label">Pause Execution After</label>
+              </div>
+              <mat-radio-group aria-label="Select an option" formControlName='is_pause_execution'>
+                <mat-radio-button [value]="true"> <input type="number" formControlName='no_of_imeis'
+                    style="min-width: 80px; max-width: 80px;" class="form-control" placeholder="">
+                  Gateways</mat-radio-button>
+                <mat-radio-button [value]="false">Don't Pause</mat-radio-button>
+              </mat-radio-group>
+
+              <div class="form-group" *ngIf="campaignStatus != 'Complete'">
+                <div class="col-sm-10">
+                  <button type="button" class="btn primary_button" data-toggle='modal' data-target='#startCampaignModal'
+                    *ngIf="(campaignStatus == null || campaignStatus == 'Not Started')" (click)='startCampaign()'
+                    [disabled]="(!updateFlag || campaignStatus !== 'Not Started')">Start Campaign</button>
+                  <button type="button" class="btn primary_button"
+                    *ngIf="(campaignStatus != null && campaignStatus == 'Paused') && (this.campaignService.campaignDetail != null)"
+                    [disabled]="(!updateFlag || campaignStatus == 'In progress' || campaignStatus != 'Paused')"
+                    (click)='activateCampaign()'>Resume</button>
+
+                  <button type="button" class="btn primary_button" *ngIf="campaignStatus == 'In progress'"
+                    (click)='pauseCampaign()'>Pause</button>
+                  <button type="button" class="btn secondary_button" data-toggle='modal'
+                    data-target='#deleteCampaignModal' (click)='deleteCampaignForUpdate()'
+                    *ngIf="(campaignStatus == null || campaignStatus == 'Not Started')"
+                    [disabled]="!updateFlag">Delete</button> -->
+            <!-- <button type="button" class="btn btn-danger" *ngIf="updateFlag && !deviceService.deviceDetail?.isDeleted"
+                        (click)="deleteDeviceModal(deviceService.deviceDetail?.id)" data-toggle="modal"
+                        data-target="#deleteModalForDevice">Delete</button> -->
+            <!-- </div>
+              </div>
+            </div> -->
+          </div>
+          <div class="col-lg-12 addCampaignTab">
+            <mat-tab-group (selectedTabChange)="selectTabEvent($event)" [selectedIndex]="selectedTab.value"
+              (selectedIndexChange)="selectedTab.setValue($event)">
+              <mat-tab label="Stats" *ngIf="campaignStatus != null && campaignStatus !== 'Not Started'">
+                <div>
+                  <button id="refreshButtonId" class="btn btn-info btn-lg" (click)="refreshStatistics()"
+                    style="float: right !important;">
+                    <i id="refreshButton" class="fa fa-refresh"></i> Refresh
+                  </button>
+                  <h2 class="tabTitle" style="font-size: 20px;margin-bottom: 10px;font-weight: 700;"> Statistics </h2>
+                  <div class="campaignSummary">
+                    <h3> Campaign Summary</h3>
+                    <div class="campaignSummaryStats">
+                      <div class="statsNumber">
+                        <label class="statsLable">Not Started :</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('Not Started', campaign_summary.not_started)">{{campaign_summary.not_started}}</a></span>
+                      </div>
+
+                      <div class="statsNumber">
+                        <label class="statsLable">In Progress :</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('In Progress', campaign_summary.in_progress)">{{campaign_summary.in_progress}}</a></span>
+                      </div>
+
+                      <div class="statsNumber">
+                        <label class="statsLable">Completed :</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('Completed', campaign_summary.completed)">{{campaign_summary.completed}}</a></span>
+                      </div>
+
+                      <div class="statsNumber">
+                        <label class="statsLable">On Hold :</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('On Hold', campaign_summary.on_hold)">{{campaign_summary.on_hold}}</a>&nbsp;&nbsp;<span
+                            class="tooltips"><i class="fa fa-info-circle tool"
+                              data-tip="Gateways that are ‘On Hold’ are either part of another campaign, or several attempts to update them have been unsuccessful."
+                              tabindex="0"></i>
+                          </span></span>
+                      </div>
+
+                      <div class="statsNumber">
+                        <label class="statsLable">Not Eligible :</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('Not Eligible', campaign_summary.not_eligible)">{{campaign_summary.not_eligible}}</a>&nbsp;&nbsp;<span
+                            class="tooltips"><i class="fa fa-info-circle tool"
+                              data-tip="These gateways have current configurations that do not match the baseline package definition for this campaign."
+                              tabindex="0"></i>
+                          </span></span>
+                      </div>                      
+                      <div class="statsNumber">
+                        <label class="statsLable">Upgrade Eligible :</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('Baseline Match', campaign_summary.base_line_match)">{{campaign_summary.base_line_match}}</a>&nbsp;&nbsp;<span
+                            class="tooltips"><i class="fa fa-info-circle tool"
+                              data-tip="These gateways have current configurations those match the baseline package definition for this campaign."
+                              tabindex="0"></i>
+                          </span></span>
+                      </div>
+                    </div>
+                    <div class="campaignSummaryStats">
+                      <div class="statsNumber">
+                        <label class="statsLable">Total Gateway List:</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('Total Gateways', campaign_summary.total_gateways)">{{campaign_summary.total_gateways}}</a></span>
+                      </div>
+                       <div class="statsNumber">
+                        <label class="statsLable">Off Path :</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('Off Path', campaign_summary.off_path)">{{campaign_summary.off_path}}</a></span>
+                      </div>
+
+
+                      <div class="statsNumber">
+                        <label class="statsLable">On Path:</label>
+                        <span class="count"><a href="javascript:void(0)"
+                            (click)="clickOnStatisticsDetail('On Path', campaign_summary.on_path)">{{campaign_summary.on_path}}</a></span>
+                      </div>
+                    </div>
+                    <h3 class="varientTitle"> Breakdown by Steps</h3>
+                    <div class="chartDataTbl">
+                      <table id="breakdownChartDataTbl" class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th width="40%">Step</th>
+                            <th width="15%">Not Started</th>
+                            <th width="15%">Completed</th>
+                            <th width="15%">In Progress</th>
+                            <th width="15%">On Hold</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let step of data_view_for_steps;let indexOfelement=index;">
+                            <td>{{step.step_name_for_display}} </td>
+                            <td><a href="javascript:void(0)"
+                                (click)="clickOnBreakdownByStepsDetail('Not Started', step.not_started, indexOfelement+1)">{{step.not_started}}
+                              </a></td>
+                            <td><a href="javascript:void(0)"
+                                (click)="clickOnBreakdownByStepsDetail('Completed', step.completed, indexOfelement+1)">{{step.completed}}
+                              </a></td>
+                            <td><a href="javascript:void(0)"
+                                (click)="clickOnBreakdownByStepsDetail('In Progress', step.in_progress, indexOfelement+1)">{{step.in_progress}}
+                              </a></td>
+                            <td><a href="javascript:void(0)"
+                                (click)="clickOnBreakdownByStepsDetail('On Hold', step.on_hold, indexOfelement+1)">{{step.on_hold}}
+                              </a></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                  </div>
+
+                </div>
+                <h2 class="tabTitle" style="font-size: 20px;margin-bottom: 10px;font-weight: 700;"> Campaign Status
+                </h2>
+                <div class="col-lg-12 tabGraph">
+                  <span id="progressChart" #charts></span>
+                  <span id="breakDownChart" #stackbarcharts></span>
+                </div>
+              </mat-tab>
+              <mat-tab label="Package Sequence">
+                <div><label class="control-label" style="font-size: 20px;margin-bottom: 10px;">Package Sequence
+                    <!-- <button type="button" class="btnClear primary_buttonClear" (click)="clearFilter()">Clear Filter</button> -->
+                  </label>
+                  
+                  <button type="button" class="btnClear primary_buttonClear" style=" margin-top: 11px !important;float: right !important  ;"
+                    (click)="clearFilter()">Clear Filter</button>
+                </div>
+                <ag-grid-angular #agGrid style="height: 350px;" id="myGrid" class="ag-theme-alpine ag-grid-element"
+                  [modules]="modules" [columnDefs]="columnDefs" [rowClassRules]="rowClassRules"
+                  [defaultColDef]="defaultColDef" (cellClicked)="onCellClicked($event)" [immutableData]="true"
+                  [animateRows]="true" [stopEditingWhenGridLosesFocus]="true" [singleClickEdit]="true"
+                  [enableBrowserTooltips]="true" [getRowNodeId]="getRowNodeId" [rowData]="rowData"
+                  (sortChanged)="onSortChanged($event)" (filterChanged)="onFilterChanged($event)"
+                  (cellValueChanged)="onCellValueChanged($event)" (rowDragMove)="onRowDragMove($event)"
+                  (rowDragEnd)="onRowDragEnd($event)" (gridReady)="onGridReady($event)"></ag-grid-angular>
+                <div><button type="button" style="margin-top: 15px;" class="btnAddPackage primary_buttonAddPackage" (click)="addPackage()">Add
+                    Step</button></div>
+              </mat-tab>
+              <mat-tab label="Gateways">
+                <div class="tabColLables">
+                  <div class="wrapperControl">
+                    <div class="boxSection mr-1">
+                        <div class="twoSectionTitle">Campaign Scope</div>
+                        <div class="inlineRadioBox">
+                           <mat-radio-group aria-label="Select an option" formControlName="type"> 
+                            <div class="radioboxCols">
+                              <div class="boxCol">
+                                <div class="boxColRow">
+                                  <mat-radio-button  [value]="'UNRESTRICTED'" [disabled]="updateFlag"  (click)="!updateFlag &&radioChange(true,'UNRESTRICTED')" id="3">
+                                    <span class="sp-lable">Unrestricted</span>
+                                    <span class="tooltips"><i class="fa fa-info-circle tool" data-tip="Unrestricted campaigns apply to all devices for customers that do not require approval of firmware updates." tabindex="1"></i></span>
+                                  </mat-radio-button>
+                                </div>
+
+                                <div class="boxColRow">
+                                  <mat-radio-button [disabled]="updateFlag"  [value]="'RESTRICTED'" (click)="!updateFlag &&radioChange(true,'RESTRICTED')" id="1">
+                                    <span class="sp-lable">Restricted</span>
+                                    <span class="tooltips"><i class="fa fa-info-circle tool" data-tip="Restricted campaigns apply to all devices for the specified customer(s). They are used to manage campaigns for which firmware approval is required." tabindex="2"></i></span>
+                                  </mat-radio-button>
+                                </div>
+
+                                <div class="boxColRow radBoxColRow" *ngIf="isRestrictedScope">
+                                  <!-- <label>Applies to:</label>
+                                  <mat-form-field appearance="fill" class="inputTxt" >
+                                    <mat-label>Select Customer</mat-label>
+                                    <mat-select name="customer" (openedChange)="openedChange($event)" (selectionChange)="selectCustomerChangeHandler($event)" formControlName="customer_name" multiple>
+                                      <input required matInput #textInput (input)="SearchData(textInput.value)"
+                                        placeholder="Search Customer" id="iccid" style="height: 40px; padding: 20px;">
+                                      <mat-optgroup label="All Customer">
+                                        <mat-option *ngFor='let company of companies'
+                                          [value]="company.organisation_name">{{company.organisation_name}}
+                                        </mat-option>
+                                      </mat-optgroup>
+                                    </mat-select>
+                                  </mat-form-field> -->
+                                  <div class="dropDownEle">
+                                    <label>Applies to:</label>
+                                    <div class="dropDownSection">
+                                      <select class="form-control selectApplies" (change)="changeCustomerValue()" id="company"
+                                      formControlName='customer_name'>
+                                          <option value="" default selected disabled hidden>Select Customer</option>
+                                          <option *ngFor="let company of companies" [ngValue]="company.organisation_name">
+                                          {{company.organisation_name}}</option>
+                                    </select>
+                                    </div>
+                                  </div>
+
+                                  <!-- <div class="dropDownEle">
+                                    <label>Applies to:</label>
+                                    <div class="dropDownSection">
+                                      <select class="form-control selectApplies" (change)="changeCustomerValue()" id="company"
+                                      formControlName='customer_name'>
+                                          <option value="" default selected disabled hidden>Select Customer</option>
+                                          <option *ngFor="let company of companies" [ngValue]="company.organisation_name">
+                                          {{company.organisation_name}}</option>
+                                    </select>
+                                    </div>
+                                  </div> -->
+                                </div>
+                                 
+                              </div>
+                              
+
+                              <div class="boxCol">
+                                <div class="flexRow boxColRow">
+                                  <mat-radio-button [disabled]="(updateFlag == true && type !='DEFINED_LIST')? true:false" class=""
+                                  [value]="'DEFINED_LIST'" id="2" (click)="definedListClick && radioChange(false,'DEFINED_LIST')">
+                                    <span class="sp-lable">Defined List</span>
+                                    <span class="tooltips"><i class="fa fa-info-circle tool" data-tip="This option limits the eligible IMEIs to the list that you uploads. You can append IMEIs to this list by uploading agaign." tabindex="3"></i></span>
+                                  </mat-radio-button>
+
+                                  <div *ngIf="isUploadList"  class="fileUpload">
+                                      <button class="form-control" (click)="uploadClick()"> Upload</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </mat-radio-group>  
+                        </div>
+
+                        
+                    </div>
+                    <div class="boxSection ml-1">
+                      <div class="twoSectionTitle">Exclusions</div>
+                      <div class="checkboxCols">
+                        <div class="boxRow">
+                            <!-- <div class="chkBoxColRow">
+                              <mat-checkbox class="matBox" formControlName='exclude_eol' (change)="changeValueOfExclude()" >In a Trip</mat-checkbox>
+                            </div> -->
+                            <div class="chkBoxColRow">
+                              <mat-checkbox class="matBox" formControlName='exclude_low_battery' (change)="changeValueOfExclude()">Low Battery</mat-checkbox>
+                            </div>
+                        </div>
+						
+						
+                        <div class="boxSectionTitle boxRow">Advanced Options</div>
+                        <div class="boxRow">
+                            <div class="chkBoxColRow">
+                              <mat-checkbox class="matBox" formControlName='exclude_not_installed'
+                              (change)="changeValueOfExclude()" >Not Installed</mat-checkbox>
+                            </div>
+                            <div class="chkBoxColRow">
+                              <mat-checkbox class="matBox" formControlName='exclude_rma' (change)="changeValueOfExclude()">RMA</mat-checkbox>
+                            </div>
+                            <div class="chkBoxColRow">
+                              <mat-checkbox class="matBox" formControlName='exclude_engineering' (change)="changeValueOfExclude()" >Engineering</mat-checkbox>
+                            </div>
+                            <div class="chkBoxColRow">
+                              <mat-checkbox class="matBox" formControlName='exclude_eol' (change)="changeValueOfExclude()" >EOL</mat-checkbox>
+                            </div> 
+                        </div>
+                       
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div><label class="sectionTitle">Gateway List</label>
+                    <!-- <div class="sectionInfo">
+                      <h5>Choose gateways to view</h5>
+                      <div class="boxColFilter">
+                        <div class="dropDownEle">
+                          <label>Customer</label>
+                          <div class="dropDownSection">
+                            <mat-form-field appearance="fill" class="inputTxt">
+                              <mat-label>Select Customer</mat-label>
+                              <mat-select name="customer" (openedChange)="openedChange2($event)"
+                                (selectionChange)="selectCustomerChangeHandler($event)" formControlName="customer_name2" multiple>
+                                <input required matInput #textInput (input)="SearchData2(textInput.value)" placeholder="Search Customer"
+                                  id="iccid" style="height: 40px; padding: 20px;">
+                                <mat-optgroup label="All Customer">
+                                  <mat-option *ngFor='let company of companies2'
+                                    [value]="company.organisation_name">{{company.organisation_name}}
+                                  </mat-option>
+                                </mat-optgroup>
+                              </mat-select>
+                            </mat-form-field>
+                            <!- <select class="form-control selectBoxEle" (change)="onCustomerSelection($event)">
+                                              <option *ngFor="let company of companies" [ngValue]="company.organisation_name">
+                                                {{company.organisation_name}}</option>
+                                              </select> ->
+                          </div>
+                        </div>
+                    
+                        <div class="dropDownEle">
+                          <label>Status</label>
+                          <div class="dropDownSection">
+                            <select class="form-control selectBoxEle" (change)="onStatusSelection($event)">
+                              <option value="inProgress" default selected disabled hidden>In-Progress</option>
+                              <option value="inProgress" default selected disabled hidden>In-Progress</option>
+                    
+                            </select>
+                          </div>
+                        </div>
+                    
+                    
+                    
+                        <div class="dropDownEle">
+                          <button class="btn primary_button" type="button" (click)="showClick()">Show</button>
+                        </div>
+                      </div>
+                  </div>   -->
+                </div>
+
+                <div class="aggridTopBtnSection">
+                  <div class="col-6 text-left pl-0">
+                    <div class="btnCol">
+                      <button  class="btnClear primary_buttonClear" (click)="refreshGateways()"
+                      style="float: right !important;">
+                        <i id="refreshButton" class="fa fa-refresh"></i> Refresh
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-6 text-right pr-0">
+                    <div class="btnCol mr-2">
+                      <div class="noPadding text-right">
+                        <button class="linkT link_button" *ngIf="updateFlag && total_number_of_records != null && total_number_of_records != undefined && total_number_of_records > 0" (click)="onBtExport()"><i class="fa fa-cloud-download" aria-hidden="true"></i><span>EXPORT GATEWAY LIST</span></button>
+                      </div>
+                    </div>
+                    <div class="btnCol"><button type="button" class="btnClear primary_buttonClear" (click)="clearFilterForSecond()">Clear Filter</button></div>
+                   
+                  </div>
+                  
+                  
+                </div>
+                <div class="agGridView">
+                 <ag-grid-angular #agGridSecond style="min-height: 100px;" id="agGridSecond" [cacheOverflowSize]="cacheOverflowSize"
+                    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests" class="ag-theme-alpine ag-grid-element"
+                    [modules]="modulesSecond" [enableBrowserTooltips]="true" [columnDefs]="columnDefsSecond"
+                    [defaultColDef]="defaultColDefSecond" [infiniteInitialRowCount]="infiniteInitialRowCount"
+                    (cellClicked)="onCellClickedForSecond($event)" [immutableData]="true" [getRowNodeId]="getRowNodeId"
+                    (columnVisible)="onColumnVisible($event)" (columnPinned)="onColumnPinned($event)"
+                    (paginationChanged)="onPaginationChanged($event)" (columnResized)="onColumnResized($event)" [components]="components"
+                    (sortChanged)="onSortChangedSecond($event)" [pagination]="true" [suppressRowClickSelection]="true"
+                    [rowSelection]="'multiple'" (filterChanged)="onFilterChangedSecond($event)" (gridReady)="onGridReadySecond($event)"
+                     [gridOptions]="gridOptions"
+                     [rowData]="rowDataSecond"
+                    [frameworkComponents]="frameworkComponents"></ag-grid-angular>
+                    </div>
+                  <div>
+                    <div class="pageSizeNumbers">
+                      Page Size:
+                      <select [(ngModel)]="selected" id="page-size" [ngModelOptions]="{standalone: true}" name="pageSizeObjArr"
+                        (ngModelChange)="onPageSizeChange()">
+                        <option *ngFor="let value of pageSizeObjArr" [ngValue]="value.idValue">{{value.id}}</option>
+                      </select>
+                    </div>
+
+                
+                <button type="button" class="btnAddPackage primary_buttonAddPackage"
+                    (click)="selectAll()">Select All</button>
+                    <button type="button"  style="margin-left: 5px;" class="btnAddPackage primary_buttonAddPackage"
+                    (click)="deleteSelectedDevice()">Delete</button>
+                <button type="button" class="btnAddPackage primary_buttonAddPackage"
+                    style="margin-left: 5px;" (click)="resetStatusOfSelectedDevice()">Reset Status</button>
+                    <button type="button"  style="margin-left: 5px;" class="btnAddPackage primary_buttonAddPackage"
+                    (click)="excludeSelectedDevice()">Exclude Imei</button></div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+          <!-- <div class="form-group">
+            <div class="col-sm-10">
+              <button type="submit" [disabled]="!addCampaign.valid" class="btn primary_button">Save</button>
+              <button class="btn secondary_button" (click)="cancel()">Cancel</button>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- Upload file Modal For Campaign -->
+    <div #uploadFileModal class="modal fade" id="uploadFileModal" role="dialog" data-controls-modal="uploadFileModal"
+      data-backdrop="static">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Upload Gateway List</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row content_form">
+              <div class="col-lg-12" style="margin-top: -23px;">
+                Upload file must be in Excel format and contain a single column of IMEIs. The Column heading should be
+                <b>IMEI</b>.
+
+                <div>
+                  <div>
+
+                    <div class="draggableDiv">
+
+                      <div class="containerData" style="width: 100%;height: 100%;" appDnd
+                        (fileDropped)="onFileDropped($event)">
+                        <input type="file" class="form-control" id="file" formControlName='file'
+                          (change)="onFileChangeBrower($event)" />
+                        <div class="dragBoxTxt">
+                          <div class="cloudIcons"><i class="fa fa-cloud-upload" aria-hidden="true"></i></div>
+                          <div class="dragDataHere"><a href="javascript:void(0)">Choose a file</a> or drag it
+                            here.</div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="formDiv">
+                  <div class="form-group col-lg-12">
+                    <label for="companies" class="col-sm-10 col-lg-10 control-label"
+                      style="margin-left: -14px;margin-top: 18px;">Selected File: <span
+                        class="fileName">{{selectedFileName}}</span> <button type="button"
+                        *ngIf="selectedFileName != null && selectedFileName != undefined"
+                        class="btnClearUpload primary_buttonClearUpload ml-183"
+                        (click)="clearUploadData()">Clear</button></label>
+                    <!-- <div class="col-sm-5 col-lg-5 txtValue">
+                      <span class="fileName"></span>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="confirmBtn">
+              <button type="button" class="btn primary_button" (click)="checkFileData()">Upload</button>
+              &nbsp;
+              <button class="btn secondary_button" (click)="cancelUploadClick()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal For Campaign Edit  -->
+    <div class="modal fade" #editModalForCampaignDetail id="editModalForCampaignDetail" role="dialog"
+      data-controls-modal="editModalForCampaignDetail" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog">
+        <div class="modal-content" style="padding: 0px;">
+          <!--Add Custom Confirm Box Here-->
+          <div class="confirmBox">
+            <div class="confirmTxtWrap">
+              <h2>Edit Campaign Details </h2>
+              <div class="confirmTxt form-horizonta" style="flex-direction: column;">
+                <div class="form-group w-100">
+                  <label for="config3" class="col-sm-4 col-lg-4 control-label required"><b>Campaign Name</b></label>
+                  <div class="col-sm-6 col-lg-6">
+                    <input type="text" class="form-control" formControlName='campaign_name' id="campaign_name"
+                      placeholder="Campaign Name">
+                    <!-- <div class="col-sm-12 col-lg-12 errDiv displayNameNode" id="validateRequired">
+                    <span class="error">Campaign Nameis required</span>
+                  </div> -->
+                    <span class="error"
+                      *ngIf="(addCampaign.get('campaign_name').hasError('required') && addCampaign.get('campaign_name').touched) || (addCampaign.get('campaign_name').hasError('duplicate') && addCampaign.get('campaign_name').touched)">
+                      <span *ngIf="f.campaign_name.errors.duplicate">The campaign name should be unique</span>
+                      <span *ngIf="f.campaign_name.errors.required">Campaign Name is required</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group w-100">
+                  <label for="config3" class="col-sm-4 col-lg-4 control-label"><b>Description</b></label>
+                  <div class="col-sm-6 col-lg-6">
+                    <input type="text" class="form-control"
+                      formControlName='description' id="description" placeholder="Description">
+                    <!-- <div class="col-sm-12 col-lg-12 errDiv displayNameNode" id="validateRequired">
+                    <span class="error">Campaign Nameis required</span>
+                  </div> -->
+                    <span class="error"
+                      *ngIf="(addCampaign.get('description').hasError('required') && addCampaign.get('description').touched)">
+                      <span *ngIf="f.description.errors.required">Description is required</span>
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="confirmBtn">
+                <button type="button" class="btn primary_button"
+                  (click)="saveCampaignForPopup(addCampaign)">Add</button>
+                &nbsp;
+                <button class="btn secondary_button" data-dismiss="modal" (click)="cancelForEditModel()">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <!-- Modal Popup BOX -->
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- Modal -->
+
+  <div class="modal fade" id="deleteModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">{{popupTitle}}</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{popupMessage}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn secondary_button" (click)="deletePopupCancel()"
+            data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn primary_button" (click)="deactivateDevice()" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal For Campaign -->
+
+  <!-- Modal -->
+
+  <div class="modal fade" id="commonModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{commonTitle}}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>{{commonMessage}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button" (click)="commonAction()"
+            data-dismiss="modal">{{commonModelOption}}</button>
+          <button type="button" class="btn secondary_button" (click)="commonModalCancel()"
+            data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Common Modal For Campaign -->
+
+  <div #deleteCampaignModal class="modal fade" id="deleteCampaignModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Campaign</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row content_form">
+            <div class="col-lg-12">
+              Are you sure do you want to delete this campaign?
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn secondary_button" (click)="deleteCampaignDb()"
+            data-dismiss="modal">Yes</button>
+          <button type="button" class="btn secondary_button" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div #startCampaignModal class="modal fade" id="startCampaignModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Start Campaign</h4>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            Are you sure do you want to start this campaign?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button" (click)="startCampaignDb()" data-dismiss="modal">Yes</button>
+          <button type="button" class="btn secondary_button" (click)="cancleStartCampaign()"
+            data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+
+  <div class="modal fade" id="modalForAppendOrReplace" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" style="width: 328px;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Confirm Change</h4>
+        </div>
+        <div class="modal-body">
+          <p>This campaign has an existing list of gateways. Would you like to replace the list or append to it? </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn primary_button" (click)="replaceImeiList()"
+            data-dismiss="modal">Replace</button>
+            <button type="button" class="btn primary_button" (click)="appendImeiList()"
+            data-dismiss="modal">Append</button>
+          <button type="button" class="btn secondary_button" (click)="commonModalCancel()"
+            data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Common Modal For Campaign -->
+  <div #clickModel class="modal fade" id="clickModel" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Select Package Name</h4>
+        </div>
+        <div class="modal-body">
+          <div class="w-100">
+            
+           
+              <mat-form-field class="example-full-width" appearance="fill">
+                <input type="text"  (keyup)="onKeypressEvent($event)"
+                       placeholder="Pick one"
+                       matInput #searchInput
+                       [matAutocomplete]="auto">
+                <mat-autocomplete  #auto="matAutocomplete" (optionSelected)="onSelectionChange($event)">
+                  <mat-option *ngFor="let option of packageListForDisplay" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

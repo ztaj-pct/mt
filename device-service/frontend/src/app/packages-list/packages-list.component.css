@@ -1,0 +1,77 @@
+@import '@ag-grid-community/core/dist/styles/ag-grid.css';
+@import '@ag-grid-community/core/dist/styles/ag-theme-alpine.css';
+
+@import "~@ag-grid-community/all-modules/dist/styles/ag-grid.css";
+@import "~@ag-grid-community/all-modules/dist/styles/ag-theme-balham.css";
+@import "~@ag-grid-community/all-modules/dist/styles/ag-theme-blue.css";
+
+::-ms-clear {
+    display: none;
+  }
+  
+  .form-control-clear {
+    top: 14px;
+    z-index: 10;
+    right: 25px;
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+  }
+
+
+body {
+    padding-top: 80px;
+}
+
+.example-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  #myGrid {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  
+  .button-group {
+    padding-bottom: 4px;
+    display: inline-block;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 13px;
+  }
+
+.btnClear {
+    font-size: 12px;
+    text-transform: capitalize;
+    padding: 6px 11px;
+    border-radius: 5px;
+    border: none;
+    line-height: 14px;
+    font-weight: bold;
+}
+
+.primary_buttonClear {
+  color: #FFF;
+  background: #4ba9d7;
+  border: 0px solid #0679d8;
+  border-radius: 6px;
+}
+
+.page-size-ag-grid-header {
+  font-family: inherit;
+  font-size: 13px;
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.pageSizeNumbers{
+  text-align: right;
+  margin-top: 14px;
+  color: #444;
+  font-size: 12px;
+  }
+  .pageSizeNumbers #page-size{
+  color: #767676;
+  padding: 2px 1px;
+  margin-bottom: 5ch;
+  }

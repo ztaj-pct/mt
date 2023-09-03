@@ -1,0 +1,85 @@
+<div class="col-12">
+  <h4 class="content_titlebar_wrapper">Current Device Configuration</h4>
+  <div class="chartDataTbl table-first">
+    <table class="table table-hover breakdownChartDataTbl">
+      <thead>
+        <tr style="background-color:#f9f9f9">
+          <th>Server</th>
+          <th>Received Time</th>
+          <th>BIN</th>
+          <th>HW Ver</th>
+          <th>HW Rev</th>
+          <th>App</th>
+          <th>MCU</th>
+          <th>BLE</th>
+          <th>Config 1</th>
+          <th>Config 1 CRC</th>
+          <th>Config 2</th>
+          <th>Config 2 CRC</th>
+          <th>Config 3</th>
+          <th>Config 3 CRC</th>
+          <th>Config 4</th>
+          <th>Config 4 CRC</th>
+          <th>Config 5</th>
+          <th>Config 5 CRC</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{this.campaign_report?.server_INFO_STR}}</td>
+          <td>{{this.campaign_report?.deviceInstalledForCampaignDT}}</td>
+          <td>{{this.campaign_report?.baseband_SW_VERSION }}</td>
+          <td>{{deviceAssetDetails?.hw_id_version}}</td>
+          <td>{{deviceAssetDetails?.hw_version_revision}}</td>
+          <td>{{this.campaign_report?.app_SW_VERSION}}</td>
+          <td>{{ this.campaign_report?.extender_VERSION}}</td>
+          <td>{{ this.campaign_report?.ble_VERSION}}</td>
+          <td>{{this.campaign_report?.config1CIV}}</td>
+          <td>{{this.campaign_report?.config1CRC}}</td>
+          <td>{{this.campaign_report?.config2CIV}}</td>
+          <td>{{this.campaign_report?.config2CRC}}</td>
+          <td>{{ this.campaign_report?.config3CIV}}</td>
+          <td>{{this.campaign_report?.config3CRC}}</td>
+          <td>{{this.campaign_report?.config4CIV}}</td>
+          <td>{{ this.campaign_report?.config4CRC}}</td>
+          <td>{{this.campaign_report?.config5CIV}}</td>
+          <td>{{this.campaign_report?.config5CRC}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="col-12">
+  <h4 class="content_titlebar_wrapper">Current Campaign</h4>
+  <div class="chartDataTbl">
+   <div class="h_label"><span class="latest_report"> Campaign Name : {{currentCampaign}}</span></div>
+   <ag-grid-angular #agGrid style="height: 350px;" id="myGrid" class="ag-theme-alpine ag-grid-element"
+   [modules]="modules" [columnDefs]="columnDefsSecond" [rowClassRules]="rowClassRules"
+   [defaultColDef]="defaultColDefSecond" [rowData]="sequenceData" (gridReady)="onGridReadySecond($event)"></ag-grid-angular>
+  </div>
+  <div>
+    <!-- <button type="button" class="btnClear primary_buttonClear">Add Package</button> -->
+  </div>&nbsp;
+</div>
+<div class="col-12">
+  <div class="row">
+    <div class="col-6">
+      <h4 class="content_titlebar_wrapper">Campaign History</h4>
+    </div>
+    <div class="col-6 text-right">
+      <button class="btnClear primary_buttonClear" (click)="clearFilter()">Clear Filters</button>
+    </div>
+  </div>
+</div>
+<div class="col-12">
+  <ag-grid-angular #agGrid id="myGrid" class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs"
+    [cacheOverflowSize]="cacheOverflowSize" [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+    [modules]="modules" [gridOptions]="gridOptions" [infiniteInitialRowCount]="infiniteInitialRowCount"
+    [pagination]=true (gridReady)="onGridReady($event)" (sortChanged)="onSortChanged($event)"
+    (dragStopped)="onDragStopped($event)" (filterChanged)="onFilterChanged($event)"
+    (paginationChanged)="onPaginationChanged($event)" [defaultColDef]="defaultColDef" [suppressRowClickSelection]="true"
+    [rowSelection]="'multiple'" [frameworkComponents]="frameworkComponents" [components]="components"
+    (firstDataRendered)="headerHeightSetter($event)" (columnResized)="headerHeightSetter($event)"
+    [enableRangeSelection]="true">
+  </ag-grid-angular>
+</div>
